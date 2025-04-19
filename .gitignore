@@ -1,1 +1,43 @@
-/pemrograman_visual/target/
+# Maven target directory
+/target/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+out/
+
+# NetBeans
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backup files
+*~
+*.bak
+*.tmp
+
+# Compiled class files
+*.class
+
+# JAR/WAR/EAR files
+*.jar
+*.war
+*.ear

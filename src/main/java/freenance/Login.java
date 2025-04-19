@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.unindra.pemrograman_visual;
+package freenance;
 
 import javax.swing.JOptionPane;
 
@@ -28,7 +28,7 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        background1 = new com.unindra.pemrograman_visual.Background();
+        background1 = new freenance.Background();
         lUser = new javax.swing.JLabel();
         lPass = new javax.swing.JLabel();
         bCancel = new javax.swing.JButton();
@@ -171,7 +171,7 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bLogin;
-    private com.unindra.pemrograman_visual.Background background1;
+    private freenance.Background background1;
     private javax.swing.JLabel lPass;
     private javax.swing.JLabel lUser;
     private javax.swing.JPasswordField tPass;

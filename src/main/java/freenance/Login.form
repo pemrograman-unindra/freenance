@@ -33,7 +33,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="com.unindra.pemrograman_visual.Background" name="background1">
+    <Container class="freenance.Background" name="background1">
 
       <Layout>
         <DimensionLayout dim="0">
