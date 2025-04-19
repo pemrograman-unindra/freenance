@@ -5,6 +5,8 @@
 package freenance;
 
 import javax.swing.JOptionPane;
+import java.sql.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -12,11 +14,68 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
+    private Connection conn;
+
     /**
      * Creates new form Login
      */
     public Login() {
+        initDatabase();
         initComponents();
+    }
+
+    private void initDatabase() {
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:freenance.db");
+
+            // Buat tabel users jika belum ada
+            String sqlCreate = """
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT NOT NULL UNIQUE,
+                    password TEXT NOT NULL
+                )
+                """;
+            Statement stmt = conn.createStatement();
+            stmt.execute(sqlCreate);
+
+            // Cek apakah user "unindra" sudah ada
+            String sqlCheck = "SELECT COUNT(*) FROM users WHERE username = ?";
+            PreparedStatement checkStmt = conn.prepareStatement(sqlCheck);
+            checkStmt.setString(1, "unindra");
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) == 0) {
+                // Hash password dengan BCrypt
+                String hashedPassword = BCrypt.hashpw("jakarta", BCrypt.gensalt());
+                String sqlInsert = "INSERT INTO users (username, password) VALUES (?, ?)";
+                PreparedStatement insertStmt = conn.prepareStatement(sqlInsert);
+                insertStmt.setString(1, "unindra");
+                insertStmt.setString(2, hashedPassword);
+                insertStmt.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Gagal koneksi database: " + ex.getMessage());
+            System.exit(1);
+        }
+    }
+
+    private boolean validateLogin(String username, String password) {
+        try {
+            String sql = "SELECT password FROM users WHERE username = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String hashed = rs.getString("password");
+                return BCrypt.checkpw(password, hashed);
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error saat login: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -120,7 +179,7 @@ public class Login extends javax.swing.JFrame {
         char[] passChars = tPass.getPassword();
         String pass = new String(passChars); // konversi ke String
 
-        if (user.equals("unindra") && pass.equals("jakarta")) {
+        if (validateLogin(user, pass)) {
             JOptionPane.showMessageDialog(null, "Login Berhasil");
             tUser.setText("");
             tPass.setText("");
