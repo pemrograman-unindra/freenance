@@ -15,6 +15,8 @@ import org.mindrot.jbcrypt.BCrypt;
 public class Login extends javax.swing.JFrame {
 
     private Connection conn;
+    /*    private javax.swing.JButton bChangePassword;*/
+
 
     /**
      * Creates new form Login
@@ -22,7 +24,14 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initDatabase();
         initComponents();
+        bChangePassword.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        bChangePasswordActionPerformed(evt);
     }
+});
+
+    }
+    
 
     private void initDatabase() {
         try {
@@ -94,6 +103,7 @@ public class Login extends javax.swing.JFrame {
         bLogin = new javax.swing.JButton();
         tUser = new javax.swing.JTextField();
         tPass = new javax.swing.JPasswordField();
+        bChangePassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +127,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        bChangePassword.setText("Change Password");
+
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
@@ -130,7 +142,9 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tUser)
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
+                        .addGap(14, 14, 14)
+                        .addComponent(bChangePassword)
+                        .addGap(18, 18, 18)
                         .addComponent(bCancel)
                         .addGap(18, 18, 18)
                         .addComponent(bLogin))
@@ -151,7 +165,8 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)
-                    .addComponent(bLogin))
+                    .addComponent(bLogin)
+                    .addComponent(bChangePassword))
                 .addContainerGap(182, Short.MAX_VALUE))
         );
 
@@ -192,6 +207,11 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bLoginActionPerformed
 
+    private void bChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    new ChangePassword().setVisible(true); // Buka halaman Change Password
+    dispose(); // Tutup halaman login (opsional, bisa dihapus kalau ingin tetap terbuka)
+} 
+
     /**
      * @param args the command line arguments
      */
@@ -229,6 +249,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
+    private javax.swing.JButton bChangePassword;
     private javax.swing.JButton bLogin;
     private freenance.Background background1;
     private javax.swing.JLabel lPass;
