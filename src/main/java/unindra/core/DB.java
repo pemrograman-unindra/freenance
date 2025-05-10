@@ -69,10 +69,10 @@ public class DB {
 	public static void migrate() {
 		try {
 			String[] files = {
+				"004_create-table-contacts.sql",
 				"001_create-table-users.sql",
 				"002_create-table-chart_of_accounts.sql",
 				"003_insert-default-chart_of_accounts.sql",
-				"004_create-table-contacts.sql",
 				"005_insert-default-contacts.sql",
 				"006_create-table-projects.sql",
 				"007_insert-default-projects.sql",
