@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS transactions (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		code TEXT NOT NULL,
+		name TEXT NOT NULL,
+		email TEXT NOT NULL,
+		phone TEXT NOT NULL,
+		address TEXT NOT NULL
+);

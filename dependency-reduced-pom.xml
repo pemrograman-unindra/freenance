@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>freenance.Login</mainClass>
+                  <mainClass>unindra.App</mainClass>
                 </transformer>
               </transformers>
               <minimizeJar>false</minimizeJar>
