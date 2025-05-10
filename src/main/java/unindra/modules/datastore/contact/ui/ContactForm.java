@@ -1,13 +1,28 @@
 package unindra.modules.datastore.contact.ui;
 
+import unindra.modules.datastore.contact.service.ContactService;
+import unindra.modules.datastore.contact.model.Contact;
+
 public class ContactForm extends javax.swing.JFrame {
 
-    public ContactForm() {
+    private ContactList contactList;
+
+    private Contact selectedContact;
+
+    public ContactForm(ContactList contactList, Contact contact) {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        this.contactList = contactList;
+        if (contact != null) {
+            selectedContact = contact;
+            fCode.setText(contact.getCode());
+            fName.setText(contact.getName());
+            fPhone.setText(contact.getPhone());
+            fEmail.setText(contact.getEmail());
+            tAddress.setText(contact.getAddress());
+        }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -20,17 +35,17 @@ public class ContactForm extends javax.swing.JFrame {
         background1 = new unindra.core.Background();
         lCode = new javax.swing.JLabel();
         lName = new javax.swing.JLabel();
-        lArea = new javax.swing.JLabel();
-        lCapacity = new javax.swing.JLabel();
-        lNote = new javax.swing.JLabel();
+        lPhone = new javax.swing.JLabel();
+        lEmail = new javax.swing.JLabel();
+        lAddress = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         fCode = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
-        fArea = new javax.swing.JTextField();
-        fCapacity = new javax.swing.JTextField();
+        fPhone = new javax.swing.JTextField();
+        fEmail = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tNote = new javax.swing.JTextArea();
+        tAddress = new javax.swing.JTextArea();
         lUser1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,14 +56,14 @@ public class ContactForm extends javax.swing.JFrame {
         lName.setBackground(new java.awt.Color(204, 255, 255));
         lName.setText("Name");
 
-        lArea.setBackground(new java.awt.Color(204, 255, 255));
-        lArea.setText("Phone");
+        lPhone.setBackground(new java.awt.Color(204, 255, 255));
+        lPhone.setText("Phone");
 
-        lCapacity.setBackground(new java.awt.Color(204, 255, 255));
-        lCapacity.setText("Email");
+        lEmail.setBackground(new java.awt.Color(204, 255, 255));
+        lEmail.setText("Email");
 
-        lNote.setBackground(new java.awt.Color(204, 255, 255));
-        lNote.setText("Address");
+        lAddress.setBackground(new java.awt.Color(204, 255, 255));
+        lAddress.setText("Address");
 
         bSave.setText("Save");
         bSave.addActionListener(new java.awt.event.ActionListener() {
@@ -64,9 +79,9 @@ public class ContactForm extends javax.swing.JFrame {
             }
         });
 
-        tNote.setColumns(20);
-        tNote.setRows(5);
-        jScrollPane1.setViewportView(tNote);
+        tAddress.setColumns(20);
+        tAddress.setRows(5);
+        jScrollPane1.setViewportView(tAddress);
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Tambah Data Kontak");
@@ -82,17 +97,17 @@ public class ContactForm extends javax.swing.JFrame {
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(jScrollPane1))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
                                     .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
@@ -125,15 +140,15 @@ public class ContactForm extends javax.swing.JFrame {
                     .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lArea)
-                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lPhone)
+                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCapacity)
-                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lEmail)
+                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lNote)
+                    .addComponent(lAddress)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -161,7 +176,22 @@ public class ContactForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-            dispose();
+        Contact data = new Contact();
+        data.setCode(fCode.getText());
+        data.setName(fName.getText());
+        data.setPhone(fPhone.getText());
+        data.setEmail(fEmail.getText());
+        data.setAddress(tAddress.getText());
+
+        ContactService service = new ContactService();
+        if (selectedContact == null) {
+            service.createContact(data);
+        } else {
+            data.setId(selectedContact.getId());
+            service.updateContact(data);
+        }
+        contactList.loadData();
+        dispose();
     }//GEN-LAST:event_bSaveActionPerformed
 
     /**
@@ -195,7 +225,7 @@ public class ContactForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ContactForm().setVisible(true);
+                new ContactForm(null, null).setVisible(true);
             }
         });
     }
@@ -204,17 +234,17 @@ public class ContactForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fArea;
-    private javax.swing.JTextField fCapacity;
     private javax.swing.JTextField fCode;
+    private javax.swing.JTextField fEmail;
     private javax.swing.JTextField fName;
+    private javax.swing.JTextField fPhone;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lArea;
-    private javax.swing.JLabel lCapacity;
+    private javax.swing.JLabel lAddress;
     private javax.swing.JLabel lCode;
+    private javax.swing.JLabel lEmail;
     private javax.swing.JLabel lName;
-    private javax.swing.JLabel lNote;
+    private javax.swing.JLabel lPhone;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JTextArea tNote;
+    private javax.swing.JTextArea tAddress;
     // End of variables declaration//GEN-END:variables
 }

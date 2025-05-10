@@ -1,26 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package unindra.modules.datastore.contact.ui;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.util.List;
+import unindra.modules.datastore.contact.model.Contact;
+import unindra.modules.datastore.contact.service.ContactService;
 
-/**
- *
- * @author jeffry
- */
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class ContactList extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RoomList
-     */
     public ContactList() {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        reset();
+        loadData();
+    }
+
+    public void loadData() {
+        Object[] headers = {"Code", "Name", "Phone", "Email", "Address"};
+        DefaultTableModel model = new DefaultTableModel(null, headers);
+        ContactService service = new ContactService();
+        String search = fSearch.getText();
+        List<Contact> contacts = service.getContacts(search);
+        for (Contact contact : contacts) {
+            model.addRow(new Object[]{
+                contact.getCode(), 
+                contact.getName(), 
+                contact.getPhone(), 
+                contact.getEmail(), 
+                contact.getAddress()
+            });
+        }
+        contactTable.setModel(model);
     }
 
     private void reset() {
@@ -43,7 +55,7 @@ public class ContactList extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        roomTable = new javax.swing.JTable();
+        contactTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
@@ -56,23 +68,23 @@ public class ContactList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        roomTable.setModel(new javax.swing.table.DefaultTableModel(
+        contactTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Code", "Name"
+                "Code", "Name", "Phone", "Email", "Address"
             }
         ));
-        roomTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        contactTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                roomTableMouseClicked(evt);
+                contactTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(roomTable);
+        jScrollPane1.setViewportView(contactTable);
 
         bCreate.setText("Create");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -185,11 +197,17 @@ public class ContactList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
-        // TODO add your handling code here:
+        bEdit.setVisible(false);
+        bDelete.setVisible(false);
+        bCancel.setVisible(true);
+        fSearch.setVisible(false);
+        bSearch.setVisible(false);
+        bCreate.setVisible(false);
+        loadData();
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
-        reset();
+        new ContactForm(this, null).setVisible(true);
     }//GEN-LAST:event_bCreateActionPerformed
 
     private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
@@ -197,24 +215,40 @@ public class ContactList extends javax.swing.JFrame {
     }//GEN-LAST:event_bExitActionPerformed
 
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
-        reset();
+        int selectedRow = contactTable.getSelectedRow();
+        if (selectedRow != -1) {
+            ContactService service = new ContactService();
+            Contact contact = service.getContacts("").get(selectedRow); // Assuming the selected row corresponds to a room
+            new ContactForm(this, contact).setVisible(true);
+        }
     }//GEN-LAST:event_bEditActionPerformed
 
-    private void roomTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomTableMouseClicked
+    private void contactTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactTableMouseClicked
         bEdit.setVisible(true);
         bDelete.setVisible(true);
         bCancel.setVisible(true);
         fSearch.setVisible(false);
         bSearch.setVisible(false);
         bCreate.setVisible(false);
-    }//GEN-LAST:event_roomTableMouseClicked
+    }//GEN-LAST:event_contactTableMouseClicked
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
+        fSearch.setText("");
         reset();
+        loadData();
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        reset();
+        int selectedRow = contactTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure to delete?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                ContactService service = new ContactService();
+                Contact contact = service.getContacts("").get(selectedRow);
+                service.deleteContact(contact.getId());
+                loadData(); // Refresh the data after deletion
+            }
+        }
     }//GEN-LAST:event_bDeleteActionPerformed
 
     /**
@@ -261,10 +295,10 @@ public class ContactList extends javax.swing.JFrame {
     private javax.swing.JButton bExit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
+    private javax.swing.JTable contactTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JTable roomTable;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
