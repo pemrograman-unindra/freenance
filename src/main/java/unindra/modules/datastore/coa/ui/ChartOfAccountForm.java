@@ -35,7 +35,7 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
         tNote = new javax.swing.JTextArea();
         lUser1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lCode.setBackground(new java.awt.Color(204, 255, 255));
         lCode.setText("Code");

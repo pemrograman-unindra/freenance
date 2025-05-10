@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS journals (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	trx_id INTEGER NOT NULL, -- relasi ke transactions.id
+	coa_id INTEGER NOT NULL, -- relasi ke chart_of_accounts.id
+	debit NUMERIC DEFAULT 0,
+	credit NUMERIC DEFAULT 0,
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

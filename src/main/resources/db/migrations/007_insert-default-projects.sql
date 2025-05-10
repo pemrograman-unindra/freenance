@@ -1,8 +1,3 @@
-CREATE TABLE IF NOT EXISTS transactions (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		code TEXT NOT NULL,
-		name TEXT NOT NULL,
-		email TEXT NOT NULL,
-		phone TEXT NOT NULL,
-		address TEXT NOT NULL
-);
+INSERT OR IGNORE INTO projects (id, code, name) VALUES (1, 'N/A', 'Umum');
+
+UPDATE sqlite_sequence SET seq = 2 WHERE name = 'projects';
