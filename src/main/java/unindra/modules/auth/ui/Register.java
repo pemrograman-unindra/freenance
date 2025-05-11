@@ -16,8 +16,8 @@ public class Register extends javax.swing.JFrame {
     }
 
     public void reset() {
-        tUser.setText("");
-        tPass.setText("");
+        fUser.setText("");
+        fPass.setText("");
     }
 
     /**
@@ -30,26 +30,26 @@ public class Register extends javax.swing.JFrame {
     private void initComponents() {
 
         background1 = new unindra.core.Background();
-        bLogin = new javax.swing.JButton();
+        bRegister = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        tPass = new javax.swing.JPasswordField();
-        tUser = new javax.swing.JTextField();
+        fPass = new javax.swing.JPasswordField();
+        fUser = new javax.swing.JTextField();
         lUser = new javax.swing.JLabel();
         lPass = new javax.swing.JLabel();
         lUser1 = new javax.swing.JLabel();
-        lUser2 = new javax.swing.JLabel();
-        lUser3 = new javax.swing.JLabel();
-        lUser4 = new javax.swing.JLabel();
-        tUser1 = new javax.swing.JTextField();
-        tUser2 = new javax.swing.JTextField();
-        tUser3 = new javax.swing.JTextField();
+        lEmail = new javax.swing.JLabel();
+        lPhone = new javax.swing.JLabel();
+        lName = new javax.swing.JLabel();
+        fEmail = new javax.swing.JTextField();
+        fPhone = new javax.swing.JTextField();
+        fName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        bLogin.setText("Daftar");
-        bLogin.addActionListener(new java.awt.event.ActionListener() {
+        bRegister.setText("Daftar");
+        bRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bLoginActionPerformed(evt);
+                bRegisterActionPerformed(evt);
             }
         });
 
@@ -67,16 +67,16 @@ public class Register extends javax.swing.JFrame {
         lPass.setText("Password");
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Register");
+        lUser1.setText("Daftar");
 
-        lUser2.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser2.setText("Email");
+        lEmail.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        lEmail.setText("Email");
 
-        lUser3.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser3.setText("Phone");
+        lPhone.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        lPhone.setText("Phone");
 
-        lUser4.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser4.setText("Name");
+        lName.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        lName.setText("Nama");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
@@ -92,15 +92,15 @@ public class Register extends javax.swing.JFrame {
                             .addGap(391, 391, 391)
                             .addComponent(bCancel)
                             .addGap(18, 18, 18)
-                            .addComponent(bLogin))
+                            .addComponent(bRegister))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                             .addGap(192, 192, 192)
                             .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(background1Layout.createSequentialGroup()
                                     .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lUser2)
-                                        .addComponent(lUser3)
-                                        .addComponent(lUser4))
+                                        .addComponent(lEmail)
+                                        .addComponent(lPhone)
+                                        .addComponent(lName))
                                     .addGap(47, 47, 47))
                                 .addGroup(background1Layout.createSequentialGroup()
                                     .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -108,11 +108,11 @@ public class Register extends javax.swing.JFrame {
                                         .addComponent(lUser))
                                     .addGap(18, 18, 18)))
                             .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(tPass, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tUser, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tUser2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tUser3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fUser, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(211, Short.MAX_VALUE))
         );
         background1Layout.setVerticalGroup(
@@ -122,28 +122,28 @@ public class Register extends javax.swing.JFrame {
                 .addComponent(lUser1)
                 .addGap(49, 49, 49)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lUser4)
-                    .addComponent(tUser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lName)
+                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lUser3)
-                    .addComponent(tUser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lPhone)
+                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lUser2)
-                    .addComponent(tUser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lEmail)
+                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lUser)
-                    .addComponent(tUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lPass))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)
-                    .addComponent(bLogin))
+                    .addComponent(bRegister))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
 
@@ -161,9 +161,9 @@ public class Register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoginActionPerformed
-        String user = tUser.getText();
-        char[] passChars = tPass.getPassword();
+    private void bRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegisterActionPerformed
+        String user = fUser.getText();
+        char[] passChars = fPass.getPassword();
         String pass = new String(passChars); // konversi ke String
 
         try {
@@ -173,13 +173,13 @@ public class Register extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Login Gagal : "+e.getMessage());
             reset();
-            tUser.requestFocus(true);
+            fUser.requestFocus(true);
         }
-    }//GEN-LAST:event_bLoginActionPerformed
+    }//GEN-LAST:event_bRegisterActionPerformed
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
-        tUser.setText("");
-        tPass.setText("");
+        fUser.setText("");
+        fPass.setText("");
     }//GEN-LAST:event_bCancelActionPerformed
 
     /**
@@ -220,18 +220,18 @@ public class Register extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
-    private javax.swing.JButton bLogin;
+    private javax.swing.JButton bRegister;
     private unindra.core.Background background1;
+    private javax.swing.JTextField fEmail;
+    private javax.swing.JTextField fName;
+    private javax.swing.JPasswordField fPass;
+    private javax.swing.JTextField fPhone;
+    private javax.swing.JTextField fUser;
+    private javax.swing.JLabel lEmail;
+    private javax.swing.JLabel lName;
     private javax.swing.JLabel lPass;
+    private javax.swing.JLabel lPhone;
     private javax.swing.JLabel lUser;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JLabel lUser2;
-    private javax.swing.JLabel lUser3;
-    private javax.swing.JLabel lUser4;
-    private javax.swing.JPasswordField tPass;
-    private javax.swing.JTextField tUser;
-    private javax.swing.JTextField tUser1;
-    private javax.swing.JTextField tUser2;
-    private javax.swing.JTextField tUser3;
     // End of variables declaration//GEN-END:variables
 }
