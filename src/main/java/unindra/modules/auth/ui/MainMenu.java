@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -13,6 +15,7 @@ import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -26,41 +29,55 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        dateFrom.setDate(cal.getTime());
+        dateTo.setDate(new Date());
         showDashboardChart();
     }
 
     private void showDashboardChart() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        double penerimaan = 10000000;
-        double pengeluaran = 7000000;
-        double selisih     = penerimaan - pengeluaran;
-        dataset.addValue(penerimaan,  "Nilai", "Penerimaan");
-        dataset.addValue(pengeluaran, "Nilai", "Pengeluaran");
-        dataset.addValue(selisih,     "Nilai", "Selisih");
+        double incomeBudget = 9300000;
+        double expenseBudget = 7200000;
+        double marginBudget = incomeBudget - expenseBudget;
+
+        double incomeReal = 10000000;
+        double expenseReal = 7000000;
+        double marginReal = incomeReal - expenseReal;
+
+        dataset.addValue(incomeBudget, "Anggaran", "Penerimaan");
+        dataset.addValue(expenseBudget, "Anggaran", "Pengeluaran");
+        dataset.addValue(marginBudget, "Anggaran", "Selisih");
+
+        dataset.addValue(incomeReal, "Realisasi", "Penerimaan");
+        dataset.addValue(expenseReal, "Realisasi", "Pengeluaran");
+        dataset.addValue(marginReal, "Realisasi", "Selisih");
+
         JFreeChart chart = ChartFactory.createBarChart("Aktivitas Keuangan", "", "Nilai (Rp)", dataset);
         chart.setBackgroundPaint(null);
-        chart.removeLegend();
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setBackgroundPaint(new Color(0, 0, 0, 0));
-        BarRenderer renderer = new BarRenderer() {
-            private final Color[] colors = new Color[] { new Color( 67, 140, 255), new Color(255,  99,  71), new Color( 60, 179, 113) };
-            @Override
-            public Color getItemPaint(int row, int column) {
-                return colors[column % colors.length];
-            }
-        };
-        renderer.setDrawBarOutline(false);
+        plot.setOutlineVisible(false);
+        plot.setRangeGridlinePaint(Color.GRAY);
+
+        BarRenderer renderer = new BarRenderer();
+        renderer.setSeriesPaint(0, new Color(60, 179, 113));
+        renderer.setSeriesPaint(1, new Color(67, 140, 255));
         renderer.setDefaultItemLabelsVisible(true);
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
         renderer.setDefaultPositiveItemLabelPosition(
             new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER)
         );
+        renderer.setBarPainter(new StandardBarPainter());
+        renderer.setShadowVisible(false);
+        renderer.setMaximumBarWidth(0.15);
         plot.setRenderer(renderer);
         ChartPanel panel = new ChartPanel(chart);
         panel.setPreferredSize(new Dimension(600, 400));
         panel.setOpaque(false);
-        panel.setBackground(new Color(0,0,0,0));
+        panel.setBackground(new Color(0, 0, 0, 0));
         Dashboard.setLayout(new BorderLayout());
         Dashboard.add(panel, BorderLayout.CENTER);
         Dashboard.validate();
@@ -77,6 +94,8 @@ public class MainMenu extends javax.swing.JFrame {
 
         MainMenuTabbedPane = new javax.swing.JTabbedPane();
         Dashboard = new unindra.core.Background();
+        dateFrom = new com.toedter.calendar.JDateChooser();
+        dateTo = new com.toedter.calendar.JDateChooser();
         DataStore = new unindra.core.Background();
         bProject = new javax.swing.JButton();
         bProject1 = new javax.swing.JButton();
@@ -101,15 +120,29 @@ public class MainMenu extends javax.swing.JFrame {
         MainMenuTabbedPane.setBackground(new java.awt.Color(222, 242, 251));
         MainMenuTabbedPane.setName(""); // NOI18N
 
+        dateFrom.setDateFormatString("d-MMM-yyyy");
+
+        dateTo.setDateFormatString("d-MMM-yyyy");
+
         javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
         Dashboard.setLayout(DashboardLayout);
         DashboardLayout.setHorizontalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1034, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DashboardLayout.createSequentialGroup()
+                .addContainerGap(685, Short.MAX_VALUE)
+                .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         DashboardLayout.setVerticalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 637, Short.MAX_VALUE)
+            .addGroup(DashboardLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(558, Short.MAX_VALUE))
         );
 
         MainMenuTabbedPane.addTab("Dasbor", new javax.swing.ImageIcon(getClass().getResource("/images/icon-analytics.png")), Dashboard); // NOI18N
@@ -556,5 +589,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton bProject7;
     private javax.swing.JButton bProject8;
     private javax.swing.JButton bProject9;
+    private com.toedter.calendar.JDateChooser dateFrom;
+    private com.toedter.calendar.JDateChooser dateTo;
     // End of variables declaration//GEN-END:variables
 }
