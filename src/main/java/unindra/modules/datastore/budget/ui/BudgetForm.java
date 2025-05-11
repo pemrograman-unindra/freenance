@@ -29,28 +29,31 @@ public class BudgetForm extends javax.swing.JFrame {
         bCancel = new javax.swing.JButton();
         fCode = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
-        fArea = new javax.swing.JTextField();
-        fCapacity = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tNote = new javax.swing.JTextArea();
         lUser1 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        lNote1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        lNote2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lCode.setBackground(new java.awt.Color(204, 255, 255));
-        lCode.setText("Code");
+        lCode.setText("ID");
 
         lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("Name");
+        lName.setText("COA ID");
 
         lArea.setBackground(new java.awt.Color(204, 255, 255));
-        lArea.setText("Phone");
+        lArea.setText("PERIOD START");
 
         lCapacity.setBackground(new java.awt.Color(204, 255, 255));
-        lCapacity.setText("Email");
+        lCapacity.setText("PERIOD END");
 
         lNote.setBackground(new java.awt.Color(204, 255, 255));
-        lNote.setText("Address");
+        lNote.setText("AMOUNT");
 
         bSave.setText("Save");
         bSave.addActionListener(new java.awt.event.ActionListener() {
@@ -66,51 +69,76 @@ public class BudgetForm extends javax.swing.JFrame {
             }
         });
 
-        tNote.setColumns(20);
-        tNote.setRows(5);
-        jScrollPane1.setViewportView(tNote);
+        fCode.setEditable(false);
+        fCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fCodeActionPerformed(evt);
+            }
+        });
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Tambah Anggaran");
+
+        lNote1.setBackground(new java.awt.Color(204, 255, 255));
+        lNote1.setText("DIBUAT PADA TANGGAL");
+
+        jTextField1.setEditable(false);
+
+        lNote2.setBackground(new java.awt.Color(204, 255, 255));
+        lNote2.setText("DIPERBAHARUI PADA TANGGAL");
+
+        jTextField2.setEditable(false);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane1))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(background1Layout.createSequentialGroup()
-                                .addComponent(bCancel)
-                                .addGap(18, 18, 18)
-                                .addComponent(bSave)))
-                        .addGap(31, 31, 31))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lUser1)
-                        .addGap(301, 301, 301))))
+                        .addGap(301, 301, 301))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lNote1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jTextField3))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lNote2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jTextField2))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(18, 18, 18)
+                                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(fCode)
+                                                .addComponent(fName))))
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout.createSequentialGroup()
+                                            .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(bCancel)
+                                .addGap(43, 43, 43)))
+                        .addComponent(bSave)
+                        .addGap(50, 50, 50))))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,23 +153,31 @@ public class BudgetForm extends javax.swing.JFrame {
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lName)
                     .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lArea)
-                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCapacity)
-                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lArea)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lCapacity)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lNote)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bSave)
-                    .addComponent(bCancel))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(lNote1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lNote2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bCancel)
+                    .addComponent(bSave))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,6 +201,10 @@ public class BudgetForm extends javax.swing.JFrame {
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
             dispose();
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void fCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fCodeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,17 +248,20 @@ public class BudgetForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fArea;
-    private javax.swing.JTextField fCapacity;
     private javax.swing.JTextField fCode;
     private javax.swing.JTextField fName;
-    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lArea;
     private javax.swing.JLabel lCapacity;
     private javax.swing.JLabel lCode;
     private javax.swing.JLabel lName;
     private javax.swing.JLabel lNote;
+    private javax.swing.JLabel lNote1;
+    private javax.swing.JLabel lNote2;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JTextArea tNote;
     // End of variables declaration//GEN-END:variables
 }
