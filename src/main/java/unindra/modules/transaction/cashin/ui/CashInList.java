@@ -55,7 +55,7 @@ public class CashInList extends javax.swing.JFrame {
         bCancel = new javax.swing.JButton();
         lUser1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         roomTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

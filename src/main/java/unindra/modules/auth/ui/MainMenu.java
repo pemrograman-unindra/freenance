@@ -19,6 +19,13 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import unindra.modules.datastore.coa.ui.ChartOfAccountList;
+import unindra.modules.datastore.contact.ui.ContactList;
+import unindra.modules.datastore.project.ui.ProjectList;
+import unindra.modules.datastore.budget.ui.BudgetList;
+import unindra.modules.transaction.bill.ui.BillList;
+import unindra.modules.transaction.cashin.ui.CashInList;
+import unindra.modules.transaction.cashout.ui.CashOutList;
 
 public class MainMenu extends javax.swing.JFrame {
 
@@ -97,14 +104,14 @@ public class MainMenu extends javax.swing.JFrame {
         dateFrom = new com.toedter.calendar.JDateChooser();
         dateTo = new com.toedter.calendar.JDateChooser();
         DataStore = new unindra.core.Background();
+        bCOA = new javax.swing.JButton();
         bProject = new javax.swing.JButton();
-        bProject1 = new javax.swing.JButton();
-        bProject2 = new javax.swing.JButton();
+        bContact = new javax.swing.JButton();
         Transaction = new unindra.core.Background();
-        bProject3 = new javax.swing.JButton();
-        bProject4 = new javax.swing.JButton();
-        bProject5 = new javax.swing.JButton();
-        bProject9 = new javax.swing.JButton();
+        bCashIn = new javax.swing.JButton();
+        bBill = new javax.swing.JButton();
+        bBudget = new javax.swing.JButton();
+        bCashOut = new javax.swing.JButton();
         Report = new unindra.core.Background();
         bProject6 = new javax.swing.JButton();
         bProject7 = new javax.swing.JButton();
@@ -147,10 +154,24 @@ public class MainMenu extends javax.swing.JFrame {
 
         MainMenuTabbedPane.addTab("Dasbor", new javax.swing.ImageIcon(getClass().getResource("/images/icon-analytics.png")), Dashboard); // NOI18N
 
-        bProject.setBackground(new java.awt.Color(32, 191, 107));
+        bCOA.setBackground(new java.awt.Color(32, 191, 107));
+        bCOA.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bCOA.setForeground(new java.awt.Color(255, 255, 255));
+        bCOA.setText("<html><body style=\"text-align:center\">Kategori<br />Keuangan</body></html>");
+        bCOA.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bCOA.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bCOA.setDefaultCapable(false);
+        bCOA.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bCOA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCOAActionPerformed(evt);
+            }
+        });
+
+        bProject.setBackground(new java.awt.Color(211, 68, 233));
         bProject.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bProject.setForeground(new java.awt.Color(255, 255, 255));
-        bProject.setText("<html><body style=\"text-align:center\">Kategori<br />Keuangan</body></html>");
+        bProject.setText("<html><body style=\"text-align:center\">Data Proyek</body></html>");
         bProject.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bProject.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bProject.setDefaultCapable(false);
@@ -161,31 +182,17 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        bProject1.setBackground(new java.awt.Color(211, 68, 233));
-        bProject1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject1.setForeground(new java.awt.Color(255, 255, 255));
-        bProject1.setText("<html><body style=\"text-align:center\">Data Proyek</body></html>");
-        bProject1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject1.setDefaultCapable(false);
-        bProject1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject1.addActionListener(new java.awt.event.ActionListener() {
+        bContact.setBackground(new java.awt.Color(40, 170, 233));
+        bContact.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bContact.setForeground(new java.awt.Color(255, 255, 255));
+        bContact.setText("<html><body style=\"text-align:center\">Data Kontak</body></html>");
+        bContact.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bContact.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bContact.setDefaultCapable(false);
+        bContact.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject1ActionPerformed(evt);
-            }
-        });
-
-        bProject2.setBackground(new java.awt.Color(40, 170, 233));
-        bProject2.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject2.setForeground(new java.awt.Color(255, 255, 255));
-        bProject2.setText("<html><body style=\"text-align:center\">Data Kontak</body></html>");
-        bProject2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject2.setDefaultCapable(false);
-        bProject2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject2ActionPerformed(evt);
+                bContactActionPerformed(evt);
             }
         });
 
@@ -195,11 +202,11 @@ public class MainMenu extends javax.swing.JFrame {
             DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DataStoreLayout.createSequentialGroup()
                 .addGap(169, 169, 169)
+                .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bProject2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bProject1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(169, Short.MAX_VALUE))
         );
         DataStoreLayout.setVerticalGroup(
@@ -207,67 +214,67 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(DataStoreLayout.createSequentialGroup()
                 .addGap(190, 190, 190)
                 .addGroup(DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(bProject1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(227, Short.MAX_VALUE))
         );
 
         MainMenuTabbedPane.addTab("Data-data", new javax.swing.ImageIcon(getClass().getResource("/images/icon-box.png")), DataStore); // NOI18N
 
-        bProject3.setBackground(new java.awt.Color(74, 175, 77));
-        bProject3.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject3.setForeground(new java.awt.Color(255, 255, 255));
-        bProject3.setText("<html><body style=\"text-align:center\">Transaksi<br />Penerimaan</body></html>");
-        bProject3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject3.setDefaultCapable(false);
-        bProject3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject3.addActionListener(new java.awt.event.ActionListener() {
+        bCashIn.setBackground(new java.awt.Color(74, 175, 77));
+        bCashIn.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bCashIn.setForeground(new java.awt.Color(255, 255, 255));
+        bCashIn.setText("<html><body style=\"text-align:center\">Transaksi<br />Penerimaan</body></html>");
+        bCashIn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bCashIn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bCashIn.setDefaultCapable(false);
+        bCashIn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bCashIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject3ActionPerformed(evt);
+                bCashInActionPerformed(evt);
             }
         });
 
-        bProject4.setBackground(new java.awt.Color(255, 133, 133));
-        bProject4.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject4.setForeground(new java.awt.Color(255, 255, 255));
-        bProject4.setText("<html><body style=\"text-align:center\">Tagihan</body></html>");
-        bProject4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject4.setDefaultCapable(false);
-        bProject4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject4.addActionListener(new java.awt.event.ActionListener() {
+        bBill.setBackground(new java.awt.Color(255, 133, 133));
+        bBill.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bBill.setForeground(new java.awt.Color(255, 255, 255));
+        bBill.setText("<html><body style=\"text-align:center\">Tagihan</body></html>");
+        bBill.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bBill.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bBill.setDefaultCapable(false);
+        bBill.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bBill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject4ActionPerformed(evt);
+                bBillActionPerformed(evt);
             }
         });
 
-        bProject5.setBackground(new java.awt.Color(245, 170, 59));
-        bProject5.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject5.setForeground(new java.awt.Color(255, 255, 255));
-        bProject5.setText("<html><body style=\"text-align:center\">Perencanaan<br />Anggaran</body></html>");
-        bProject5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject5.setDefaultCapable(false);
-        bProject5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject5.addActionListener(new java.awt.event.ActionListener() {
+        bBudget.setBackground(new java.awt.Color(245, 170, 59));
+        bBudget.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bBudget.setForeground(new java.awt.Color(255, 255, 255));
+        bBudget.setText("<html><body style=\"text-align:center\">Perencanaan<br />Anggaran</body></html>");
+        bBudget.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bBudget.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bBudget.setDefaultCapable(false);
+        bBudget.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bBudget.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject5ActionPerformed(evt);
+                bBudgetActionPerformed(evt);
             }
         });
 
-        bProject9.setBackground(new java.awt.Color(83, 170, 224));
-        bProject9.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject9.setForeground(new java.awt.Color(255, 255, 255));
-        bProject9.setText("<html><body style=\"text-align:center\">Transaksi<br />Pengeluaran</body></html>");
-        bProject9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject9.setDefaultCapable(false);
-        bProject9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject9.addActionListener(new java.awt.event.ActionListener() {
+        bCashOut.setBackground(new java.awt.Color(83, 170, 224));
+        bCashOut.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bCashOut.setForeground(new java.awt.Color(255, 255, 255));
+        bCashOut.setText("<html><body style=\"text-align:center\">Transaksi<br />Pengeluaran</body></html>");
+        bCashOut.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bCashOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bCashOut.setDefaultCapable(false);
+        bCashOut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bCashOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject9ActionPerformed(evt);
+                bCashOutActionPerformed(evt);
             }
         });
 
@@ -277,13 +284,13 @@ public class MainMenu extends javax.swing.JFrame {
             TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TransactionLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(bProject5, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bProject4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bProject3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bProject9, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         TransactionLayout.setVerticalGroup(
@@ -291,11 +298,11 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(TransactionLayout.createSequentialGroup()
                 .addGap(190, 190, 190)
                 .addGroup(TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bProject4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject5, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bProject3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bProject9, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(227, Short.MAX_VALUE))
         );
 
@@ -472,29 +479,29 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bCOAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCOAActionPerformed
+        new ChartOfAccountList().setVisible(true);
+    }//GEN-LAST:event_bCOAActionPerformed
+
     private void bProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProjectActionPerformed
-        // TODO add your handling code here:
+        new ProjectList().setVisible(true);
     }//GEN-LAST:event_bProjectActionPerformed
 
-    private void bProject1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject1ActionPerformed
+    private void bContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bContactActionPerformed
+        new ContactList().setVisible(true);
+    }//GEN-LAST:event_bContactActionPerformed
 
-    private void bProject2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject2ActionPerformed
+    private void bCashInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCashInActionPerformed
+        new CashInList().setVisible(true);
+    }//GEN-LAST:event_bCashInActionPerformed
 
-    private void bProject3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject3ActionPerformed
+    private void bBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBillActionPerformed
+        new BillList().setVisible(true);
+    }//GEN-LAST:event_bBillActionPerformed
 
-    private void bProject4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject4ActionPerformed
-
-    private void bProject5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject5ActionPerformed
+    private void bBudgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBudgetActionPerformed
+        new BudgetList().setVisible(true);
+    }//GEN-LAST:event_bBudgetActionPerformed
 
     private void bProject6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject6ActionPerformed
         // TODO add your handling code here:
@@ -508,9 +515,9 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bProject8ActionPerformed
 
-    private void bProject9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject9ActionPerformed
+    private void bCashOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCashOutActionPerformed
+        new CashOutList().setVisible(true);
+    }//GEN-LAST:event_bCashOutActionPerformed
 
     private void bProject10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject10ActionPerformed
         // TODO add your handling code here:
@@ -574,21 +581,21 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTabbedPane MainMenuTabbedPane;
     private unindra.core.Background Report;
     private unindra.core.Background Transaction;
+    private javax.swing.JButton bBill;
+    private javax.swing.JButton bBudget;
+    private javax.swing.JButton bCOA;
+    private javax.swing.JButton bCashIn;
+    private javax.swing.JButton bCashOut;
+    private javax.swing.JButton bContact;
     private javax.swing.JButton bProject;
-    private javax.swing.JButton bProject1;
     private javax.swing.JButton bProject10;
     private javax.swing.JButton bProject11;
     private javax.swing.JButton bProject12;
     private javax.swing.JButton bProject13;
     private javax.swing.JButton bProject14;
-    private javax.swing.JButton bProject2;
-    private javax.swing.JButton bProject3;
-    private javax.swing.JButton bProject4;
-    private javax.swing.JButton bProject5;
     private javax.swing.JButton bProject6;
     private javax.swing.JButton bProject7;
     private javax.swing.JButton bProject8;
-    private javax.swing.JButton bProject9;
     private com.toedter.calendar.JDateChooser dateFrom;
     private com.toedter.calendar.JDateChooser dateTo;
     // End of variables declaration//GEN-END:variables

@@ -37,12 +37,22 @@ public class AuthService {
 		}
 	}
 
-    public void register(User user) {
-        try {
-        	String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-            DB.exec("INSERT INTO users (name, username, password) VALUES (?, ?, ?)", user.getName(), user.getUsername(), hashedPassword);
-        } catch (SQLException e) {
+	public static void register(User user) {
+		try {
+			String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+			DB.exec("INSERT INTO users (name, username, password, email, phone) VALUES (?, ?, ?, ?, ?)", 
+				user.getName(),
+				user.getUsername(),
+				hashedPassword,
+				user.getEmail(),
+				user.getPhone()
+			);
+		} catch (SQLException e) {
 			throw new RuntimeException("Database error: " + e.getMessage(), e);
-        }
-    }
+		}
+	}
+
+	public static void close() {
+		System.exit(0);
+	}
 }

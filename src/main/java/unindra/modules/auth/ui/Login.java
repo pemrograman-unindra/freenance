@@ -132,7 +132,8 @@ public class Login extends javax.swing.JFrame {
         try {
             AuthService.login(user, pass);
             JOptionPane.showMessageDialog(null, "Login Berhasil");
-            reset();
+            new MainMenu().setVisible(true);
+            dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Login Gagal : "+e.getMessage());
             reset();
@@ -141,8 +142,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_bLoginActionPerformed
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
-        tUser.setText("");
-        tPass.setText("");
+        AuthService.close();
     }//GEN-LAST:event_bCancelActionPerformed
 
     /**

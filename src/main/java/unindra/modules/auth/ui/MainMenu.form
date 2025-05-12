@@ -110,11 +110,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
+                      <Component id="bCOA" min="-2" pref="220" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="bContact" min="-2" pref="220" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="bProject" min="-2" pref="220" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="bProject2" min="-2" pref="220" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="bProject1" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace pref="169" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -124,9 +124,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
-                          <Component id="bProject1" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
-                          <Component id="bProject2" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                           <Component id="bProject" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="bContact" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="bCOA" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="227" max="32767" attributes="0"/>
                   </Group>
@@ -134,7 +134,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="bProject">
+            <Component class="javax.swing.JButton" name="bCOA">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="6b" green="bf" red="20" type="rgb"/>
@@ -158,10 +158,10 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProjectActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCOAActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="bProject1">
+            <Component class="javax.swing.JButton" name="bProject">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="e9" green="44" red="d3" type="rgb"/>
@@ -185,10 +185,10 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProject1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProjectActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="bProject2">
+            <Component class="javax.swing.JButton" name="bContact">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="e9" green="aa" red="28" type="rgb"/>
@@ -212,7 +212,7 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProject2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bContactActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -234,13 +234,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                      <Component id="bProject5" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="bBudget" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="bProject4" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="bBill" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="bProject3" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="bCashIn" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="bProject9" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="bCashOut" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace pref="57" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -250,11 +250,11 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="bProject4" min="-2" pref="220" max="-2" attributes="0"/>
-                          <Component id="bProject5" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="bBill" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="bBudget" min="-2" pref="220" max="-2" attributes="0"/>
                           <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                              <Component id="bProject3" alignment="3" min="-2" pref="220" max="-2" attributes="0"/>
-                              <Component id="bProject9" alignment="3" min="-2" pref="220" max="-2" attributes="0"/>
+                              <Component id="bCashIn" alignment="3" min="-2" pref="220" max="-2" attributes="0"/>
+                              <Component id="bCashOut" alignment="3" min="-2" pref="220" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="227" max="32767" attributes="0"/>
@@ -263,7 +263,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="bProject3">
+            <Component class="javax.swing.JButton" name="bCashIn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4d" green="af" red="4a" type="rgb"/>
@@ -287,10 +287,10 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProject3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCashInActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="bProject4">
+            <Component class="javax.swing.JButton" name="bBill">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="85" green="85" red="ff" type="rgb"/>
@@ -314,10 +314,10 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProject4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bBillActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="bProject5">
+            <Component class="javax.swing.JButton" name="bBudget">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="3b" green="aa" red="f5" type="rgb"/>
@@ -341,10 +341,10 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProject5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bBudgetActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="bProject9">
+            <Component class="javax.swing.JButton" name="bCashOut">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="e0" green="aa" red="53" type="rgb"/>
@@ -368,7 +368,7 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bProject9ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCashOutActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

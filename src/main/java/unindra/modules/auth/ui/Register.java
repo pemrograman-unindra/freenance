@@ -1,5 +1,6 @@
 package unindra.modules.auth.ui;
 
+import unindra.modules.auth.model.User;
 import unindra.modules.auth.service.AuthService;
 
 import javax.swing.JOptionPane;
@@ -13,11 +14,6 @@ public class Register extends javax.swing.JFrame {
         initComponents();
         pack();
         setLocationRelativeTo(null);
-    }
-
-    public void reset() {
-        fUser.setText("");
-        fPass.setText("");
     }
 
     /**
@@ -162,24 +158,26 @@ public class Register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegisterActionPerformed
-        String user = fUser.getText();
-        char[] passChars = fPass.getPassword();
-        String pass = new String(passChars); // konversi ke String
-
         try {
-            AuthService.login(user, pass);
-            JOptionPane.showMessageDialog(null, "Login Berhasil");
-            reset();
+            User user = new User();
+            user.setName(fUser.getText());
+            user.setPhone(fPhone.getText());
+            user.setEmail(fEmail.getText());
+            user.setUsername(fUser.getText());
+            char[] passChars = fPass.getPassword();
+            String pass = new String(passChars);
+            user.setpassword(pass);
+            AuthService.register(user);
+            JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
+            new MainMenu().setVisible(true);
+            dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Login Gagal : "+e.getMessage());
-            reset();
-            fUser.requestFocus(true);
+            JOptionPane.showMessageDialog(null, "Registrasi Gagal : "+e.getMessage());
         }
     }//GEN-LAST:event_bRegisterActionPerformed
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
-        fUser.setText("");
-        fPass.setText("");
+        AuthService.close();
     }//GEN-LAST:event_bCancelActionPerformed
 
     /**
