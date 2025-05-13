@@ -107,10 +107,10 @@ public class MainMenu extends javax.swing.JFrame {
         bCOA = new javax.swing.JButton();
         bProject = new javax.swing.JButton();
         bContact = new javax.swing.JButton();
+        bBudget = new javax.swing.JButton();
         Transaction = new unindra.core.Background();
         bCashIn = new javax.swing.JButton();
         bBill = new javax.swing.JButton();
-        bBudget = new javax.swing.JButton();
         bCashOut = new javax.swing.JButton();
         Report = new unindra.core.Background();
         bProject6 = new javax.swing.JButton();
@@ -136,7 +136,7 @@ public class MainMenu extends javax.swing.JFrame {
         DashboardLayout.setHorizontalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DashboardLayout.createSequentialGroup()
-                .addContainerGap(685, Short.MAX_VALUE)
+                .addContainerGap(760, Short.MAX_VALUE)
                 .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,18 +196,34 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        bBudget.setBackground(new java.awt.Color(245, 170, 59));
+        bBudget.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bBudget.setForeground(new java.awt.Color(255, 255, 255));
+        bBudget.setText("<html><body style=\"text-align:center\">Perencanaan<br />Anggaran</body></html>");
+        bBudget.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bBudget.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bBudget.setDefaultCapable(false);
+        bBudget.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bBudget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBudgetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout DataStoreLayout = new javax.swing.GroupLayout(DataStore);
         DataStore.setLayout(DataStoreLayout);
         DataStoreLayout.setHorizontalGroup(
             DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DataStoreLayout.createSequentialGroup()
-                .addGap(169, 169, 169)
+                .addGap(87, 87, 87)
                 .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         DataStoreLayout.setVerticalGroup(
             DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +232,8 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(227, Short.MAX_VALUE))
         );
 
@@ -250,20 +267,6 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        bBudget.setBackground(new java.awt.Color(245, 170, 59));
-        bBudget.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bBudget.setForeground(new java.awt.Color(255, 255, 255));
-        bBudget.setText("<html><body style=\"text-align:center\">Perencanaan<br />Anggaran</body></html>");
-        bBudget.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bBudget.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bBudget.setDefaultCapable(false);
-        bBudget.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bBudget.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bBudgetActionPerformed(evt);
-            }
-        });
-
         bCashOut.setBackground(new java.awt.Color(83, 170, 224));
         bCashOut.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bCashOut.setForeground(new java.awt.Color(255, 255, 255));
@@ -283,15 +286,13 @@ public class MainMenu extends javax.swing.JFrame {
         TransactionLayout.setHorizontalGroup(
             TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TransactionLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(206, 206, 206)
                 .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         TransactionLayout.setVerticalGroup(
             TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,7 +300,6 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(190, 190, 190)
                 .addGroup(TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -425,7 +425,7 @@ public class MainMenu extends javax.swing.JFrame {
         ReportLayout.setHorizontalGroup(
             ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReportLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(87, 87, 87)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReportLayout.createSequentialGroup()
                         .addComponent(bProject10, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -443,12 +443,12 @@ public class MainMenu extends javax.swing.JFrame {
                         .addComponent(bProject6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(bProject13, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         ReportLayout.setVerticalGroup(
             ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReportLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(89, 89, 89)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(bProject6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bProject7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -460,7 +460,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(bProject11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bProject10, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bProject14, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         MainMenuTabbedPane.addTab("Laporan", new javax.swing.ImageIcon(getClass().getResource("/images/icon-report.png")), Report); // NOI18N
