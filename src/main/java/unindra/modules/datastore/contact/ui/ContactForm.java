@@ -185,10 +185,10 @@ public class ContactForm extends javax.swing.JFrame {
 
         ContactService service = new ContactService();
         if (selectedContact == null) {
-            service.createContact(data);
+            service.create(data);
         } else {
             data.setId(selectedContact.getId());
-            service.updateContact(data);
+            service.update(data);
         }
         contactList.loadData();
         dispose();

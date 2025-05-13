@@ -1,6 +1,7 @@
 package unindra.modules.datastore.project.ui;
 
-import unindra.modules.datastore.contact.ui.*;
+import unindra.modules.datastore.contact.model.Contact;
+import unindra.modules.datastore.contact.ui.ContactList;
 
 public class ProjectForm extends javax.swing.JFrame {
 
@@ -23,19 +24,19 @@ public class ProjectForm extends javax.swing.JFrame {
         lCode = new javax.swing.JLabel();
         lName = new javax.swing.JLabel();
         lArea = new javax.swing.JLabel();
-        lCapacity = new javax.swing.JLabel();
+        lCustomer = new javax.swing.JLabel();
         lNote = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         fCode = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
         fArea = new javax.swing.JTextField();
-        fCapacity = new javax.swing.JTextField();
+        fCustomer = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tNote = new javax.swing.JTextArea();
         lUser1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lCode.setBackground(new java.awt.Color(204, 255, 255));
         lCode.setText("Code");
@@ -46,8 +47,8 @@ public class ProjectForm extends javax.swing.JFrame {
         lArea.setBackground(new java.awt.Color(204, 255, 255));
         lArea.setText("Phone");
 
-        lCapacity.setBackground(new java.awt.Color(204, 255, 255));
-        lCapacity.setText("Email");
+        lCustomer.setBackground(new java.awt.Color(204, 255, 255));
+        lCustomer.setText("Customer");
 
         lNote.setBackground(new java.awt.Color(204, 255, 255));
         lNote.setText("Address");
@@ -63,6 +64,14 @@ public class ProjectForm extends javax.swing.JFrame {
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
+            }
+        });
+
+        fCustomer.setEditable(false);
+        fCustomer.setText("Choose Customer...");
+        fCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fCustomerMouseClicked(evt);
             }
         });
 
@@ -88,9 +97,9 @@ public class ProjectForm extends javax.swing.JFrame {
                                     .addGap(18, 18, 18)
                                     .addComponent(jScrollPane1))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
                                     .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
@@ -131,8 +140,8 @@ public class ProjectForm extends javax.swing.JFrame {
                     .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCapacity)
-                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lCustomer)
+                    .addComponent(fCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lNote)
@@ -165,6 +174,14 @@ public class ProjectForm extends javax.swing.JFrame {
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
             dispose();
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void fCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fCustomerMouseClicked
+        ContactList.openLookup(contact -> {
+            if (contact != null) {
+                fCustomer.setText(contact.getName());
+            }
+        });
+    }//GEN-LAST:event_fCustomerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -209,13 +226,13 @@ public class ProjectForm extends javax.swing.JFrame {
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
     private javax.swing.JTextField fArea;
-    private javax.swing.JTextField fCapacity;
     private javax.swing.JTextField fCode;
+    private javax.swing.JTextField fCustomer;
     private javax.swing.JTextField fName;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lArea;
-    private javax.swing.JLabel lCapacity;
     private javax.swing.JLabel lCode;
+    private javax.swing.JLabel lCustomer;
     private javax.swing.JLabel lName;
     private javax.swing.JLabel lNote;
     private javax.swing.JLabel lUser1;

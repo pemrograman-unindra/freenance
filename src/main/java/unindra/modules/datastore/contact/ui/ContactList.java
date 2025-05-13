@@ -3,12 +3,26 @@ package unindra.modules.datastore.contact.ui;
 import unindra.modules.datastore.contact.model.Contact;
 import unindra.modules.datastore.contact.service.ContactService;
 
+import java.util.function.Consumer;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class ContactList extends javax.swing.JFrame {
+public class ContactList extends javax.swing.JFrame { 
+   
+    private Consumer<Contact> callback;
 
+    public void setLookup() {
+        bChoose.setVisible(true);
+    }
+
+    public static void openLookup(Consumer<Contact> callback) {
+        ContactList lookup = new ContactList();
+        lookup.callback = callback;
+        lookup.setLookup();
+        lookup.setVisible(true);
+    }
+    
     public ContactList() {
         initComponents();
         pack();
@@ -22,7 +36,7 @@ public class ContactList extends javax.swing.JFrame {
         DefaultTableModel model = new DefaultTableModel(null, headers);
         ContactService service = new ContactService();
         String search = fSearch.getText();
-        List<Contact> contacts = service.getContacts(search);
+        List<Contact> contacts = service.find(search);
         for (Contact contact : contacts) {
             model.addRow(new Object[]{
                 contact.getCode(), 
@@ -59,12 +73,11 @@ public class ContactList extends javax.swing.JFrame {
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
-        bExit = new javax.swing.JButton();
-        title = new javax.swing.JLabel();
         bEdit = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         lUser1 = new javax.swing.JLabel();
+        bChoose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,14 +113,11 @@ public class ContactList extends javax.swing.JFrame {
             }
         });
 
-        bExit.setText("Exit");
-        bExit.addActionListener(new java.awt.event.ActionListener() {
+        fSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bExitActionPerformed(evt);
+                fSearchActionPerformed(evt);
             }
         });
-
-        title.setText("User : Fulan");
 
         bEdit.setText("Edit");
         bEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -133,53 +143,56 @@ public class ContactList extends javax.swing.JFrame {
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Daftar Kontak");
 
+        bChoose.setText("Pilih");
+        bChoose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bChooseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addContainerGap(57, Short.MAX_VALUE)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(bExit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bDelete)
-                        .addGap(18, 18, 18)
-                        .addComponent(bEdit)
-                        .addGap(18, 18, 18)
-                        .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bSearch)
-                        .addGap(18, 18, 18)
-                        .addComponent(bCreate))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(lUser1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bChoose)
+                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(background1Layout.createSequentialGroup()
+                            .addComponent(bCancel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bDelete)
+                            .addGap(18, 18, 18)
+                            .addComponent(bEdit)
+                            .addGap(18, 18, 18)
+                            .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(bSearch)
+                            .addGap(18, 18, 18)
+                            .addComponent(bCreate))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lUser1, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(59, 59, 59))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lUser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lUser1)
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCreate)
                     .addComponent(bSearch)
                     .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bExit)
                     .addComponent(bEdit)
                     .addComponent(bDelete)
                     .addComponent(bCancel))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bChoose)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -210,15 +223,11 @@ public class ContactList extends javax.swing.JFrame {
         new ContactForm(this, null).setVisible(true);
     }//GEN-LAST:event_bCreateActionPerformed
 
-    private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_bExitActionPerformed
-
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
         int selectedRow = contactTable.getSelectedRow();
         if (selectedRow != -1) {
             ContactService service = new ContactService();
-            Contact contact = service.getContacts("").get(selectedRow); // Assuming the selected row corresponds to a room
+            Contact contact = service.find("").get(selectedRow);
             new ContactForm(this, contact).setVisible(true);
         }
     }//GEN-LAST:event_bEditActionPerformed
@@ -244,12 +253,31 @@ public class ContactList extends javax.swing.JFrame {
             int confirm = JOptionPane.showConfirmDialog(this, "Are you sure to delete?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 ContactService service = new ContactService();
-                Contact contact = service.getContacts("").get(selectedRow);
-                service.deleteContact(contact.getId());
+                Contact contact = service.find("").get(selectedRow);
+                service.delete(contact.getId());
                 loadData(); // Refresh the data after deletion
             }
         }
     }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void bChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChooseActionPerformed
+        int selectedRow = contactTable.getSelectedRow();
+        if (selectedRow != -1) {
+            ContactService service = new ContactService();
+            callback.accept(service.find("").get(selectedRow));
+            dispose();
+        }
+    }//GEN-LAST:event_bChooseActionPerformed
+
+    private void fSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fSearchActionPerformed
+        bEdit.setVisible(false);
+        bDelete.setVisible(false);
+        bCancel.setVisible(true);
+        fSearch.setVisible(false);
+        bSearch.setVisible(false);
+        bCreate.setVisible(false);
+        loadData();
+    }//GEN-LAST:event_fSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,16 +317,15 @@ public class ContactList extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
+    private javax.swing.JButton bChoose;
     private javax.swing.JButton bCreate;
     private javax.swing.JButton bDelete;
     private javax.swing.JButton bEdit;
-    private javax.swing.JButton bExit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
     private javax.swing.JTable contactTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

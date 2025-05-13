@@ -50,9 +50,9 @@
                                       <Component id="jScrollPane1" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lCapacity" min="-2" pref="182" max="-2" attributes="0"/>
+                                      <Component id="lCustomer" min="-2" pref="182" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="fCapacity" min="-2" pref="495" max="-2" attributes="0"/>
+                                      <Component id="fCustomer" min="-2" pref="495" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lArea" min="-2" pref="182" max="-2" attributes="0"/>
@@ -108,8 +108,8 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lCapacity" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fCapacity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="fCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -151,12 +151,12 @@
             <Property name="text" type="java.lang.String" value="Phone"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lCapacity">
+        <Component class="javax.swing.JLabel" name="lCustomer">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="cc" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Email"/>
+            <Property name="text" type="java.lang.String" value="Customer"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lNote">
@@ -189,7 +189,14 @@
         </Component>
         <Component class="javax.swing.JTextField" name="fArea">
         </Component>
-        <Component class="javax.swing.JTextField" name="fCapacity">
+        <Component class="javax.swing.JTextField" name="fCustomer">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Choose Customer..."/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fCustomerMouseClicked"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
