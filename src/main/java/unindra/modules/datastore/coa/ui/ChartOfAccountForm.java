@@ -2,6 +2,7 @@ package unindra.modules.datastore.coa.ui;
 
 import unindra.modules.datastore.coa.model.Coa;
 import unindra.modules.datastore.coa.service.CoaService;
+import javax.swing.ButtonGroup;
 
 
 
@@ -14,6 +15,10 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        ButtonGroup groupTunai = new ButtonGroup();
+        groupTunai.add(rtunaiy);
+        groupTunai.add(rtunait);
+
         this.coaList = coaList;
         
         if (coaSelected != null) {
@@ -66,7 +71,7 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         background1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -109,6 +114,11 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
         background1.add(lUser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(276, 37, -1, -1));
 
         rtunaiy.setText("Ya");
+        rtunaiy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rtunaiyActionPerformed(evt);
+            }
+        });
         background1.add(rtunaiy, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, -1, -1));
 
         rtunait.setText("Tidak");
@@ -191,6 +201,10 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
         rtunaiy.setSelected(false);
         rtunait.setSelected(false);
     }//GEN-LAST:event_bHapusActionPerformed
+
+    private void rtunaiyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rtunaiyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rtunaiyActionPerformed
 
     /**
      * @param args the command line arguments
