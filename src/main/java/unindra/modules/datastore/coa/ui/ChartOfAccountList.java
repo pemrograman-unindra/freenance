@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package unindra.modules.datastore.coa.ui;
 
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.util.List;
 import unindra.modules.datastore.coa.model.Coa;
+import unindra.modules.datastore.coa.service.CoaService;
+
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -35,7 +33,9 @@ public class ChartOfAccountList extends javax.swing.JFrame {
         bCreate.setVisible(true);
     }
     public void loadData() {
-        List<Coa> data = Coa.all(); 
+        CoaService service = new CoaService();
+        String search = fSearch.getText();
+        List<Coa> data = service.getCoa(search); 
         DefaultTableModel model = (DefaultTableModel) coaTable.getModel();
         model.setRowCount(0); 
 
@@ -46,29 +46,6 @@ public class ChartOfAccountList extends javax.swing.JFrame {
             });
         }
     }
-
-    private void initComponents() {
-        background1 = new unindra.core.Background();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        coaTable = new javax.swing.JTable();
-        bCreate = new javax.swing.JButton();
-        bSearch = new javax.swing.JButton();
-        fSearch = new javax.swing.JTextField();
-        bExit = new javax.swing.JButton();
-        title = new javax.swing.JLabel();
-        bEdit = new javax.swing.JButton();
-        bDelete = new javax.swing.JButton();
-        bCancel = new javax.swing.JButton();
-        lUser1 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        coaTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                "Code", "Name"
-            }
-        ));
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -229,16 +206,14 @@ public class ChartOfAccountList extends javax.swing.JFrame {
         reset();
     }//GEN-LAST:event_bEditActionPerformed
 
-    private void roomTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomTableMouseClicked
+    private void coaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coaTableMouseClicked
         bEdit.setVisible(true);
         bDelete.setVisible(true);
         bCancel.setVisible(true);
         fSearch.setVisible(false);
         bSearch.setVisible(false);
         bCreate.setVisible(false);
-    }
-
-    }//GEN-LAST:event_roomTableMouseClicked
+    }//GEN-LAST:event_coaTableMouseClicked
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
         reset();

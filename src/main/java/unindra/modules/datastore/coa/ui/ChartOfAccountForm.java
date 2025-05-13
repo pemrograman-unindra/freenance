@@ -15,17 +15,16 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
         this.coaList = coaList;
-        this.coaSelected = coaSelected;
         
         if (coaSelected != null) {
-            coaList = coaSelected;
+            this.coaSelected = coaSelected;
             tid.setText(String.valueOf(coaSelected.getId()));
-            tsubid.setText(coaSelected.getSubId());
-            tnama.setText(coaSelected.getNama());
-            tkode.setText(coaSelected.getKode());
-            jckategori.setSelectedItem(coaSelected.getKategori());
-            rtunaiy.setSelected(coaSelected.isTunai());
-            rtunait.setSelected(coaSelected.isTunai());
+            tsubid.setText(String.valueOf(coaSelected.getParentId()));
+            tnama.setText(coaSelected.getName());
+            tkode.setText(String.valueOf(coaSelected.getCode()));
+            jckategori.setSelectedItem(coaSelected.getCategoryId());
+            rtunaiy.setSelected(coaSelected.getIsCash());
+            rtunait.setSelected(!coaSelected.getIsCash());
 
         }
     
@@ -160,11 +159,11 @@ public class ChartOfAccountForm extends javax.swing.JFrame {
     try {
             Coa data = new Coa();
             data.setId(Integer.parseInt(tid.getText()));
-            data.setParent_id(Integer.parseInt(tsubid.getText()));
+            data.setParentId(Integer.parseInt(tsubid.getText()));
             data.setName(tnama.getText());
             data.setCode(Integer.parseInt(tkode.getText()));
-            data.setCategory(jckategori.getSelectedIndex() + 1); // 1: Harta, 2: Kewajiban, dst
-            data.setIs_Cash(rtunaiy.isSelected() ? 1 : 0);
+            data.setCategoryId(jckategori.getSelectedIndex() + 1); // 1: Harta, 2: Kewajiban, dst
+            data.setIsCash(rtunaiy.isSelected());
 
             CoaService service = new CoaService();
             if (coaSelected == null) {
