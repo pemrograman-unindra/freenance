@@ -12,14 +12,9 @@ public class ContactList extends javax.swing.JFrame {
    
     private Consumer<Contact> callback;
 
-    public void setLookup() {
-        bChoose.setVisible(true);
-    }
-
     public static void openLookup(Consumer<Contact> callback) {
         ContactList lookup = new ContactList();
         lookup.callback = callback;
-        lookup.setLookup();
         lookup.setVisible(true);
     }
     
@@ -32,7 +27,7 @@ public class ContactList extends javax.swing.JFrame {
     }
 
     public void loadData() {
-        Object[] headers = {"Code", "Name", "Phone", "Email", "Address"};
+        Object[] headers = {"Kode", "Nama", "Telp", "Email", "Alamat"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
         ContactService service = new ContactService();
         String search = fSearch.getText();
@@ -52,6 +47,7 @@ public class ContactList extends javax.swing.JFrame {
     private void reset() {
         bEdit.setVisible(false);
         bDelete.setVisible(false);
+        bChoose.setVisible(false);
         bCancel.setVisible(false);
         fSearch.setVisible(true);
         bSearch.setVisible(true);
@@ -89,7 +85,7 @@ public class ContactList extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Code", "Name", "Phone", "Email", "Address"
+                "Kode", "Nama", "Telp", "Email", "Alamat"
             }
         ));
         contactTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -99,14 +95,14 @@ public class ContactList extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(contactTable);
 
-        bCreate.setText("Create");
+        bCreate.setText("Tambah");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCreateActionPerformed(evt);
             }
         });
 
-        bSearch.setText("Search");
+        bSearch.setText("Cari");
         bSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSearchActionPerformed(evt);
@@ -119,21 +115,21 @@ public class ContactList extends javax.swing.JFrame {
             }
         });
 
-        bEdit.setText("Edit");
+        bEdit.setText("Ubah");
         bEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bEditActionPerformed(evt);
             }
         });
 
-        bDelete.setText("Delete");
+        bDelete.setText("Hapus");
         bDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bDeleteActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
@@ -157,22 +153,22 @@ public class ContactList extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addContainerGap(57, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bChoose)
-                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addComponent(bCancel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(bDelete)
-                            .addGap(18, 18, 18)
-                            .addComponent(bEdit)
-                            .addGap(18, 18, 18)
-                            .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(bSearch)
-                            .addGap(18, 18, 18)
-                            .addComponent(bCreate))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lUser1, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bSearch)
+                        .addGap(18, 18, 18)
+                        .addComponent(bCreate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bChoose))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lUser1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(59, 59, 59))
         );
         background1Layout.setVerticalGroup(
@@ -187,12 +183,11 @@ public class ContactList extends javax.swing.JFrame {
                     .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bEdit)
                     .addComponent(bDelete)
-                    .addComponent(bCancel))
+                    .addComponent(bCancel)
+                    .addComponent(bChoose))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bChoose)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -233,6 +228,9 @@ public class ContactList extends javax.swing.JFrame {
     }//GEN-LAST:event_bEditActionPerformed
 
     private void contactTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactTableMouseClicked
+        if (callback!=null) {
+            bChoose.setVisible(true);
+        }
         bEdit.setVisible(true);
         bDelete.setVisible(true);
         bCancel.setVisible(true);

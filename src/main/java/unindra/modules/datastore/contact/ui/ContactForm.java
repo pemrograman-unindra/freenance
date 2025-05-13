@@ -51,28 +51,28 @@ public class ContactForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lCode.setBackground(new java.awt.Color(204, 255, 255));
-        lCode.setText("Code");
+        lCode.setText("Kode");
 
         lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("Name");
+        lName.setText("Nama");
 
         lPhone.setBackground(new java.awt.Color(204, 255, 255));
-        lPhone.setText("Phone");
+        lPhone.setText("Telp");
 
         lEmail.setBackground(new java.awt.Color(204, 255, 255));
         lEmail.setText("Email");
 
         lAddress.setBackground(new java.awt.Color(204, 255, 255));
-        lAddress.setText("Address");
+        lAddress.setText("Alamat");
 
-        bSave.setText("Save");
+        bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
