@@ -7,13 +7,28 @@ import javax.swing.JOptionPane;
 
 public class Register extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
     public Register() {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+    }
+    
+    private void register() {
+        try {
+            User user = new User();
+            user.setName(fName.getText());
+            user.setPhone(fPhone.getText());
+            user.setEmail(fEmail.getText());
+            char[] passChars = fPass.getPassword();
+            String pass = new String(passChars);
+            user.setpassword(pass);
+            AuthService.register(user);
+            JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
+            new MainMenu().setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Registrasi Gagal : "+e.getMessage());
+        }
     }
 
     /**
@@ -29,8 +44,6 @@ public class Register extends javax.swing.JFrame {
         bRegister = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         fPass = new javax.swing.JPasswordField();
-        fUser = new javax.swing.JTextField();
-        lUser = new javax.swing.JLabel();
         lPass = new javax.swing.JLabel();
         lUser1 = new javax.swing.JLabel();
         lEmail = new javax.swing.JLabel();
@@ -40,7 +53,7 @@ public class Register extends javax.swing.JFrame {
         fPhone = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         bRegister.setText("Daftar");
         bRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -56,11 +69,14 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        lUser.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser.setText("Username");
+        fPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fPassActionPerformed(evt);
+            }
+        });
 
         lPass.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lPass.setText("Password");
+        lPass.setText("Kata Sandi");
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Daftar");
@@ -69,7 +85,7 @@ public class Register extends javax.swing.JFrame {
         lEmail.setText("Email");
 
         lPhone.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lPhone.setText("Phone");
+        lPhone.setText("Telp");
 
         lName.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lName.setText("Nama");
@@ -83,33 +99,29 @@ public class Register extends javax.swing.JFrame {
                     .addGroup(background1Layout.createSequentialGroup()
                         .addGap(362, 362, 362)
                         .addComponent(lUser1))
-                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addGap(391, 391, 391)
-                            .addComponent(bCancel)
-                            .addGap(18, 18, 18)
-                            .addComponent(bRegister))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                            .addGap(192, 192, 192)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGap(192, 192, 192)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lEmail)
+                                    .addComponent(lPhone)
+                                    .addComponent(lName))
+                                .addGap(88, 88, 88)
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lEmail)
-                                        .addComponent(lPhone)
-                                        .addComponent(lName))
-                                    .addGap(47, 47, 47))
+                                    .addComponent(bCancel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(bRegister))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(lPass)
-                                        .addComponent(lUser))
-                                    .addGap(18, 18, 18)))
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fUser, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(211, Short.MAX_VALUE))
+                                    .addComponent(lPass)
+                                    .addGap(47, 47, 47)
+                                    .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,11 +140,7 @@ public class Register extends javax.swing.JFrame {
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lEmail)
                     .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lUser)
-                    .addComponent(fUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lPass))
@@ -140,7 +148,7 @@ public class Register extends javax.swing.JFrame {
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)
                     .addComponent(bRegister))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -158,27 +166,16 @@ public class Register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRegisterActionPerformed
-        try {
-            User user = new User();
-            user.setName(fUser.getText());
-            user.setPhone(fPhone.getText());
-            user.setEmail(fEmail.getText());
-            user.setUsername(fUser.getText());
-            char[] passChars = fPass.getPassword();
-            String pass = new String(passChars);
-            user.setpassword(pass);
-            AuthService.register(user);
-            JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
-            new MainMenu().setVisible(true);
-            dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Registrasi Gagal : "+e.getMessage());
-        }
+        register();
     }//GEN-LAST:event_bRegisterActionPerformed
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
         AuthService.close();
     }//GEN-LAST:event_bCancelActionPerformed
+
+    private void fPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fPassActionPerformed
+        register();
+    }//GEN-LAST:event_fPassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,12 +221,10 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField fName;
     private javax.swing.JPasswordField fPass;
     private javax.swing.JTextField fPhone;
-    private javax.swing.JTextField fUser;
     private javax.swing.JLabel lEmail;
     private javax.swing.JLabel lName;
     private javax.swing.JLabel lPass;
     private javax.swing.JLabel lPhone;
-    private javax.swing.JLabel lUser;
     private javax.swing.JLabel lUser1;
     // End of variables declaration//GEN-END:variables
 }

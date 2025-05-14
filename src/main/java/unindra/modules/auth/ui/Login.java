@@ -15,11 +15,28 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    public void reset() {
+    private void reset() {
         tUser.setText("");
         tPass.setText("");
     }
 
+    private void login() {
+        String user = tUser.getText();
+        char[] passChars = tPass.getPassword();
+        String pass = new String(passChars); // konversi ke String
+
+        try {
+            AuthService.login(user, pass);
+            JOptionPane.showMessageDialog(null, "Login Berhasil");
+            new MainMenu().setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Login Gagal : "+e.getMessage());
+            reset();
+            tUser.requestFocus(true);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +55,7 @@ public class Login extends javax.swing.JFrame {
         lPass = new javax.swing.JLabel();
         lUser1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         bLogin.setText("Masuk");
         bLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -54,11 +71,17 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        tPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tPassActionPerformed(evt);
+            }
+        });
+
         lUser.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser.setText("Username");
+        lUser.setText("Telp / Email");
 
         lPass.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lPass.setText("Password");
+        lPass.setText("Kata Sandi");
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Login");
@@ -68,7 +91,7 @@ public class Login extends javax.swing.JFrame {
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap(211, Short.MAX_VALUE)
+                .addContainerGap(200, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,25 +148,16 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoginActionPerformed
-        String user = tUser.getText();
-        char[] passChars = tPass.getPassword();
-        String pass = new String(passChars); // konversi ke String
-
-        try {
-            AuthService.login(user, pass);
-            JOptionPane.showMessageDialog(null, "Login Berhasil");
-            new MainMenu().setVisible(true);
-            dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Login Gagal : "+e.getMessage());
-            reset();
-            tUser.requestFocus(true);
-        }
+        login();
     }//GEN-LAST:event_bLoginActionPerformed
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
         AuthService.close();
     }//GEN-LAST:event_bCancelActionPerformed
+
+    private void tPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tPassActionPerformed
+        login();
+    }//GEN-LAST:event_tPassActionPerformed
 
     /**
      * @param args the command line arguments

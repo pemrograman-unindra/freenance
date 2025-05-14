@@ -2,7 +2,6 @@ package unindra.modules.datastore.contact.model;
 
 public class Contact {
     private int id;
-    private String code;
     private String name;
     private String phone;
     private String email;
@@ -13,13 +12,6 @@ public class Contact {
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {

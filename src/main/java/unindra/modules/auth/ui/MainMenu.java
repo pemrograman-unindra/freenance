@@ -122,7 +122,7 @@ public class MainMenu extends javax.swing.JFrame {
         bProject13 = new javax.swing.JButton();
         bProject14 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         MainMenuTabbedPane.setBackground(new java.awt.Color(222, 242, 251));
         MainMenuTabbedPane.setName(""); // NOI18N

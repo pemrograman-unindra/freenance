@@ -22,8 +22,8 @@ public class AuthService {
 	}
 
 	public static void login(String username, String password) {
-		String sql = "SELECT password FROM users WHERE username = ? limit 1";
-		try (ResultSet rs = DB.query(sql, username)) {
+		String sql = "SELECT password FROM users WHERE phone = ? or email = ? limit 1";
+		try (ResultSet rs = DB.query(sql, username, username)) {
 			if (rs.next()) {
 				String hashed = rs.getString("password");
 				if (!BCrypt.checkpw(password, hashed)) {
@@ -40,12 +40,11 @@ public class AuthService {
 	public static void register(User user) {
 		try {
 			String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-			DB.exec("INSERT INTO users (name, username, password, email, phone) VALUES (?, ?, ?, ?, ?)", 
+			DB.exec("INSERT INTO users (name, phone, email, password ) VALUES (?, ?, ?, ?)", 
 				user.getName(),
-				user.getUsername(),
-				hashedPassword,
 				user.getEmail(),
-				user.getPhone()
+				user.getPhone(),
+				hashedPassword
 			);
 		} catch (SQLException e) {
 			throw new RuntimeException("Database error: " + e.getMessage(), e);

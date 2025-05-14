@@ -39,7 +39,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace pref="211" max="32767" attributes="0"/>
+                  <EmptySpace pref="200" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -114,6 +114,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="tPass">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tPassActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tUser">
         </Component>
@@ -122,7 +125,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Liberation Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Username"/>
+            <Property name="text" type="java.lang.String" value="Telp / Email"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lPass">
@@ -130,7 +133,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Liberation Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Password"/>
+            <Property name="text" type="java.lang.String" value="Kata Sandi"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lUser1">

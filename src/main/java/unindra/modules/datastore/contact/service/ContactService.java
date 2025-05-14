@@ -13,8 +13,7 @@ public class ContactService {
 	public void create(Contact contact) {
 		try {
 			DB.exec(
-				"INSERT INTO contacts (code, name, phone, email, address) VALUES (?, ?, ?, ?, ?)",
-				contact.getCode(),
+				"INSERT INTO contacts (name, phone, email, address) VALUES (?, ?, ?, ?)",
 				contact.getName(),
 				contact.getPhone(),
 				contact.getEmail(),
@@ -25,13 +24,13 @@ public class ContactService {
 		}
 	}
 
-	public List<Contact> find(String search) {
+	public List<Contact> find(String keyword) {
 		List<Contact> contacts = new ArrayList<>();
-		try (ResultSet rs = DB.query("SELECT * FROM contacts WHERE name like ?", "%"+ search +"%")) {
+                String text = "%"+ keyword +"%";
+		try (ResultSet rs = DB.query("SELECT * FROM contacts WHERE name like ? or phone like ? or email like ?", text, text, text)) {
 			while (rs.next()) {
 				Contact contact = new Contact();
 				contact.setId(rs.getInt("id"));
-				contact.setCode(rs.getString("code"));
 				contact.setName(rs.getString("name"));
 				contact.setPhone(rs.getString("phone"));
 				contact.setEmail(rs.getString("email"));
@@ -47,8 +46,7 @@ public class ContactService {
 	public void update(Contact contact) {
 		try {
 			DB.exec(
-				"UPDATE contacts SET code = ?, name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
-				contact.getCode(),
+				"UPDATE contacts SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
 				contact.getName(),
 				contact.getPhone(),
 				contact.getEmail(),

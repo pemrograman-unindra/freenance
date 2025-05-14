@@ -44,43 +44,38 @@
                           <EmptySpace min="-2" pref="362" max="-2" attributes="0"/>
                           <Component id="lUser1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="391" max="-2" attributes="0"/>
-                              <Component id="bCancel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="bRegister" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lEmail" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lPhone" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lEmail" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lPhone" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lName" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="lPass" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lUser" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="fEmail" min="-2" pref="300" max="-2" attributes="0"/>
+                                      <Component id="fPhone" min="-2" pref="300" max="-2" attributes="0"/>
+                                      <Component id="fName" min="-2" pref="300" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="fPass" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                                  <Component id="fUser" min="-2" pref="300" max="-2" attributes="0"/>
-                                  <Component id="fEmail" min="-2" pref="300" max="-2" attributes="0"/>
-                                  <Component id="fPhone" min="-2" pref="300" max="-2" attributes="0"/>
-                                  <Component id="fName" min="-2" pref="300" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="bCancel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="bRegister" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="lPass" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                      <Component id="fPass" min="-2" pref="300" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="211" max="32767" attributes="0"/>
+                  <EmptySpace pref="176" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -104,12 +99,7 @@
                       <Component id="lEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="fEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lUser" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="fUser" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="fPass" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lPass" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -119,7 +109,7 @@
                       <Component id="bCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bRegister" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="136" max="32767" attributes="0"/>
+                  <EmptySpace pref="177" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -142,23 +132,16 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="fPass">
-        </Component>
-        <Component class="javax.swing.JTextField" name="fUser">
-        </Component>
-        <Component class="javax.swing.JLabel" name="lUser">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Liberation Sans" size="17" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Username"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fPassActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lPass">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Liberation Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Password"/>
+            <Property name="text" type="java.lang.String" value="Kata Sandi"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lUser1">
@@ -182,7 +165,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Liberation Sans" size="17" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Phone"/>
+            <Property name="text" type="java.lang.String" value="Telp"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lName">

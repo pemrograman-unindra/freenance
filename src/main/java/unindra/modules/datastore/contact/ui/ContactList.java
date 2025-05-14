@@ -27,14 +27,13 @@ public class ContactList extends javax.swing.JFrame {
     }
 
     public void loadData() {
-        Object[] headers = {"Kode", "Nama", "Telp", "Email", "Alamat"};
+        Object[] headers = {"Nama", "Telp", "Email", "Alamat"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
         ContactService service = new ContactService();
         String search = fSearch.getText();
         List<Contact> contacts = service.find(search);
         for (Contact contact : contacts) {
             model.addRow(new Object[]{
-                contact.getCode(), 
                 contact.getName(), 
                 contact.getPhone(), 
                 contact.getEmail(), 
@@ -45,6 +44,9 @@ public class ContactList extends javax.swing.JFrame {
     }
 
     private void reset() {
+        if (callback!=null) {
+            title.setText("Pilih Kontak");
+        }
         bEdit.setVisible(false);
         bDelete.setVisible(false);
         bChoose.setVisible(false);
@@ -72,7 +74,7 @@ public class ContactList extends javax.swing.JFrame {
         bEdit = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        lUser1 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         bChoose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -136,8 +138,10 @@ public class ContactList extends javax.swing.JFrame {
             }
         });
 
-        lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Daftar Kontak");
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Daftar Kontak");
+        title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         bChoose.setText("Pilih");
         bChoose.addActionListener(new java.awt.event.ActionListener() {
@@ -152,30 +156,31 @@ public class ContactList extends javax.swing.JFrame {
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addContainerGap(57, Short.MAX_VALUE)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bSearch)
-                        .addGap(18, 18, 18)
-                        .addComponent(bCreate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bChoose))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lUser1, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(title)
+                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(background1Layout.createSequentialGroup()
+                            .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(bSearch)
+                            .addGap(18, 18, 18)
+                            .addComponent(bCreate)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bCancel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bDelete)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bEdit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bChoose))))
                 .addGap(59, 59, 59))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(lUser1)
+                .addComponent(title)
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCreate)
@@ -248,10 +253,10 @@ public class ContactList extends javax.swing.JFrame {
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
         int selectedRow = contactTable.getSelectedRow();
         if (selectedRow != -1) {
-            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure to delete?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+            ContactService service = new ContactService();
+            Contact contact = service.find("").get(selectedRow);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kontak "+contact.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                ContactService service = new ContactService();
-                Contact contact = service.find("").get(selectedRow);
                 service.delete(contact.getId());
                 loadData(); // Refresh the data after deletion
             }
@@ -324,6 +329,6 @@ public class ContactList extends javax.swing.JFrame {
     private javax.swing.JTable contactTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lUser1;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
