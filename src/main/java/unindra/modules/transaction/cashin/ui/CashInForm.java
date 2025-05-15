@@ -1,9 +1,13 @@
 package unindra.modules.transaction.cashin.ui;
 
 import unindra.modules.datastore.contact.ui.*;
+import unindra.modules.datastore.project.ui.*;
+import unindra.modules.transaction.cashin.ui.CashInList;
 
 public class CashInForm extends javax.swing.JFrame {
 
+    private CashInList cashInList;
+    
     public CashInForm() {
         initComponents();
         pack();
@@ -23,125 +27,178 @@ public class CashInForm extends javax.swing.JFrame {
         lCode = new javax.swing.JLabel();
         lName = new javax.swing.JLabel();
         lArea = new javax.swing.JLabel();
-        lCapacity = new javax.swing.JLabel();
-        lNote = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        fCode = new javax.swing.JTextField();
-        fName = new javax.swing.JTextField();
-        fArea = new javax.swing.JTextField();
-        fCapacity = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tNote = new javax.swing.JTextArea();
+        fNoRef = new javax.swing.JTextField();
+        fDitDar = new javax.swing.JTextField();
         lUser1 = new javax.swing.JLabel();
+        fDate = new com.toedter.calendar.JDateChooser();
+        lArea1 = new javax.swing.JLabel();
+        fSumDan = new javax.swing.JTextField();
+        lArea2 = new javax.swing.JLabel();
+        fMetPem = new javax.swing.JTextField();
+        lArea3 = new javax.swing.JLabel();
+        fNom = new javax.swing.JTextField();
+        lArea4 = new javax.swing.JLabel();
+        fPro = new javax.swing.JTextField();
+        lArea5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        fCat = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lCode.setBackground(new java.awt.Color(204, 255, 255));
-        lCode.setText("Code");
+        lCode.setText("Tanggal");
 
         lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("Name");
+        lName.setText("No Refrensi");
 
         lArea.setBackground(new java.awt.Color(204, 255, 255));
-        lArea.setText("Phone");
+        lArea.setText("Diterima Dari");
 
-        lCapacity.setBackground(new java.awt.Color(204, 255, 255));
-        lCapacity.setText("Email");
-
-        lNote.setBackground(new java.awt.Color(204, 255, 255));
-        lNote.setText("Address");
-
-        bSave.setText("Save");
+        bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
             }
         });
 
-        tNote.setColumns(20);
-        tNote.setRows(5);
-        jScrollPane1.setViewportView(tNote);
+        fDitDar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fDitDarMouseClicked(evt);
+            }
+        });
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Tambah Penerimaan");
+
+        lArea1.setBackground(new java.awt.Color(204, 255, 255));
+        lArea1.setText("Sumber Dana");
+
+        lArea2.setBackground(new java.awt.Color(204, 255, 255));
+        lArea2.setText("Project");
+
+        lArea3.setBackground(new java.awt.Color(204, 255, 255));
+        lArea3.setText("Nominal");
+
+        lArea4.setBackground(new java.awt.Color(204, 255, 255));
+        lArea4.setText("Metode Pembayaran");
+
+        fPro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fProMouseClicked(evt);
+            }
+        });
+
+        lArea5.setBackground(new java.awt.Color(204, 255, 255));
+        lArea5.setText("Catatan");
+
+        fCat.setColumns(20);
+        fCat.setRows(5);
+        jScrollPane1.setViewportView(fCat);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                        .addComponent(lUser1)
+                        .addGap(572, 572, 572))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane1))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(background1Layout.createSequentialGroup()
                                 .addComponent(bCancel)
                                 .addGap(18, 18, 18)
-                                .addComponent(bSave)))
-                        .addGap(31, 31, 31))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addComponent(lUser1)
-                        .addGap(301, 301, 301))))
+                                .addComponent(bSave))
+                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(background1Layout.createSequentialGroup()
+                                    .addComponent(lArea2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(fPro, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fDitDar, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fNoRef, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fSumDan, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout.createSequentialGroup()
+                                        .addComponent(lArea4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fMetPem, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout.createSequentialGroup()
+                                        .addComponent(lArea5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane1)))
+                                .addGroup(background1Layout.createSequentialGroup()
+                                    .addComponent(lArea3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(fNom, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(31, 31, 31))))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(lUser1)
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(27, 27, 27)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lCode)
-                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lName)
-                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fNoRef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lArea)
-                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fDitDar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCapacity)
-                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lArea1)
+                    .addComponent(fSumDan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lArea2)
+                    .addComponent(fPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lArea3)
+                    .addComponent(fNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lArea4)
+                    .addComponent(fMetPem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lNote)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(lArea5)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bCancel))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,6 +222,21 @@ public class CashInForm extends javax.swing.JFrame {
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
             dispose();
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void fDitDarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fDitDarMouseClicked
+    /**
+    ContactList form = new ContactList();
+    form.setVisible(true);
+    form.setLocationRelativeTo(null);
+    */
+    }//GEN-LAST:event_fDitDarMouseClicked
+
+    private void fProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fProMouseClicked
+    /**
+    ProjectList form = new ProjectList();
+    form.setVisible(true);
+    form.setLocationRelativeTo(null); */  
+    }//GEN-LAST:event_fProMouseClicked
 
     /**
      * @param args the command line arguments
@@ -208,17 +280,23 @@ public class CashInForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fArea;
-    private javax.swing.JTextField fCapacity;
-    private javax.swing.JTextField fCode;
-    private javax.swing.JTextField fName;
+    private javax.swing.JTextArea fCat;
+    private com.toedter.calendar.JDateChooser fDate;
+    private javax.swing.JTextField fDitDar;
+    private javax.swing.JTextField fMetPem;
+    private javax.swing.JTextField fNoRef;
+    private javax.swing.JTextField fNom;
+    private javax.swing.JTextField fPro;
+    private javax.swing.JTextField fSumDan;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lArea;
-    private javax.swing.JLabel lCapacity;
+    private javax.swing.JLabel lArea1;
+    private javax.swing.JLabel lArea2;
+    private javax.swing.JLabel lArea3;
+    private javax.swing.JLabel lArea4;
+    private javax.swing.JLabel lArea5;
     private javax.swing.JLabel lCode;
     private javax.swing.JLabel lName;
-    private javax.swing.JLabel lNote;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JTextArea tNote;
     // End of variables declaration//GEN-END:variables
 }
