@@ -19,7 +19,7 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import unindra.modules.datastore.coa.ui.ChartOfAccountList;
+import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
 import unindra.modules.datastore.project.ui.ProjectList;
 import unindra.modules.datastore.budget.ui.BudgetList;
@@ -480,7 +480,7 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCOAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCOAActionPerformed
-        new ChartOfAccountList().setVisible(true);
+        new CoaList().setVisible(true);
     }//GEN-LAST:event_bCOAActionPerformed
 
     private void bProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProjectActionPerformed

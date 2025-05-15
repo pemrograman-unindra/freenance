@@ -1,24 +1,24 @@
-package unindra.modules.datastore.contact.ui;
+package unindra.modules.datastore.coa.ui;
 
-import unindra.modules.datastore.contact.model.Contact;
-import unindra.modules.datastore.contact.service.ContactService;
+import unindra.modules.datastore.coa.model.Coa;
+import unindra.modules.datastore.coa.service.CoaService;
 
 import java.util.function.Consumer;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class ContactList extends javax.swing.JFrame { 
+public class CoaList extends javax.swing.JFrame { 
    
-    private Consumer<Contact> callback;
+    private Consumer<Coa> callback;
 
-    public static void openLookup(Consumer<Contact> callback) {
-        ContactList lookup = new ContactList();
+    public static void openLookup(Consumer<Coa> callback) {
+        CoaList lookup = new CoaList();
         lookup.setCallback(callback);
         lookup.setVisible(true);
     }
     
-    public ContactList() {
+    public CoaList() {
         initComponents();
         pack();
         setLocationRelativeTo(null);
@@ -26,26 +26,26 @@ public class ContactList extends javax.swing.JFrame {
         loadData();
     }
 
-    public void setCallback(Consumer<Contact> callback) {
+    public void setCallback(Consumer<Coa> callback) {
         this.callback = callback;
-        title.setText("Pilih Kontak");
+        title.setText("Pilih Kategori Keuangan");
     }
 
     public void loadData() {
-        Object[] headers = {"Nama", "Telp", "Email", "Alamat"};
+        Object[] headers = {"Kode", "Nama", "Subklasifikasi", "Klasifikasi"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
-        ContactService service = new ContactService();
+        CoaService service = new CoaService();
         String search = fSearch.getText();
-        List<Contact> contacts = service.find(search);
-        for (Contact contact : contacts) {
+        List<Coa> coas = service.find(search);
+        for (Coa coa : coas) {
             model.addRow(new Object[]{
-                contact.getName(), 
-                contact.getPhone(), 
-                contact.getEmail(), 
-                contact.getAddress()
+                coa.getCode(), 
+                coa.getName(), 
+                coa.getParentName(), 
+                coa.getCategoryName()
             });
         }
-        contactTable.setModel(model);
+        coaTable.setModel(model);
     }
 
     private void reset() {
@@ -69,7 +69,7 @@ public class ContactList extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        contactTable = new javax.swing.JTable();
+        coaTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
@@ -81,23 +81,23 @@ public class ContactList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        contactTable.setModel(new javax.swing.table.DefaultTableModel(
+        coaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Kode", "Nama", "Telp", "Email", "Alamat"
+                "Kode", "Nama", "Subklasifikasi", "Klasifikasi"
             }
         ));
-        contactTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        coaTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                contactTableMouseClicked(evt);
+                coaTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(contactTable);
+        jScrollPane1.setViewportView(coaTable);
 
         bCreate.setText("Tambah");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +142,7 @@ public class ContactList extends javax.swing.JFrame {
 
         title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setText("Daftar Kontak");
+        title.setText("Daftar Kategori Keuangan");
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         bChoose.setText("Pilih");
@@ -222,19 +222,19 @@ public class ContactList extends javax.swing.JFrame {
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
-        new ContactForm(this, null).setVisible(true);
+        new CoaForm(this, null).setVisible(true);
     }//GEN-LAST:event_bCreateActionPerformed
 
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
-        int selectedRow = contactTable.getSelectedRow();
+        int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            ContactService service = new ContactService();
-            Contact contact = service.find("").get(selectedRow);
-            new ContactForm(this, contact).setVisible(true);
+            CoaService service = new CoaService();
+            Coa coa = service.find("").get(selectedRow);
+            new CoaForm(this, coa).setVisible(true);
         }
     }//GEN-LAST:event_bEditActionPerformed
 
-    private void contactTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactTableMouseClicked
+    private void coaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coaTableMouseClicked
         if (callback!=null) {
             bChoose.setVisible(true);
         }
@@ -244,7 +244,7 @@ public class ContactList extends javax.swing.JFrame {
         fSearch.setVisible(false);
         bSearch.setVisible(false);
         bCreate.setVisible(false);
-    }//GEN-LAST:event_contactTableMouseClicked
+    }//GEN-LAST:event_coaTableMouseClicked
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
         fSearch.setText("");
@@ -253,22 +253,22 @@ public class ContactList extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        int selectedRow = contactTable.getSelectedRow();
+        int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            ContactService service = new ContactService();
-            Contact contact = service.find("").get(selectedRow);
-            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kontak "+contact.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            CoaService service = new CoaService();
+            Coa coa = service.find("").get(selectedRow);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+coa.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                service.delete(contact.getId());
+                service.delete(coa.getId());
                 loadData(); // Refresh the data after deletion
             }
         }
     }//GEN-LAST:event_bDeleteActionPerformed
 
     private void bChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChooseActionPerformed
-        int selectedRow = contactTable.getSelectedRow();
+        int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            ContactService service = new ContactService();
+            CoaService service = new CoaService();
             callback.accept(service.find("").get(selectedRow));
             dispose();
         }
@@ -301,21 +301,23 @@ public class ContactList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ContactList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CoaList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ContactList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CoaList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ContactList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CoaList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ContactList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CoaList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ContactList().setVisible(true);
+                new CoaList().setVisible(true);
             }
         });
     }
@@ -328,7 +330,7 @@ public class ContactList extends javax.swing.JFrame {
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
-    private javax.swing.JTable contactTable;
+    private javax.swing.JTable coaTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;

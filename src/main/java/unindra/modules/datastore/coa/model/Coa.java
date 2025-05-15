@@ -13,6 +13,7 @@ public class Coa {
     private int parent_id;
     private String parent_name;
     private int category_id;
+    private String category_name;
     private int code;
     private String name;
     private boolean is_cash;
@@ -30,10 +31,13 @@ public class Coa {
     public void setParentId(int parent) {
         this.parent_id = parent;
     }
+    public String getParentName() {
+        return parent_name;
+    }
     public void setParentName(String parent) {
         this.parent_name = parent;
     }
-
+    
     public int getCategoryId() {
         return category_id;
     }
