@@ -44,7 +44,7 @@ public class CashInList extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        roomTable = new javax.swing.JTable();
+        trxTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
@@ -55,25 +55,25 @@ public class CashInList extends javax.swing.JFrame {
         bCancel = new javax.swing.JButton();
         lUser1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        roomTable.setModel(new javax.swing.table.DefaultTableModel(
+        trxTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Code", "Name"
+                "ID", "Parent ID", "Tanggal", "Project", "Contact", "Metode Pembayaran", "Diterima Dari", "Sumber Dana", "Nominal", "Catatan"
             }
         ));
-        roomTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        trxTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                roomTableMouseClicked(evt);
+                trxTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(roomTable);
+        jScrollPane1.setViewportView(trxTable);
 
         bCreate.setText("Create");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +190,10 @@ public class CashInList extends javax.swing.JFrame {
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
-        reset();
+    //new CashInForm(this, null).setVisible(true);
+    CashInForm form = new CashInForm();
+    form.setVisible(true);
+    form.setLocationRelativeTo(null); 
     }//GEN-LAST:event_bCreateActionPerformed
 
     private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
@@ -201,14 +204,14 @@ public class CashInList extends javax.swing.JFrame {
         reset();
     }//GEN-LAST:event_bEditActionPerformed
 
-    private void roomTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomTableMouseClicked
+    private void trxTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trxTableMouseClicked
         bEdit.setVisible(true);
         bDelete.setVisible(true);
         bCancel.setVisible(true);
         fSearch.setVisible(false);
         bSearch.setVisible(false);
         bCreate.setVisible(false);
-    }//GEN-LAST:event_roomTableMouseClicked
+    }//GEN-LAST:event_trxTableMouseClicked
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
         reset();
@@ -267,7 +270,7 @@ public class CashInList extends javax.swing.JFrame {
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JTable roomTable;
     private javax.swing.JLabel title;
+    private javax.swing.JTable trxTable;
     // End of variables declaration//GEN-END:variables
 }
