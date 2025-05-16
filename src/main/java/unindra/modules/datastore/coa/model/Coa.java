@@ -16,6 +16,7 @@ public class Coa {
     private String category_name;
     private int code;
     private String name;
+    private String note;
     private boolean is_cash;
 
     public int getId() {
@@ -46,9 +47,9 @@ public class Coa {
     }
     public String getCategoryName() {
         switch (this.category_id) {
-            case 1: return "Aset";
-            case 2: return "Kewajiban";
-            case 3: return "Aset Bersih";
+            case 1: return "Harta";
+            case 2: return "Utang";
+            case 3: return "Kekayaan Bersih";
             case 4: return "Penerimaan";
             case 5: return "Pengeluaran";
         }
@@ -67,6 +68,13 @@ public class Coa {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNote() {
+        return note;
+    }
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public boolean getIsCash() {

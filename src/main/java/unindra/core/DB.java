@@ -20,8 +20,7 @@ public class DB {
 
 	private static void openConnection() throws SQLException {
 		try {
-			String dbName = Config.get("DB_NAME", "freenance.db");
-			conn = DriverManager.getConnection("jdbc:sqlite:"+dbName);
+			conn = DriverManager.getConnection("jdbc:sqlite:"+Config.get("DB_NAME"));
 		} catch (SQLException e) {
 			throw new RuntimeException("Failed to connect to database: " + e.getMessage(), e);
 		}

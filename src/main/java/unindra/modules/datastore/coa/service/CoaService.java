@@ -13,11 +13,12 @@ public class CoaService {
 	public static void create(Coa coa) {
 		try {
 			DB.exec(
-				"INSERT INTO chart_of_accounts (parent_id, category_id, code, name, is_cash) VALUES (?, ?, ?, ?, ?)",
+				"INSERT INTO chart_of_accounts (parent_id, category_id, code, name, note, is_cash) VALUES (?, ?, ?, ?, ?, ?)",
 				coa.getParentId(),
 				coa.getCategoryId(),
 				coa.getCode(),
 				coa.getName(),
+				coa.getNote(),
 				coa.getIsCash()
 			);
 		} catch (SQLException e) {
@@ -37,9 +38,21 @@ public class CoaService {
 		throw new RuntimeException("Parent is not found");
 	}
 
-	public static List<Coa> find(String keyword) {
+	public static List<Coa> find(String keyword, String type, int categoryId) {
 		List<Coa> chartOfAccounts = new ArrayList<>();
-		try (ResultSet rs = DB.query("SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.name like ? order by coa.code", "%"+ keyword +"%")) {
+		String sql = "SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.name like ?";
+		if (type.equals("cash")) {
+			sql += " and coa.is_cash = true";
+		} else if (type.equals("parent")) {
+			sql += " and exists (select 1 from chart_of_accounts child where child.parent_id = coa.id)";
+		} else if (type.equals("child")) {
+			sql += " and not exists (select 1 from chart_of_accounts child where child.parent_id = coa.id)";
+		}
+		if (categoryId>0) {
+			sql += " and coa.category_id = "+String.valueOf(categoryId);
+		}
+		sql += " order by coa.code";
+		try (ResultSet rs = DB.query(sql, "%"+ keyword +"%")) {
 			while (rs.next()) {
 				Coa coa = new Coa();
 				coa.setId(rs.getInt("id"));
@@ -48,6 +61,7 @@ public class CoaService {
 				coa.setCategoryId(rs.getInt("category_id"));
 				coa.setCode(rs.getInt("code"));
 				coa.setName(rs.getString("name"));
+				coa.setNote(rs.getString("note"));
 				coa.setIsCash(rs.getBoolean("is_cash"));
 				chartOfAccounts.add(coa);
 			}
@@ -60,11 +74,12 @@ public class CoaService {
 	public static void update(Coa coa) {
 		try {
 			DB.exec(
-				"UPDATE chart_of_accounts SET parent_id = ?, category_id = ?, code = ?, name = ?, is_cash = ? WHERE id = ?",
+				"UPDATE chart_of_accounts SET parent_id = ?, category_id = ?, code = ?, name = ?, note = ?, is_cash = ? WHERE id = ?",
 				coa.getParentId(),
 				coa.getCategoryId(),
 				coa.getCode(),
 				coa.getName(),
+				coa.getNote(),
 				coa.getIsCash(),
 				coa.getId()
 			);

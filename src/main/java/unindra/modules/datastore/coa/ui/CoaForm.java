@@ -9,7 +9,7 @@ public class CoaForm extends javax.swing.JFrame {
 
     private Coa selectedCoa;
     
-    private int categoryId;
+    private int categoryId = 0;
 
     private int parentId;
 
@@ -22,11 +22,16 @@ public class CoaForm extends javax.swing.JFrame {
         if (coa != null) {
             title.setText("Edit Data Kategori Keuangan");
             selectedCoa = coa;
-            fCode.setText(coa.getName());
+            fCode.setText(String.valueOf(coa.getCode()));
             fName.setText(coa.getName());
-            fParent.setText(coa.getName());
+            fNote.setText(coa.getNote());
+            fParent.setText(coa.getParentName());
+            fClass.setSelectedIndex(coa.getCategoryId());
             if (coa.getCategoryId()==1) {
                 fIsCash.setVisible(true);
+                fIsCash.setSelected(coa.getIsCash());
+            } else {
+                fIsCash.setSelected(false);
             }
         }
     }
@@ -48,14 +53,22 @@ public class CoaForm extends javax.swing.JFrame {
                 fCode.setText(String.valueOf(CoaService.nextCodeByParentId(parentId)));
                 fName.requestFocus(true);
             }
-        });
+        }, "parent", categoryId);
     }
 
     private void save() {
         Coa data = new Coa();
-        data.setName(fCode.getText());
+        try {
+            int code = Integer.parseInt(fCode.getText());
+            data.setCode(code);
+        } catch (NumberFormatException e) {
+            System.out.println("Kode harus berupa angka.");
+        }
         data.setName(fName.getText());
+        data.setNote(fNote.getText());
         data.setParentId(parentId);
+        data.setCategoryId(fClass.getSelectedIndex());
+        data.setIsCash(fIsCash.isSelected());
 
         if (selectedCoa == null) {
             CoaService.create(data);
@@ -88,6 +101,8 @@ public class CoaForm extends javax.swing.JFrame {
         lClass = new javax.swing.JLabel();
         fClass = new javax.swing.JComboBox<>();
         fIsCash = new javax.swing.JCheckBox();
+        lNote = new javax.swing.JLabel();
+        fNote = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -142,6 +157,9 @@ public class CoaForm extends javax.swing.JFrame {
 
         fIsCash.setText("Uang Tunai / Bank");
 
+        lNote.setBackground(new java.awt.Color(204, 255, 255));
+        lNote.setText("Catatan");
+
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
@@ -149,31 +167,36 @@ public class CoaForm extends javax.swing.JFrame {
             .addGroup(background1Layout.createSequentialGroup()
                 .addContainerGap(47, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addComponent(lParent, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(fParent, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(fIsCash)
-                                .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addComponent(lClass, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(title)
-                                .addComponent(fClass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(background1Layout.createSequentialGroup()
                         .addComponent(bCancel)
                         .addGap(18, 18, 18)
-                        .addComponent(bSave)))
+                        .addComponent(bSave))
+                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lParent, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fParent, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lClass, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(title)
+                                    .addComponent(fClass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(background1Layout.createSequentialGroup()
+                            .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(fIsCash)
+                                .addComponent(fNote, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(31, 31, 31))
         );
         background1Layout.setVerticalGroup(
@@ -198,8 +221,12 @@ public class CoaForm extends javax.swing.JFrame {
                     .addComponent(lName)
                     .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lNote)
+                    .addComponent(fNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(fIsCash)
-                .addGap(102, 102, 102)
+                .addGap(55, 55, 55)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bCancel))
@@ -286,10 +313,12 @@ public class CoaForm extends javax.swing.JFrame {
     private javax.swing.JTextField fCode;
     private javax.swing.JCheckBox fIsCash;
     private javax.swing.JTextField fName;
+    private javax.swing.JTextField fNote;
     private javax.swing.JTextField fParent;
     private javax.swing.JLabel lClass;
     private javax.swing.JLabel lCode;
     private javax.swing.JLabel lName;
+    private javax.swing.JLabel lNote;
     private javax.swing.JLabel lParent;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables

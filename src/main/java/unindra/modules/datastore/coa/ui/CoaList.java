@@ -11,10 +11,17 @@ import javax.swing.table.DefaultTableModel;
 public class CoaList extends javax.swing.JFrame { 
    
     private Consumer<Coa> callback;
+    
+    private String coaType = "all";
+    
+    private int categoryId = 0;
 
-    public static void openLookup(Consumer<Coa> callback) {
+    public static void openLookup(Consumer<Coa> callback, String coaType, int categoryId) {
         CoaList lookup = new CoaList();
         lookup.setCallback(callback);
+        lookup.setCoaType(coaType);
+        lookup.setCategoryId(categoryId);
+        lookup.loadData();
         lookup.setVisible(true);
     }
     
@@ -31,16 +38,25 @@ public class CoaList extends javax.swing.JFrame {
         title.setText("Pilih Kategori Keuangan");
     }
 
+    public void setCoaType(String coaType) {
+        this.coaType = coaType;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+    
     public void loadData() {
-        Object[] headers = {"Kode", "Nama", "Subklasifikasi", "Klasifikasi"};
+        Object[] headers = {"Kode", "Nama", "Subklasifikasi", "Klasifikasi", "Catatan"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
-        List<Coa> coas = CoaService.find(fSearch.getText());
+        List<Coa> coas = CoaService.find(fSearch.getText(), coaType, categoryId);
         for (Coa coa : coas) {
             model.addRow(new Object[]{
                 coa.getCode(), 
-                coa.getName(), 
+                coa.getName(),
                 coa.getParentName(), 
-                coa.getCategoryName()
+                coa.getCategoryName(),
+                coa.getNote()
             });
         }
         coaTable.setModel(model);
@@ -75,7 +91,7 @@ public class CoaList extends javax.swing.JFrame {
         if (callback!=null) {
             int selectedRow = coaTable.getSelectedRow();
             if (selectedRow != -1) {
-                callback.accept(CoaService.find("").get(selectedRow));
+                callback.accept(CoaService.find("", "all", 0).get(selectedRow));
                 dispose();
             }
         } else {            
@@ -95,7 +111,7 @@ public class CoaList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            Coa coa = CoaService.find("").get(selectedRow);
+            Coa coa = CoaService.find("", "all", 0).get(selectedRow);
             new CoaForm(this, coa).setVisible(true);
         }
     }
@@ -103,7 +119,7 @@ public class CoaList extends javax.swing.JFrame {
     private void delete() {
         int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            Coa coa = CoaService.find("").get(selectedRow);
+            Coa coa = CoaService.find("", "all", 0).get(selectedRow);
             int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+coa.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 CoaService.delete(coa.getId());
@@ -136,13 +152,13 @@ public class CoaList extends javax.swing.JFrame {
 
         coaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Kode", "Nama", "Subklasifikasi", "Klasifikasi"
+                "Kode", "Nama", "Subklasifikasi", "Klasifikasi", "Catatan"
             }
         ));
         coaTable.addMouseListener(new java.awt.event.MouseAdapter() {

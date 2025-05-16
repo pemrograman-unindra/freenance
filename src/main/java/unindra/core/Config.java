@@ -19,8 +19,7 @@ public class Config {
 			}
 		} catch (Exception ignore) {}
 
-		DEFAULTS.put("DB_NAME", "app.db");
-		DEFAULTS.put("APP_PORT", "8080");
+		DEFAULTS.put("DB_NAME", "freenance.db");
 	}
 
 	public static String get(String key) {
