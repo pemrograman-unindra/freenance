@@ -1,14 +1,38 @@
 package unindra.modules.datastore.project.ui;
 
-import unindra.modules.datastore.contact.model.Contact;
-import unindra.modules.datastore.contact.ui.ContactList;
+import unindra.modules.datastore.project.service.ProjectService;
+import unindra.modules.datastore.project.model.Project;
 
 public class ProjectForm extends javax.swing.JFrame {
 
-    public ProjectForm() {
+    private ProjectList list;
+
+    private Project selectedData;
+
+    public ProjectForm(ProjectList list, Project data) {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        this.list = list;
+        if (data != null) {
+            title.setText("Edit Data Proyek");
+            selectedData = data;
+            fName.setText(data.getName());
+        }
+    }
+
+    private void save() {
+        Project data = new Project();
+        data.setName(fName.getText());
+
+        if (selectedData == null) {
+            ProjectService.create(data);
+        } else {
+            data.setId(selectedData.getId());
+            ProjectService.update(data);
+        }
+        list.loadData();
+        dispose();
     }
 
     /**
@@ -21,66 +45,53 @@ public class ProjectForm extends javax.swing.JFrame {
     private void initComponents() {
 
         background1 = new unindra.core.Background();
-        lCode = new javax.swing.JLabel();
         lName = new javax.swing.JLabel();
-        lArea = new javax.swing.JLabel();
-        lCustomer = new javax.swing.JLabel();
-        lNote = new javax.swing.JLabel();
+        lPhone = new javax.swing.JLabel();
+        lEmail = new javax.swing.JLabel();
+        lAddress = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        fCode = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
-        fArea = new javax.swing.JTextField();
-        fCustomer = new javax.swing.JTextField();
+        fPhone = new javax.swing.JTextField();
+        fEmail = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tNote = new javax.swing.JTextArea();
-        lUser1 = new javax.swing.JLabel();
+        tAddress = new javax.swing.JTextArea();
+        title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lCode.setBackground(new java.awt.Color(204, 255, 255));
-        lCode.setText("Code");
-
         lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("Name");
+        lName.setText("Nama");
 
-        lArea.setBackground(new java.awt.Color(204, 255, 255));
-        lArea.setText("Phone");
+        lPhone.setBackground(new java.awt.Color(204, 255, 255));
+        lPhone.setText("Telp");
 
-        lCustomer.setBackground(new java.awt.Color(204, 255, 255));
-        lCustomer.setText("Customer");
+        lEmail.setBackground(new java.awt.Color(204, 255, 255));
+        lEmail.setText("Email");
 
-        lNote.setBackground(new java.awt.Color(204, 255, 255));
-        lNote.setText("Address");
+        lAddress.setBackground(new java.awt.Color(204, 255, 255));
+        lAddress.setText("Alamat");
 
-        bSave.setText("Save");
+        bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
             }
         });
 
-        fCustomer.setEditable(false);
-        fCustomer.setText("Choose Customer...");
-        fCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                fCustomerMouseClicked(evt);
-            }
-        });
+        tAddress.setColumns(20);
+        tAddress.setRows(5);
+        jScrollPane1.setViewportView(tAddress);
 
-        tNote.setColumns(20);
-        tNote.setRows(5);
-        jScrollPane1.setViewportView(tNote);
-
-        lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Tambah Data Proyek");
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        title.setText("Tambah Data Proyek");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
@@ -93,64 +104,56 @@ public class ProjectForm extends javax.swing.JFrame {
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(jScrollPane1))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
                                     .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(background1Layout.createSequentialGroup()
                                 .addComponent(bCancel)
                                 .addGap(18, 18, 18)
                                 .addComponent(bSave)))
                         .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addComponent(lUser1)
+                        .addComponent(title)
                         .addGap(301, 301, 301))))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(lUser1)
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCode)
-                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addComponent(title)
+                .addGap(57, 57, 57)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lName)
                     .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lArea)
-                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lPhone)
+                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCustomer)
-                    .addComponent(fCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lEmail)
+                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lNote)
+                    .addComponent(lAddress)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bCancel))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,16 +175,8 @@ public class ProjectForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-            dispose();
+        save();
     }//GEN-LAST:event_bSaveActionPerformed
-
-    private void fCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fCustomerMouseClicked
-        ContactList.openLookup(contact -> {
-            if (contact != null) {
-                fCustomer.setText(contact.getName());
-            }
-        });
-    }//GEN-LAST:event_fCustomerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -212,11 +207,11 @@ public class ProjectForm extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+            
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProjectForm().setVisible(true);
+                new ProjectForm(null, null).setVisible(true);
             }
         });
     }
@@ -225,17 +220,15 @@ public class ProjectForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fArea;
-    private javax.swing.JTextField fCode;
-    private javax.swing.JTextField fCustomer;
+    private javax.swing.JTextField fEmail;
     private javax.swing.JTextField fName;
+    private javax.swing.JTextField fPhone;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lArea;
-    private javax.swing.JLabel lCode;
-    private javax.swing.JLabel lCustomer;
+    private javax.swing.JLabel lAddress;
+    private javax.swing.JLabel lEmail;
     private javax.swing.JLabel lName;
-    private javax.swing.JLabel lNote;
-    private javax.swing.JLabel lUser1;
-    private javax.swing.JTextArea tNote;
+    private javax.swing.JLabel lPhone;
+    private javax.swing.JTextArea tAddress;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
