@@ -5,22 +5,22 @@ import unindra.modules.datastore.contact.model.Contact;
 
 public class ContactForm extends javax.swing.JFrame {
 
-    private ContactList contactList;
+    private ContactList list;
 
-    private Contact selectedContact;
+    private Contact selectedData;
 
-    public ContactForm(ContactList contactList, Contact contact) {
+    public ContactForm(ContactList list, Contact data) {
         initComponents();
         pack();
         setLocationRelativeTo(null);
-        this.contactList = contactList;
-        if (contact != null) {
+        this.list = list;
+        if (data != null) {
             title.setText("Edit Data Kontak");
-            selectedContact = contact;
-            fName.setText(contact.getName());
-            fPhone.setText(contact.getPhone());
-            fEmail.setText(contact.getEmail());
-            tAddress.setText(contact.getAddress());
+            selectedData = data;
+            fName.setText(data.getName());
+            fPhone.setText(data.getPhone());
+            fEmail.setText(data.getEmail());
+            tAddress.setText(data.getAddress());
         }
     }
 
@@ -31,13 +31,13 @@ public class ContactForm extends javax.swing.JFrame {
         data.setEmail(fEmail.getText());
         data.setAddress(tAddress.getText());
 
-        if (selectedContact == null) {
+        if (selectedData == null) {
             ContactService.create(data);
         } else {
-            data.setId(selectedContact.getId());
+            data.setId(selectedData.getId());
             ContactService.update(data);
         }
-        contactList.loadData();
+        list.loadData();
         dispose();
     }
 

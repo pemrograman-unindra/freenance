@@ -1,13 +1,75 @@
 package unindra.modules.datastore.budget.ui;
 
-import unindra.modules.datastore.contact.ui.*;
+import java.util.Date;
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+
+import unindra.modules.datastore.budget.service.BudgetService;
+import unindra.modules.datastore.budget.model.Budget;
+import unindra.modules.datastore.coa.ui.CoaList;
 
 public class BudgetForm extends javax.swing.JFrame {
 
-    public BudgetForm() {
+    private BudgetList list;
+
+    private Budget selectedData;
+    
+    private Integer coaId;
+
+    public BudgetForm(BudgetList list, Budget data) {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        this.list = list;
+        if (data != null) {
+            title.setText("Edit Data Anggaran");
+            selectedData = data;
+            coaId = data.getCoaId();
+            fCoaName.setText(data.getCoaName());
+            fPeriodStart.setDate(Date.from(data.getPeriodStart().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fPeriodEnd.setDate(Date.from(data.getPeriodEnd().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fAmount.setText(data.getAmount().toPlainString());
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            fPeriodStart.setDate(cal.getTime());
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+            fPeriodEnd.setDate(cal.getTime());
+        }
+    }
+
+    private void lookupCoa() {
+        CoaList.openLookup(coa -> {
+            if (coa != null) {
+                coaId = coa.getId();
+                fCoaName.setText(coa.getName());
+                fPeriodStart.requestFocus(true);
+            }
+        }, "child", 0);
+    }
+    
+    private void save() {
+        Budget data = new Budget();
+        data.setCoaId(coaId);
+        data.setPeriodStart(fPeriodStart.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        data.setPeriodEnd(fPeriodEnd.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        try {
+            BigDecimal amount = new BigDecimal(fAmount.getText());
+            data.setAmount(amount);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Nilai anggaran harus berupa angka.");
+        }
+
+        if (selectedData == null) {
+            BudgetService.create(data);
+        } else {
+            data.setId(selectedData.getId());
+            BudgetService.update(data);
+        }
+        list.loadData();
+        dispose();
     }
 
     /**
@@ -20,164 +82,127 @@ public class BudgetForm extends javax.swing.JFrame {
     private void initComponents() {
 
         background1 = new unindra.core.Background();
-        lCode = new javax.swing.JLabel();
-        lName = new javax.swing.JLabel();
-        lArea = new javax.swing.JLabel();
-        lCapacity = new javax.swing.JLabel();
-        lNote = new javax.swing.JLabel();
+        lCoaName = new javax.swing.JLabel();
+        lPeriodStart = new javax.swing.JLabel();
+        lPeriodEnd = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        fCode = new javax.swing.JTextField();
-        fName = new javax.swing.JTextField();
-        lUser1 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        lNote1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        lNote2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        fCoaName = new javax.swing.JTextField();
+        title = new javax.swing.JLabel();
+        fPeriodStart = new com.toedter.calendar.JDateChooser();
+        lAmount = new javax.swing.JLabel();
+        fAmount = new javax.swing.JTextField();
+        fPeriodEnd = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lCode.setBackground(new java.awt.Color(204, 255, 255));
-        lCode.setText("ID");
+        lCoaName.setBackground(new java.awt.Color(204, 255, 255));
+        lCoaName.setText("Kategori Keuangan");
 
-        lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("COA ID");
+        lPeriodStart.setBackground(new java.awt.Color(204, 255, 255));
+        lPeriodStart.setText("Awal Periode");
 
-        lArea.setBackground(new java.awt.Color(204, 255, 255));
-        lArea.setText("PERIOD START");
+        lPeriodEnd.setBackground(new java.awt.Color(204, 255, 255));
+        lPeriodEnd.setText("Akhir Periode");
 
-        lCapacity.setBackground(new java.awt.Color(204, 255, 255));
-        lCapacity.setText("PERIOD END");
-
-        lNote.setBackground(new java.awt.Color(204, 255, 255));
-        lNote.setText("AMOUNT");
-
-        bSave.setText("Save");
+        bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
             }
         });
 
-        fCode.setEditable(false);
-        fCode.addActionListener(new java.awt.event.ActionListener() {
+        fCoaName.setEditable(false);
+        fCoaName.setText("Pilih kategori keuangan...");
+        fCoaName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fCoaNameMouseClicked(evt);
+            }
+        });
+        fCoaName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fCodeActionPerformed(evt);
+                fCoaNameActionPerformed(evt);
             }
         });
 
-        lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Tambah Anggaran");
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        title.setText("Tambah Data Anggaran");
 
-        lNote1.setBackground(new java.awt.Color(204, 255, 255));
-        lNote1.setText("DIBUAT PADA TANGGAL");
+        lAmount.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount.setText("Nilai Anggaran");
 
-        jTextField1.setEditable(false);
-
-        lNote2.setBackground(new java.awt.Color(204, 255, 255));
-        lNote2.setText("DIPERBAHARUI PADA TANGGAL");
-
-        jTextField2.setEditable(false);
+        fAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        fAmount.setText("0");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(47, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lUser1)
-                        .addGap(301, 301, 301))
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(background1Layout.createSequentialGroup()
-                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                            .addComponent(lNote1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                            .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jTextField3))
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                            .addComponent(lNote2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jTextField2))
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(18, 18, 18)
-                                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(fCode)
-                                                .addComponent(fName))))
-                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout.createSequentialGroup()
-                                            .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(bCancel)
-                                .addGap(43, 43, 43)))
-                        .addComponent(bSave)
-                        .addGap(50, 50, 50))))
+                                .addGap(18, 18, 18)
+                                .addComponent(bSave))
+                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(background1Layout.createSequentialGroup()
+                                    .addComponent(lAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lPeriodEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fPeriodEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lPeriodStart, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fPeriodStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                        .addComponent(title)
+                        .addGap(301, 301, 301))))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(lUser1)
-                .addGap(18, 18, 18)
+                .addComponent(title)
+                .addGap(57, 57, 57)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCode)
-                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lCoaName)
+                    .addComponent(fCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lName)
-                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lArea)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lPeriodStart)
+                    .addComponent(fPeriodStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lCapacity)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lNote)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lPeriodEnd)
+                    .addComponent(fPeriodEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lNote1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lAmount))
+                .addGap(136, 136, 136)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lNote2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bCancel)
-                    .addComponent(bSave))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(bSave)
+                    .addComponent(bCancel))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -199,12 +224,16 @@ public class BudgetForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-            dispose();
+        save();
     }//GEN-LAST:event_bSaveActionPerformed
 
-    private void fCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fCodeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fCodeActionPerformed
+    private void fCoaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fCoaNameActionPerformed
+        lookupCoa();
+    }//GEN-LAST:event_fCoaNameActionPerformed
+
+    private void fCoaNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fCoaNameMouseClicked
+        lookupCoa();
+    }//GEN-LAST:event_fCoaNameMouseClicked
 
     /**
      * @param args the command line arguments
@@ -235,11 +264,11 @@ public class BudgetForm extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+            
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BudgetForm().setVisible(true);
+                new BudgetForm(null, null).setVisible(true);
             }
         });
     }
@@ -248,20 +277,14 @@ public class BudgetForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fCode;
-    private javax.swing.JTextField fName;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JLabel lArea;
-    private javax.swing.JLabel lCapacity;
-    private javax.swing.JLabel lCode;
-    private javax.swing.JLabel lName;
-    private javax.swing.JLabel lNote;
-    private javax.swing.JLabel lNote1;
-    private javax.swing.JLabel lNote2;
-    private javax.swing.JLabel lUser1;
+    private javax.swing.JTextField fAmount;
+    private javax.swing.JTextField fCoaName;
+    private com.toedter.calendar.JDateChooser fPeriodEnd;
+    private com.toedter.calendar.JDateChooser fPeriodStart;
+    private javax.swing.JLabel lAmount;
+    private javax.swing.JLabel lCoaName;
+    private javax.swing.JLabel lPeriodEnd;
+    private javax.swing.JLabel lPeriodStart;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

@@ -34,16 +34,16 @@ public class ContactList extends javax.swing.JFrame {
     public void loadData() {
         Object[] headers = {"Nama", "Telp", "Email", "Alamat"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
-        List<Contact> contacts = ContactService.find(fSearch.getText());
-        for (Contact contact : contacts) {
+        List<Contact> list = ContactService.find(fSearch.getText());
+        for (Contact data : list) {
             model.addRow(new Object[]{
-                contact.getName(), 
-                contact.getPhone(), 
-                contact.getEmail(), 
-                contact.getAddress()
+                data.getName(), 
+                data.getPhone(), 
+                data.getEmail(), 
+                data.getAddress()
             });
         }
-        contactTable.setModel(model);
+        dataTable.setModel(model);
     }
 
     private void search() {
@@ -73,7 +73,7 @@ public class ContactList extends javax.swing.JFrame {
 
     private void choose() {
         if (callback!=null) {
-            int selectedRow = contactTable.getSelectedRow();
+            int selectedRow = dataTable.getSelectedRow();
             if (selectedRow != -1) {
                 callback.accept(ContactService.find("").get(selectedRow));
                 dispose();
@@ -93,20 +93,20 @@ public class ContactList extends javax.swing.JFrame {
     }
 
     private void edit() {
-        int selectedRow = contactTable.getSelectedRow();
+        int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Contact contact = ContactService.find("").get(selectedRow);
-            new ContactForm(this, contact).setVisible(true);
+            Contact data = ContactService.find("").get(selectedRow);
+            new ContactForm(this, data).setVisible(true);
         }
     }
 
     private void delete() {
-        int selectedRow = contactTable.getSelectedRow();
+        int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Contact contact = ContactService.find("").get(selectedRow);
-            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kontak "+contact.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            Contact data = ContactService.find("").get(selectedRow);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kontak "+data.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                ContactService.delete(contact.getId());
+                ContactService.delete(data.getId());
                 loadData(); // Refresh the data after deletion
             }
         }
@@ -123,7 +123,7 @@ public class ContactList extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        contactTable = new javax.swing.JTable();
+        dataTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
@@ -134,7 +134,7 @@ public class ContactList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        contactTable.setModel(new javax.swing.table.DefaultTableModel(
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -145,12 +145,12 @@ public class ContactList extends javax.swing.JFrame {
                 "Kode", "Nama", "Telp", "Email", "Alamat"
             }
         ));
-        contactTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                contactTableMouseClicked(evt);
+                dataTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(contactTable);
+        jScrollPane1.setViewportView(dataTable);
 
         bCreate.setText("Tambah");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -266,9 +266,9 @@ public class ContactList extends javax.swing.JFrame {
         edit();
     }//GEN-LAST:event_bEditActionPerformed
 
-    private void contactTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactTableMouseClicked
+    private void dataTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataTableMouseClicked
         choose();
-    }//GEN-LAST:event_contactTableMouseClicked
+    }//GEN-LAST:event_dataTableMouseClicked
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
         cancel();
@@ -325,7 +325,7 @@ public class ContactList extends javax.swing.JFrame {
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
-    private javax.swing.JTable contactTable;
+    private javax.swing.JTable dataTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;

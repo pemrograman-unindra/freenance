@@ -10,14 +10,13 @@ import java.util.List;
 
 public class ContactService {
 
-	public static void create(Contact contact) {
+	public static void create(Contact data) {
 		try {
-			DB.exec(
-				"INSERT INTO contacts (name, phone, email, address) VALUES (?, ?, ?, ?)",
-				contact.getName(),
-				contact.getPhone(),
-				contact.getEmail(),
-				contact.getAddress()
+			DB.exec("INSERT INTO contacts (name, phone, email, address) VALUES (?, ?, ?, ?)",
+				data.getName(),
+				data.getPhone(),
+				data.getEmail(),
+				data.getAddress()
 			);
 		} catch (SQLException e) {
 			throw new RuntimeException("Create contact failed: " + e.getMessage(), e);
@@ -25,33 +24,32 @@ public class ContactService {
 	}
 
 	public static List<Contact> find(String keyword) {
-		List<Contact> contacts = new ArrayList<>();
+		List<Contact> list = new ArrayList<>();
                 String text = "%"+ keyword +"%";
 		try (ResultSet rs = DB.query("SELECT * FROM contacts WHERE name like ? or phone like ? or email like ?", text, text, text)) {
 			while (rs.next()) {
-				Contact contact = new Contact();
-				contact.setId(rs.getInt("id"));
-				contact.setName(rs.getString("name"));
-				contact.setPhone(rs.getString("phone"));
-				contact.setEmail(rs.getString("email"));
-				contact.setAddress(rs.getString("address"));
-				contacts.add(contact);
+				Contact data = new Contact();
+				data.setId(rs.getInt("id"));
+				data.setName(rs.getString("name"));
+				data.setPhone(rs.getString("phone"));
+				data.setEmail(rs.getString("email"));
+				data.setAddress(rs.getString("address"));
+				list.add(data);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("Get contact failed: " + e.getMessage(), e);
 		}
-		return contacts;
+		return list;
 	}
 
-	public static void update(Contact contact) {
+	public static void update(Contact data) {
 		try {
-			DB.exec(
-				"UPDATE contacts SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
-				contact.getName(),
-				contact.getPhone(),
-				contact.getEmail(),
-				contact.getAddress(),
-				contact.getId()
+			DB.exec("UPDATE contacts SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
+				data.getName(),
+				data.getPhone(),
+				data.getEmail(),
+				data.getAddress(),
+				data.getId()
 			);
 		} catch (SQLException e) {
 			throw new RuntimeException("Update contact failed: " + e.getMessage(), e);

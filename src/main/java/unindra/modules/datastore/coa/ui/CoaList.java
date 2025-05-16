@@ -49,14 +49,14 @@ public class CoaList extends javax.swing.JFrame {
     public void loadData() {
         Object[] headers = {"Kode", "Nama", "Subklasifikasi", "Klasifikasi", "Catatan"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
-        List<Coa> coas = CoaService.find(fSearch.getText(), coaType, categoryId);
-        for (Coa coa : coas) {
+        List<Coa> list = CoaService.find(fSearch.getText(), coaType, categoryId);
+        for (Coa data : list) {
             model.addRow(new Object[]{
-                coa.getCode(), 
-                coa.getName(),
-                coa.getParentName(), 
-                coa.getCategoryName(),
-                coa.getNote()
+                data.getCode(), 
+                data.getName(),
+                data.getParentName(), 
+                data.getCategoryName(),
+                data.getNote()
             });
         }
         coaTable.setModel(model);
@@ -111,18 +111,18 @@ public class CoaList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            Coa coa = CoaService.find("", "all", 0).get(selectedRow);
-            new CoaForm(this, coa).setVisible(true);
+            Coa data = CoaService.find("", "all", 0).get(selectedRow);
+            new CoaForm(this, data).setVisible(true);
         }
     }
 
     private void delete() {
         int selectedRow = coaTable.getSelectedRow();
         if (selectedRow != -1) {
-            Coa coa = CoaService.find("", "all", 0).get(selectedRow);
-            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+coa.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            Coa data = CoaService.find("", "all", 0).get(selectedRow);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+data.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                CoaService.delete(coa.getId());
+                CoaService.delete(data.getId());
                 loadData(); // Refresh the data after deletion
             }
         }

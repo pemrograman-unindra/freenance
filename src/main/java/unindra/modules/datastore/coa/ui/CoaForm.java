@@ -1,35 +1,36 @@
 package unindra.modules.datastore.coa.ui;
 
+import javax.swing.JOptionPane;
 import unindra.modules.datastore.coa.service.CoaService;
 import unindra.modules.datastore.coa.model.Coa;
 
 public class CoaForm extends javax.swing.JFrame {
 
-    private CoaList coaList;
+    private CoaList list;
 
-    private Coa selectedCoa;
+    private Coa selectedData;
     
     private int categoryId = 0;
 
     private int parentId;
 
-    public CoaForm(CoaList coaList, Coa coa) {
+    public CoaForm(CoaList list, Coa data) {
         initComponents();
         pack();
         setLocationRelativeTo(null);
-        this.coaList = coaList;
+        this.list = list;
         fIsCash.setVisible(false);
-        if (coa != null) {
+        if (data != null) {
             title.setText("Edit Data Kategori Keuangan");
-            selectedCoa = coa;
-            fCode.setText(String.valueOf(coa.getCode()));
-            fName.setText(coa.getName());
-            fNote.setText(coa.getNote());
-            fParent.setText(coa.getParentName());
-            fClass.setSelectedIndex(coa.getCategoryId());
-            if (coa.getCategoryId()==1) {
+            selectedData = data;
+            fCode.setText(String.valueOf(data.getCode()));
+            fName.setText(data.getName());
+            fNote.setText(data.getNote());
+            fParent.setText(data.getParentName());
+            fClass.setSelectedIndex(data.getCategoryId());
+            if (data.getCategoryId()==1) {
                 fIsCash.setVisible(true);
-                fIsCash.setSelected(coa.getIsCash());
+                fIsCash.setSelected(data.getIsCash());
             } else {
                 fIsCash.setSelected(false);
             }
@@ -62,7 +63,7 @@ public class CoaForm extends javax.swing.JFrame {
             int code = Integer.parseInt(fCode.getText());
             data.setCode(code);
         } catch (NumberFormatException e) {
-            System.out.println("Kode harus berupa angka.");
+            JOptionPane.showMessageDialog(null, "Kode harus berupa angka.");
         }
         data.setName(fName.getText());
         data.setNote(fNote.getText());
@@ -70,13 +71,13 @@ public class CoaForm extends javax.swing.JFrame {
         data.setCategoryId(fClass.getSelectedIndex());
         data.setIsCash(fIsCash.isSelected());
 
-        if (selectedCoa == null) {
+        if (selectedData == null) {
             CoaService.create(data);
         } else {
-            data.setId(selectedCoa.getId());
+            data.setId(selectedData.getId());
             CoaService.update(data);
         }
-        coaList.loadData();
+        list.loadData();
         dispose();
     }
     /**
@@ -148,7 +149,7 @@ public class CoaForm extends javax.swing.JFrame {
         lClass.setBackground(new java.awt.Color(204, 255, 255));
         lClass.setText("Klasifikasi");
 
-        fClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Klasifikasi...", "Aset", "Utang", "Aset Bersih", "Penerimaan", "Pengeluaran" }));
+        fClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Klasifikasi...", "Harta", "Utang", "Kekayaan Bersih", "Penerimaan", "Pengeluaran" }));
         fClass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fClassActionPerformed(evt);
