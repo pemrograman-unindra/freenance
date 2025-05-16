@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CoaService {
 
-	public void create(Coa coa) {
+	public static void create(Coa coa) {
 		try {
 			DB.exec(
 				"INSERT INTO chart_of_accounts (parent_id, category_id, code, name, is_cash) VALUES (?, ?, ?, ?, ?)",
@@ -25,7 +25,7 @@ public class CoaService {
 		}
 	}
 
-	public int nextCodeByParentId(int parentId) {
+	public static int nextCodeByParentId(int parentId) {
 		String sql = "SELECT (coalesce(max(child.code), parent.code)+1) next_code FROM chart_of_accounts parent left join chart_of_accounts child on child.parent_id = parent.id WHERE parent.id = ? limit 1";
 		try (ResultSet rs = DB.query(sql, parentId)) {
 			while (rs.next()) {
@@ -37,7 +37,7 @@ public class CoaService {
 		throw new RuntimeException("Parent is not found");
 	}
 
-	public List<Coa> find(String keyword) {
+	public static List<Coa> find(String keyword) {
 		List<Coa> chartOfAccounts = new ArrayList<>();
 		try (ResultSet rs = DB.query("SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.name like ? order by coa.code", "%"+ keyword +"%")) {
 			while (rs.next()) {
@@ -57,7 +57,7 @@ public class CoaService {
 		return chartOfAccounts;
 	}
 
-	public void update(Coa coa) {
+	public static void update(Coa coa) {
 		try {
 			DB.exec(
 				"UPDATE chart_of_accounts SET parent_id = ?, category_id = ?, code = ?, name = ?, is_cash = ? WHERE id = ?",
@@ -73,7 +73,7 @@ public class CoaService {
 		}
 	}
 
-	public void delete(int id) {
+	public static void delete(int id) {
 		try {
 			DB.exec("DELETE FROM chart_of_accounts WHERE id = ?", id);
 		} catch (SQLException e) {

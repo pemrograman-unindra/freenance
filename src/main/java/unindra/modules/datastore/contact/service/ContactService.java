@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ContactService {
 
-	public void create(Contact contact) {
+	public static void create(Contact contact) {
 		try {
 			DB.exec(
 				"INSERT INTO contacts (name, phone, email, address) VALUES (?, ?, ?, ?)",
@@ -24,7 +24,7 @@ public class ContactService {
 		}
 	}
 
-	public List<Contact> find(String keyword) {
+	public static List<Contact> find(String keyword) {
 		List<Contact> contacts = new ArrayList<>();
                 String text = "%"+ keyword +"%";
 		try (ResultSet rs = DB.query("SELECT * FROM contacts WHERE name like ? or phone like ? or email like ?", text, text, text)) {
@@ -43,7 +43,7 @@ public class ContactService {
 		return contacts;
 	}
 
-	public void update(Contact contact) {
+	public static void update(Contact contact) {
 		try {
 			DB.exec(
 				"UPDATE contacts SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?",
@@ -58,7 +58,7 @@ public class ContactService {
 		}
 	}
 
-	public void delete(int id) {
+	public static void delete(int id) {
 		try {
 			DB.exec("DELETE FROM contacts WHERE id = ?", id);
 		} catch (SQLException e) {

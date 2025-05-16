@@ -34,9 +34,7 @@ public class CoaList extends javax.swing.JFrame {
     public void loadData() {
         Object[] headers = {"Kode", "Nama", "Subklasifikasi", "Klasifikasi"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
-        CoaService service = new CoaService();
-        String search = fSearch.getText();
-        List<Coa> coas = service.find(search);
+        List<Coa> coas = CoaService.find(fSearch.getText());
         for (Coa coa : coas) {
             model.addRow(new Object[]{
                 coa.getCode(), 
@@ -48,14 +46,70 @@ public class CoaList extends javax.swing.JFrame {
         coaTable.setModel(model);
     }
 
+    public void search() {
+        bEdit.setVisible(false);
+        bDelete.setVisible(false);
+        bCancel.setVisible(true);
+        fSearch.setVisible(false);
+        bSearch.setVisible(false);
+        bCreate.setVisible(false);
+        loadData();
+    }
+
     private void reset() {
         bEdit.setVisible(false);
         bDelete.setVisible(false);
-        bChoose.setVisible(false);
         bCancel.setVisible(false);
         fSearch.setVisible(true);
         bSearch.setVisible(true);
         bCreate.setVisible(true);
+    }
+
+    private void cancel() {
+        fSearch.setText("");
+        reset();
+        loadData();
+    }
+
+    private void choose() {
+        if (callback!=null) {
+            int selectedRow = coaTable.getSelectedRow();
+            if (selectedRow != -1) {
+                callback.accept(CoaService.find("").get(selectedRow));
+                dispose();
+            }
+        } else {            
+            bEdit.setVisible(true);
+            bDelete.setVisible(true);
+            bCancel.setVisible(true);
+            fSearch.setVisible(false);
+            bSearch.setVisible(false);
+            bCreate.setVisible(false);
+        }
+    }
+
+    private void create() {
+        new CoaForm(this, null).setVisible(true);
+    }
+
+    private void edit() {
+        int selectedRow = coaTable.getSelectedRow();
+        if (selectedRow != -1) {
+            Coa coa = CoaService.find("").get(selectedRow);
+            new CoaForm(this, coa).setVisible(true);
+        }
+    }
+
+    private void delete() {
+        int selectedRow = coaTable.getSelectedRow();
+        if (selectedRow != -1) {
+            Coa coa = CoaService.find("").get(selectedRow);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+coa.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                CoaService.delete(coa.getId());
+                loadData(); // Refresh the data after deletion
+            }
+        }
     }
 
     /**
@@ -77,7 +131,6 @@ public class CoaList extends javax.swing.JFrame {
         bDelete = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
         title = new javax.swing.JLabel();
-        bChoose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -145,37 +198,28 @@ public class CoaList extends javax.swing.JFrame {
         title.setText("Daftar Kategori Keuangan");
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        bChoose.setText("Pilih");
-        bChoose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bChooseActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addContainerGap(57, Short.MAX_VALUE)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(title)
-                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(background1Layout.createSequentialGroup()
-                            .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(bSearch)
-                            .addGap(18, 18, 18)
-                            .addComponent(bCreate)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(bCancel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(bDelete)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(bEdit)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(bChoose))))
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCreate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bEdit))
+                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(title)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(59, 59, 59))
         );
         background1Layout.setVerticalGroup(
@@ -190,8 +234,7 @@ public class CoaList extends javax.swing.JFrame {
                     .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bEdit)
                     .addComponent(bDelete)
-                    .addComponent(bCancel)
-                    .addComponent(bChoose))
+                    .addComponent(bCancel))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(54, Short.MAX_VALUE))
@@ -211,78 +254,33 @@ public class CoaList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
-        bEdit.setVisible(false);
-        bDelete.setVisible(false);
-        bCancel.setVisible(true);
-        fSearch.setVisible(false);
-        bSearch.setVisible(false);
-        bCreate.setVisible(false);
-        loadData();
-    }//GEN-LAST:event_bSearchActionPerformed
-
-    private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
-        new CoaForm(this, null).setVisible(true);
-    }//GEN-LAST:event_bCreateActionPerformed
-
-    private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
-        int selectedRow = coaTable.getSelectedRow();
-        if (selectedRow != -1) {
-            CoaService service = new CoaService();
-            Coa coa = service.find("").get(selectedRow);
-            new CoaForm(this, coa).setVisible(true);
-        }
-    }//GEN-LAST:event_bEditActionPerformed
-
-    private void coaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coaTableMouseClicked
-        if (callback!=null) {
-            bChoose.setVisible(true);
-        }
-        bEdit.setVisible(true);
-        bDelete.setVisible(true);
-        bCancel.setVisible(true);
-        fSearch.setVisible(false);
-        bSearch.setVisible(false);
-        bCreate.setVisible(false);
-    }//GEN-LAST:event_coaTableMouseClicked
-
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
-        fSearch.setText("");
-        reset();
-        loadData();
+        cancel();
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        int selectedRow = coaTable.getSelectedRow();
-        if (selectedRow != -1) {
-            CoaService service = new CoaService();
-            Coa coa = service.find("").get(selectedRow);
-            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+coa.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                service.delete(coa.getId());
-                loadData(); // Refresh the data after deletion
-            }
-        }
+        delete();
     }//GEN-LAST:event_bDeleteActionPerformed
 
-    private void bChooseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bChooseActionPerformed
-        int selectedRow = coaTable.getSelectedRow();
-        if (selectedRow != -1) {
-            CoaService service = new CoaService();
-            callback.accept(service.find("").get(selectedRow));
-            dispose();
-        }
-    }//GEN-LAST:event_bChooseActionPerformed
+    private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
+        edit();
+    }//GEN-LAST:event_bEditActionPerformed
 
     private void fSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fSearchActionPerformed
-        bEdit.setVisible(false);
-        bDelete.setVisible(false);
-        bCancel.setVisible(true);
-        fSearch.setVisible(false);
-        bSearch.setVisible(false);
-        bCreate.setVisible(false);
-        loadData();
+        search();
     }//GEN-LAST:event_fSearchActionPerformed
+
+    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
+        search();
+    }//GEN-LAST:event_bSearchActionPerformed
+
+    private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
+        create();
+    }//GEN-LAST:event_bCreateActionPerformed
+
+    private void coaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coaTableMouseClicked
+        choose();
+    }//GEN-LAST:event_coaTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -324,7 +322,6 @@ public class CoaList extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
-    private javax.swing.JButton bChoose;
     private javax.swing.JButton bCreate;
     private javax.swing.JButton bDelete;
     private javax.swing.JButton bEdit;

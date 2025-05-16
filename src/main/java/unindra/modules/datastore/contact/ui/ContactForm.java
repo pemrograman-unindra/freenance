@@ -23,6 +23,24 @@ public class ContactForm extends javax.swing.JFrame {
             tAddress.setText(contact.getAddress());
         }
     }
+
+    private void save() {
+        Contact data = new Contact();
+        data.setName(fName.getText());
+        data.setPhone(fPhone.getText());
+        data.setEmail(fEmail.getText());
+        data.setAddress(tAddress.getText());
+
+        if (selectedContact == null) {
+            ContactService.create(data);
+        } else {
+            data.setId(selectedContact.getId());
+            ContactService.update(data);
+        }
+        contactList.loadData();
+        dispose();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,21 +181,7 @@ public class ContactForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-        Contact data = new Contact();
-        data.setName(fName.getText());
-        data.setPhone(fPhone.getText());
-        data.setEmail(fEmail.getText());
-        data.setAddress(tAddress.getText());
-
-        ContactService service = new ContactService();
-        if (selectedContact == null) {
-            service.create(data);
-        } else {
-            data.setId(selectedContact.getId());
-            service.update(data);
-        }
-        contactList.loadData();
-        dispose();
+        save();
     }//GEN-LAST:event_bSaveActionPerformed
 
     /**

@@ -43,10 +43,9 @@ public class CoaForm extends javax.swing.JFrame {
     private void lookupParent() {
         CoaList.openLookup(coa -> {
             if (coa != null) {
-                CoaService service = new CoaService();
                 parentId = coa.getId();
                 fParent.setText(coa.getName());
-                fCode.setText(String.valueOf(service.nextCodeByParentId(parentId)));
+                fCode.setText(String.valueOf(CoaService.nextCodeByParentId(parentId)));
                 fName.requestFocus(true);
             }
         });
@@ -58,12 +57,11 @@ public class CoaForm extends javax.swing.JFrame {
         data.setName(fName.getText());
         data.setParentId(parentId);
 
-        CoaService service = new CoaService();
         if (selectedCoa == null) {
-            service.create(data);
+            CoaService.create(data);
         } else {
             data.setId(selectedCoa.getId());
-            service.update(data);
+            CoaService.update(data);
         }
         coaList.loadData();
         dispose();
