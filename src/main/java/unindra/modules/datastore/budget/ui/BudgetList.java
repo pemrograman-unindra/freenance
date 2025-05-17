@@ -75,7 +75,11 @@ public class BudgetList extends javax.swing.JFrame {
         if (callback!=null) {
             int selectedRow = budgetTable.getSelectedRow();
             if (selectedRow != -1) {
-                callback.accept(BudgetService.find("").get(selectedRow));
+                String coaName = budgetTable.getModel().getValueAt(selectedRow, 0).toString();
+                String start = budgetTable.getModel().getValueAt(selectedRow, 1).toString();
+                String end = budgetTable.getModel().getValueAt(selectedRow, 2).toString();
+                Budget data = BudgetService.getByCoaNameStartEnd(coaName, start, end);
+                callback.accept(data);
                 dispose();
             }
         } else {            
@@ -95,7 +99,10 @@ public class BudgetList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = budgetTable.getSelectedRow();
         if (selectedRow != -1) {
-            Budget data = BudgetService.find("").get(selectedRow);
+            String coaName = budgetTable.getModel().getValueAt(selectedRow, 0).toString();
+            String start = budgetTable.getModel().getValueAt(selectedRow, 1).toString();
+            String end = budgetTable.getModel().getValueAt(selectedRow, 2).toString();
+            Budget data = BudgetService.getByCoaNameStartEnd(coaName, start, end);
             new BudgetForm(this, data).setVisible(true);
         }
     }
@@ -103,7 +110,10 @@ public class BudgetList extends javax.swing.JFrame {
     private void delete() {
         int selectedRow = budgetTable.getSelectedRow();
         if (selectedRow != -1) {
-            Budget data = BudgetService.find("").get(selectedRow);
+            String coaName = budgetTable.getModel().getValueAt(selectedRow, 0).toString();
+            String start = budgetTable.getModel().getValueAt(selectedRow, 1).toString();
+            String end = budgetTable.getModel().getValueAt(selectedRow, 2).toString();
+            Budget data = BudgetService.getByCoaNameStartEnd(coaName, start, end);
             int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data anggaran "+data.getCoaName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 BudgetService.delete(data.getId());
@@ -136,13 +146,13 @@ public class BudgetList extends javax.swing.JFrame {
 
         budgetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Kode", "Nama", "Telp", "Email", "Alamat"
+                "Kategori Keuangan", "Awal Periode", "Akhir Periode", "Nilai Anggaran"
             }
         ));
         budgetTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -195,7 +205,7 @@ public class BudgetList extends javax.swing.JFrame {
 
         title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setText("Daftar Anggaran");
+        title.setText("Daftar Kontak");
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);

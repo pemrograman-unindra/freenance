@@ -112,7 +112,7 @@ public class CoaList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Coa data = CoaService.find("", "all", 0).get(selectedRow);
+            Coa data = CoaService.getByCode((int) dataTable.getModel().getValueAt(selectedRow, 0));
             new CoaForm(this, data).setVisible(true);
         }
     }
@@ -120,7 +120,7 @@ public class CoaList extends javax.swing.JFrame {
     private void delete() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Coa data = CoaService.find("", "all", 0).get(selectedRow);
+            Coa data = CoaService.getByCode((int) dataTable.getModel().getValueAt(selectedRow, 0));
             int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+data.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 CoaService.delete(data.getId());

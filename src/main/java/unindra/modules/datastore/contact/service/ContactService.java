@@ -25,7 +25,7 @@ public class ContactService {
 
 	public static List<Contact> find(String keyword) {
 		List<Contact> list = new ArrayList<>();
-                String text = "%"+ keyword +"%";
+		String text = "%"+ keyword +"%";
 		try (ResultSet rs = DB.query("SELECT * FROM contacts WHERE name like ? or phone like ? or email like ?", text, text, text)) {
 			while (rs.next()) {
 				Contact data = new Contact();

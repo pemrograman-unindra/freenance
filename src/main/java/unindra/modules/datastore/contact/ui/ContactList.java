@@ -75,8 +75,7 @@ public class ContactList extends javax.swing.JFrame {
         if (callback!=null) {
             int selectedRow = dataTable.getSelectedRow();
             if (selectedRow != -1) {
-                String name = dataTable.getModel().getValueAt(selectedRow, 0).toString();
-                Contact data = ContactService.getByName(name);
+                Contact data = ContactService.getByName(dataTable.getModel().getValueAt(selectedRow, 0).toString());
                 callback.accept(data);
                 dispose();
             }
@@ -97,7 +96,7 @@ public class ContactList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Contact data = ContactService.find("").get(selectedRow);
+            Contact data = ContactService.getByName(dataTable.getModel().getValueAt(selectedRow, 0).toString());
             new ContactForm(this, data).setVisible(true);
         }
     }
@@ -105,7 +104,7 @@ public class ContactList extends javax.swing.JFrame {
     private void delete() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Contact data = ContactService.find("").get(selectedRow);
+            Contact data = ContactService.getByName(dataTable.getModel().getValueAt(selectedRow, 0).toString());
             int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kontak "+data.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 ContactService.delete(data.getId());

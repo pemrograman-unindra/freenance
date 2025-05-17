@@ -98,7 +98,7 @@ public class ProjectList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Project data = ProjectService.find("").get(selectedRow);
+            Project data = ProjectService.getByNumber(dataTable.getModel().getValueAt(selectedRow, 0).toString());
             new ProjectForm(this, data).setVisible(true);
         }
     }
@@ -106,7 +106,7 @@ public class ProjectList extends javax.swing.JFrame {
     private void delete() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            Project data = ProjectService.find("").get(selectedRow);
+            Project data = ProjectService.getByNumber(dataTable.getModel().getValueAt(selectedRow, 0).toString());
             int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data proyek "+data.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 ProjectService.delete(data.getId());

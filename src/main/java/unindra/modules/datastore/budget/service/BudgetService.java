@@ -26,7 +26,7 @@ public class BudgetService {
 
 	public static List<Budget> find(String keyword) {
 		List<Budget> list = new ArrayList<>();
-								String text = "%"+ keyword +"%";
+		String text = "%"+ keyword +"%";
 		try (ResultSet rs = DB.query("SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name like ?", text)) {
 			while (rs.next()) {
 				Budget data = new Budget();
@@ -42,6 +42,25 @@ public class BudgetService {
 			throw new RuntimeException("Get budget failed: " + e.getMessage(), e);
 		}
 		return list;
+	}
+
+	public static Budget getByCoaNameStartEnd(String coaName, String start, String end) {
+		List<Budget> list = new ArrayList<>();
+		try (ResultSet rs = DB.query("SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name = ? and period_start = ? and period_end = ?", coaName, start, end)) {
+			while (rs.next()) {
+				Budget data = new Budget();
+				data.setId(rs.getInt("id"));
+				data.setCoaId(rs.getInt("coa_id"));
+				data.setCoaName(rs.getString("coa_name"));
+				data.setPeriodStart(LocalDate.parse(rs.getString("period_start")));
+				data.setPeriodEnd(LocalDate.parse(rs.getString("period_end")));
+				data.setAmount(rs.getBigDecimal("amount"));
+				return data;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Get budget failed: " + e.getMessage(), e);
+		}
+		throw new RuntimeException("Budget not found");
 	}
 
 	public static void update(Budget data) {
