@@ -34,7 +34,7 @@ public class CashOutList extends javax.swing.JFrame {
     public void loadData() {
         Object[] headers = {"Tanggal", "No. Referensi", "Dibayar Kepada", "Dibayar Dengan", "Untuk Keperluan", "Nilai Pembayaran"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
-        List<Transaction> list = TransactionService.find(fSearch.getText());
+        List<Transaction> list = TransactionService.find("cash_out", fSearch.getText());
         for (Transaction data : list) {
             model.addRow(new Object[]{
                 data.getTrxDate(), 

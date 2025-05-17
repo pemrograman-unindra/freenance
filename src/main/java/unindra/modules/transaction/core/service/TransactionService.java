@@ -12,62 +12,137 @@ import java.util.List;
 public class TransactionService {
 
 	public static void create(Transaction data) {
+		String sql = """
+			INSERT INTO transactions (
+				parent_id
+				project_id,
+				contact_id,
+				origin_coa_id,
+				target_coa_id,
+				trx_type,
+				trx_no,
+				trx_date,
+				description,
+				amount
+			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			""";
 		try {
-			DB.exec("INSERT INTO budgets (coa_id, period_start, period_end, amount) VALUES (?, ?, ?, ?)",
-
+			DB.exec(sql,
 				data.getAmount()
 			);
 		} catch (SQLException e) {
-			throw new RuntimeException("Create budget failed: " + e.getMessage(), e);
+			throw new RuntimeException("Create transaction failed: " + e.getMessage(), e);
 		}
 	}
 
-	public static List<Transaction> find(String keyword) {
+	public static List<Transaction> find(String type, String keyword) {
 		List<Transaction> list = new ArrayList<>();
+		String sql = """
+			SELECT 
+				parent.trx_no parent_number,
+				c.name contact_name,
+				origin_coa.name origin_coa_name,
+				target_coa.name target_coa_name,
+				t.* 
+			FROM 
+				transactions t 
+				LEFT JOIN transactions parent on parent.id = t.parent_id
+				LEFT JOIN contacts c on c.id = t.contact_id
+				LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
+				LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
+			WHERE 
+				t.trx_type = ?
+				AND t.trx_no like ?
+			""";
 		String text = "%"+ keyword +"%";
-		try (ResultSet rs = DB.query("SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name like ?", text)) {
+		try (ResultSet rs = DB.query(sql, type, text)) {
 			while (rs.next()) {
 				Transaction data = new Transaction();
 				data.setId(rs.getInt("id"));
+
+				data.setParentId(rs.getInt("parent_id"));
+				data.setParentNumber(rs.getString("parent_number"));
+				data.setProjectId(rs.getInt("project_id"));
+				data.setProjectNumber(rs.getString("project_number"));
+				data.setContactId(rs.getInt("contact_id"));
+				data.setContactName(rs.getString("contact_name"));
+				data.setOriginCoaId(rs.getInt("origin_coa_id"));
+				data.setOriginCoaName(rs.getString("origin_coa_name"));
+				data.setTargetCoaId(rs.getInt("trx_date"));
+				data.setTargetCoaName(rs.getString("target_coa_name"));
+				data.setTrxType(rs.getString("trx_type"));
+				data.setTrxNumber(rs.getString("trx_no"));
 				data.setTrxDate(LocalDate.parse(rs.getString("trx_date")));
+				data.setDescription(rs.getString("description"));
 				data.setAmount(rs.getBigDecimal("amount"));
 				list.add(data);
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Get budget failed: " + e.getMessage(), e);
+			throw new RuntimeException("Get transaction failed: " + e.getMessage(), e);
 		}
 		return list;
 	}
 
 	public static Transaction getByNumber(String number) {
-		try (ResultSet rs = DB.query("SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name = ? and period_start = ? and period_end = ?", number)) {
+		String sql = """
+			SELECT 
+				parent.trx_no parent_number,
+				c.name contact_name,
+				origin_coa_id.name origin_coa_name,
+				target_coa_id.name target_coa_name,
+				t.* 
+			FROM 
+				transactions t 
+				LEFT JOIN transactions parent on parent.id = t.parent_id
+				LEFT JOIN contacts c on c.id = t.contact_id
+				LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
+				LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
+			WHERE 
+				t.trx_no = ?
+		""";
+		try (ResultSet rs = DB.query(sql, number)) {
 			while (rs.next()) {
 				Transaction data = new Transaction();
 				data.setId(rs.getInt("id"));
 				return data;
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Get budget failed: " + e.getMessage(), e);
+			throw new RuntimeException("Get transaction failed: " + e.getMessage(), e);
 		}
-		throw new RuntimeException("Budget not found");
+		throw new RuntimeException("transaction not found");
 	}
 
 	public static void update(Transaction data) {
+		String sql = """
+			UPDATE transactions SET
+				parent_id = ?
+				project_id = ?
+				contact_id = ?
+				origin_coa_id = ?
+				target_coa_id = ?
+				trx_type = ?
+				trx_no = ?
+				trx_date = ?
+				description = ?
+				amount = ?
+			WHERE
+				id = ?
+			""";
 		try {
-			DB.exec("UPDATE budgets SET coa_id = ?, period_start = ?, period_end = ?, amount = ? WHERE id = ?",
+			DB.exec(sql,
 				data.getAmount(),
 				data.getId()
 			);
 		} catch (SQLException e) {
-			throw new RuntimeException("Update budget failed: " + e.getMessage(), e);
+			throw new RuntimeException("Update transaction failed: " + e.getMessage(), e);
 		}
 	}
 
 	public static void delete(int id) {
 		try {
-			DB.exec("DELETE FROM budgets WHERE id = ?", id);
+			DB.exec("DELETE FROM transactions WHERE id = ?", id);
 		} catch (SQLException e) {
-			throw new RuntimeException("Delete budget failed: " + e.getMessage(), e);
+			throw new RuntimeException("Delete transaction failed: " + e.getMessage(), e);
 		}
 	}
 }
