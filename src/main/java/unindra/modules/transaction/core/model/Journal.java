@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 
 public class Journal {
     private Integer id;
-    private Integer trxId;      // Relasi ke transactions.id
-    private Integer coaId;      // Relasi ke chart_of_accounts.id
+    private Integer trxId;
+    private Integer coaId;
+    private Integer coaCode;
+    private String coaName;
     private BigDecimal debit;
     private BigDecimal credit;
     private LocalDateTime createdAt;
@@ -20,6 +22,12 @@ public class Journal {
 
     public Integer getCoaId() { return coaId; }
     public void setCoaId(Integer coaId) { this.coaId = coaId; }
+
+    public Integer getCoaCode() { return coaCode; }
+    public void setCoaCode(Integer coaCode) { this.coaCode = coaCode; }
+
+    public String getCoaName() { return coaName; }
+    public void setCoaName(String coaName) { this.coaName = coaName; }
 
     public BigDecimal getDebit() { return debit; }
     public void setDebit(BigDecimal debit) { this.debit = debit; }

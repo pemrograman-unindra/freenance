@@ -3,7 +3,6 @@ package unindra.modules.transaction.cashout.ui;
 import java.util.Date;
 import java.math.BigDecimal;
 import java.time.ZoneId;
-import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 import unindra.modules.transaction.core.service.TransactionService;
@@ -24,33 +23,66 @@ public class CashOutForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.list = list;
         if (data != null) {
-            title.setText("Edit Data Anggaran");
+            title.setText("Edit Transaksi Pengeluaran");
             selectedData = data;
             coaId = data.getTargetCoaId();
-            fPeriodStart.setDate(Date.from(data.getTrxDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fDate.setDate(Date.from(data.getTrxDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             fAmount.setText(data.getAmount().toPlainString());
         } else {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            fPeriodStart.setDate(cal.getTime());
-            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-            fPeriodEnd.setDate(cal.getTime());
+            Date now = new Date();
+            fDate.setDate(now);
+            fNumber.setText(String.valueOf(now.getTime() / 1000));
         }
     }
 
-    private void lookupCoa() {
+    private void lookupContact() {
         CoaList.openLookup(coa -> {
             if (coa != null) {
                 coaId = coa.getId();
-                fCoaName.setText(coa.getName());
-                fPeriodStart.requestFocus(true);
+                fDate.requestFocus(true);
+            }
+        }, "child", 0);
+    }
+
+    private void lookupBill() {
+        CoaList.openLookup(coa -> {
+            if (coa != null) {
+                coaId = coa.getId();
+                fDate.requestFocus(true);
+            }
+        }, "child", 0);
+    }
+    
+    private void lookupOriginCoa() {
+        CoaList.openLookup(coa -> {
+            if (coa != null) {
+                coaId = coa.getId();
+                fDate.requestFocus(true);
+            }
+        }, "child", 0);
+    }
+
+    private void lookupTargetCoa() {
+        CoaList.openLookup(coa -> {
+            if (coa != null) {
+                coaId = coa.getId();
+                fDate.requestFocus(true);
+            }
+        }, "child", 0);
+    }
+
+    private void lookupProject() {
+        CoaList.openLookup(coa -> {
+            if (coa != null) {
+                coaId = coa.getId();
+                fDate.requestFocus(true);
             }
         }, "child", 0);
     }
     
     private void save() {
         Transaction data = new Transaction();
-        data.setTrxDate(fPeriodEnd.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        data.setTrxDate(fDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         try {
             BigDecimal amount = new BigDecimal(fAmount.getText());
             data.setAmount(amount);
@@ -79,27 +111,35 @@ public class CashOutForm extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         lCoaName = new javax.swing.JLabel();
-        lPeriodStart = new javax.swing.JLabel();
-        lPeriodEnd = new javax.swing.JLabel();
+        lDate = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        fCoaName = new javax.swing.JTextField();
         title = new javax.swing.JLabel();
-        fPeriodStart = new com.toedter.calendar.JDateChooser();
+        fDate = new com.toedter.calendar.JDateChooser();
         lAmount = new javax.swing.JLabel();
         fAmount = new javax.swing.JTextField();
-        fPeriodEnd = new com.toedter.calendar.JDateChooser();
+        fNumber = new javax.swing.JTextField();
+        lAmount1 = new javax.swing.JLabel();
+        fContactName = new javax.swing.JTextField();
+        lAmount2 = new javax.swing.JLabel();
+        fBillNumber = new javax.swing.JTextField();
+        lAmount3 = new javax.swing.JLabel();
+        fOriginCoaName = new javax.swing.JTextField();
+        lAmount4 = new javax.swing.JLabel();
+        fTargetCoaName = new javax.swing.JTextField();
+        lAmount5 = new javax.swing.JLabel();
+        fProjectName = new javax.swing.JTextField();
+        lAmount6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lCoaName.setBackground(new java.awt.Color(204, 255, 255));
-        lCoaName.setText("Kategori Keuangan");
+        lCoaName.setText("No. Referensi");
 
-        lPeriodStart.setBackground(new java.awt.Color(204, 255, 255));
-        lPeriodStart.setText("Awal Periode");
-
-        lPeriodEnd.setBackground(new java.awt.Color(204, 255, 255));
-        lPeriodEnd.setText("Akhir Periode");
+        lDate.setBackground(new java.awt.Color(204, 255, 255));
+        lDate.setText("Tanggal");
 
         bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
@@ -115,94 +155,217 @@ public class CashOutForm extends javax.swing.JFrame {
             }
         });
 
-        fCoaName.setEditable(false);
-        fCoaName.setText("Pilih kategori keuangan...");
-        fCoaName.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                fCoaNameMouseClicked(evt);
-            }
-        });
-        fCoaName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fCoaNameActionPerformed(evt);
-            }
-        });
-
         title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        title.setText("Tambah Data Anggaran");
+        title.setText("Tambah Transaksi Pengeluaran");
 
-        fPeriodStart.setDateFormatString("d-MMM-yyyy");
+        fDate.setDateFormatString("d-MMM-yyyy");
 
         lAmount.setBackground(new java.awt.Color(204, 255, 255));
-        lAmount.setText("Nilai Anggaran");
+        lAmount.setText("Nilai Pembayaran");
 
         fAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         fAmount.setText("0");
 
-        fPeriodEnd.setDateFormatString("d-MMM-yyyy");
+        lAmount1.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount1.setText("Dibayar Kepada");
+
+        fContactName.setEditable(false);
+        fContactName.setText("Pilih Kontak...");
+        fContactName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fContactNameMouseClicked(evt);
+            }
+        });
+        fContactName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fContactNameActionPerformed(evt);
+            }
+        });
+
+        lAmount2.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount2.setText("Tagihan");
+
+        fBillNumber.setEditable(false);
+        fBillNumber.setText("Pilih Tagihan...");
+        fBillNumber.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fBillNumberMouseClicked(evt);
+            }
+        });
+        fBillNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fBillNumberActionPerformed(evt);
+            }
+        });
+
+        lAmount3.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount3.setText("Dibayar Dengan");
+
+        fOriginCoaName.setEditable(false);
+        fOriginCoaName.setText("Pilih Kategori Keuangan...");
+        fOriginCoaName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fOriginCoaNameMouseClicked(evt);
+            }
+        });
+        fOriginCoaName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fOriginCoaNameActionPerformed(evt);
+            }
+        });
+
+        lAmount4.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount4.setText("Untuk Keperluan");
+
+        fTargetCoaName.setEditable(false);
+        fTargetCoaName.setText("Pilih Kategori Keuangan...");
+        fTargetCoaName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fTargetCoaNameMouseClicked(evt);
+            }
+        });
+        fTargetCoaName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fTargetCoaNameActionPerformed(evt);
+            }
+        });
+
+        lAmount5.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount5.setText("Proyek");
+
+        fProjectName.setEditable(false);
+        fProjectName.setText("Pilih Proyek...");
+        fProjectName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fProjectNameMouseClicked(evt);
+            }
+        });
+        fProjectName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fProjectNameActionPerformed(evt);
+            }
+        });
+
+        lAmount6.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount6.setText("Catatan");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addContainerGap(807, Short.MAX_VALUE)
+                        .addComponent(bCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(bSave))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(background1Layout.createSequentialGroup()
-                                .addComponent(bCancel)
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lAmount1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fContactName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lDate, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lAmount3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fOriginCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lAmount4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fTargetCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(background1Layout.createSequentialGroup()
+                                                .addComponent(lCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(fNumber))
+                                            .addGroup(background1Layout.createSequentialGroup()
+                                                .addComponent(lAmount2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(fBillNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                        .addComponent(lAmount5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lAmount6, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(bSave))
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(background1Layout.createSequentialGroup()
-                                        .addComponent(lPeriodEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(fPeriodEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(background1Layout.createSequentialGroup()
-                                        .addComponent(lPeriodStart, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(fPeriodStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(background1Layout.createSequentialGroup()
-                                        .addComponent(lCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(fCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(31, 31, 31))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addComponent(title)
-                        .addGap(301, 301, 301))))
+                                .addComponent(jScrollPane1)))))
+                .addGap(31, 31, 31))
+            .addGroup(background1Layout.createSequentialGroup()
+                .addGap(382, 382, 382)
+                .addComponent(title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(25, 25, 25)
                 .addComponent(title)
-                .addGap(57, 57, 57)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCoaName)
-                    .addComponent(fCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lDate)
+                            .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount1)
+                            .addComponent(fContactName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lCoaName))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount2)
+                            .addComponent(fBillNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lPeriodStart)
-                    .addComponent(fPeriodStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount3)
+                            .addComponent(fOriginCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lAmount)))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount4)
+                            .addComponent(fTargetCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount5)
+                            .addComponent(fProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lPeriodEnd)
-                    .addComponent(fPeriodEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lAmount))
-                .addGap(136, 136, 136)
+                    .addComponent(lAmount6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bCancel))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,13 +390,45 @@ public class CashOutForm extends javax.swing.JFrame {
         save();
     }//GEN-LAST:event_bSaveActionPerformed
 
-    private void fCoaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fCoaNameActionPerformed
-        lookupCoa();
-    }//GEN-LAST:event_fCoaNameActionPerformed
+    private void fContactNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fContactNameMouseClicked
+        lookupContact();
+    }//GEN-LAST:event_fContactNameMouseClicked
 
-    private void fCoaNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fCoaNameMouseClicked
-        lookupCoa();
-    }//GEN-LAST:event_fCoaNameMouseClicked
+    private void fContactNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fContactNameActionPerformed
+        lookupContact();
+    }//GEN-LAST:event_fContactNameActionPerformed
+
+    private void fBillNumberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fBillNumberMouseClicked
+        lookupBill();
+    }//GEN-LAST:event_fBillNumberMouseClicked
+
+    private void fBillNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fBillNumberActionPerformed
+        lookupBill();
+    }//GEN-LAST:event_fBillNumberActionPerformed
+
+    private void fOriginCoaNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fOriginCoaNameMouseClicked
+        lookupOriginCoa();
+    }//GEN-LAST:event_fOriginCoaNameMouseClicked
+
+    private void fOriginCoaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fOriginCoaNameActionPerformed
+        lookupOriginCoa();
+    }//GEN-LAST:event_fOriginCoaNameActionPerformed
+
+    private void fTargetCoaNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fTargetCoaNameMouseClicked
+        lookupTargetCoa();
+    }//GEN-LAST:event_fTargetCoaNameMouseClicked
+
+    private void fTargetCoaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fTargetCoaNameActionPerformed
+        lookupTargetCoa();
+    }//GEN-LAST:event_fTargetCoaNameActionPerformed
+
+    private void fProjectNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fProjectNameMouseClicked
+        lookupProject();
+    }//GEN-LAST:event_fProjectNameMouseClicked
+
+    private void fProjectNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fProjectNameActionPerformed
+        lookupProject();
+    }//GEN-LAST:event_fProjectNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,13 +477,24 @@ public class CashOutForm extends javax.swing.JFrame {
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
     private javax.swing.JTextField fAmount;
-    private javax.swing.JTextField fCoaName;
-    private com.toedter.calendar.JDateChooser fPeriodEnd;
-    private com.toedter.calendar.JDateChooser fPeriodStart;
+    private javax.swing.JTextField fBillNumber;
+    private javax.swing.JTextField fContactName;
+    private com.toedter.calendar.JDateChooser fDate;
+    private javax.swing.JTextField fNumber;
+    private javax.swing.JTextField fOriginCoaName;
+    private javax.swing.JTextField fProjectName;
+    private javax.swing.JTextField fTargetCoaName;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lAmount;
+    private javax.swing.JLabel lAmount1;
+    private javax.swing.JLabel lAmount2;
+    private javax.swing.JLabel lAmount3;
+    private javax.swing.JLabel lAmount4;
+    private javax.swing.JLabel lAmount5;
+    private javax.swing.JLabel lAmount6;
     private javax.swing.JLabel lCoaName;
-    private javax.swing.JLabel lPeriodEnd;
-    private javax.swing.JLabel lPeriodStart;
+    private javax.swing.JLabel lDate;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,11 +28,11 @@ public class CashOutList extends javax.swing.JFrame {
 
     public void setCallback(Consumer<Transaction> callback) {
         this.callback = callback;
-        title.setText("Pilih Anggaran");
+        title.setText("Pilih Transaksi Pengeluaran");
     }
 
     public void loadData() {
-        Object[] headers = {"Kategori Keuangan", "Awal Periode", "Akhir Periode", "Nilai Anggaran"};
+        Object[] headers = {"Tanggal", "No. Referensi", "Dibayar Kepada", "Dibayar Dengan", "Untuk Keperluan", "Nilai Pembayaran"};
         DefaultTableModel model = new DefaultTableModel(null, headers);
         List<Transaction> list = TransactionService.find(fSearch.getText());
         for (Transaction data : list) {
@@ -106,7 +106,7 @@ public class CashOutList extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
             Transaction data = TransactionService.getByNumber(number);
-            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data anggaran "+data.getTrxNo()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data Transaksi Pengeluaran "+data.getTrxNumber()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 TransactionService.delete(data.getId());
                 loadData(); // Refresh the data after deletion
@@ -138,13 +138,13 @@ public class CashOutList extends javax.swing.JFrame {
 
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Kategori Keuangan", "Awal Periode", "Akhir Periode", "Nilai Anggaran"
+                "Tanggal", "No. Referensi", "Dibayar Kepada", "Dibayar Dengan", "Untuk Keperluan", "Nilai Pembayaran"
             }
         ));
         dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -197,7 +197,7 @@ public class CashOutList extends javax.swing.JFrame {
 
         title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setText("Daftar Kontak");
+        title.setText("Daftar Transaksi Pengeluaran");
         title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);

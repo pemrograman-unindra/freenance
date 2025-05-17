@@ -12,7 +12,7 @@ public class Transaction {
     private Integer originCoaId;
     private Integer targetCoaId;
     private String trxType; // bill, cash_in, cash_out
-    private String trxNo;
+    private String trxNumber;
     private LocalDate trxDate;
     private String description;
     private BigDecimal amount;
@@ -40,8 +40,8 @@ public class Transaction {
     public String getTrxType() { return trxType; }
     public void setTrxType(String trxType) { this.trxType = trxType; }
 
-    public String getTrxNo() { return trxNo; }
-    public void setTrxNo(String trxNo) { this.trxNo = trxNo; }
+    public String getTrxNumber() { return trxNumber; }
+    public void setTrxNumber(String trxNo) { this.trxNumber = trxNo; }
 
     public LocalDate getTrxDate() { return trxDate; }
     public void setTrxDate(LocalDate trxDate) { this.trxDate = trxDate; }
