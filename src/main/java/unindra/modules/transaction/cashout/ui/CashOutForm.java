@@ -1,13 +1,71 @@
 package unindra.modules.transaction.cashout.ui;
 
-import unindra.modules.datastore.contact.ui.*;
+import java.util.Date;
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+
+import unindra.modules.transaction.core.service.TransactionService;
+import unindra.modules.transaction.core.model.Transaction;
+import unindra.modules.datastore.coa.ui.CoaList;
 
 public class CashOutForm extends javax.swing.JFrame {
 
-    public CashOutForm() {
+    private CashOutList list;
+
+    private Transaction selectedData;
+    
+    private Integer coaId;
+
+    public CashOutForm(CashOutList list, Transaction data) {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        this.list = list;
+        if (data != null) {
+            title.setText("Edit Data Anggaran");
+            selectedData = data;
+            coaId = data.getTargetCoaId();
+            fPeriodStart.setDate(Date.from(data.getTrxDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fAmount.setText(data.getAmount().toPlainString());
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            fPeriodStart.setDate(cal.getTime());
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+            fPeriodEnd.setDate(cal.getTime());
+        }
+    }
+
+    private void lookupCoa() {
+        CoaList.openLookup(coa -> {
+            if (coa != null) {
+                coaId = coa.getId();
+                fCoaName.setText(coa.getName());
+                fPeriodStart.requestFocus(true);
+            }
+        }, "child", 0);
+    }
+    
+    private void save() {
+        Transaction data = new Transaction();
+        data.setTrxDate(fPeriodEnd.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        try {
+            BigDecimal amount = new BigDecimal(fAmount.getText());
+            data.setAmount(amount);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Nilai anggaran harus berupa angka.");
+        }
+
+        if (selectedData == null) {
+            TransactionService.create(data);
+        } else {
+            data.setId(selectedData.getId());
+            TransactionService.update(data);
+        }
+        list.loadData();
+        dispose();
     }
 
     /**
@@ -20,58 +78,68 @@ public class CashOutForm extends javax.swing.JFrame {
     private void initComponents() {
 
         background1 = new unindra.core.Background();
-        lCode = new javax.swing.JLabel();
-        lName = new javax.swing.JLabel();
-        lArea = new javax.swing.JLabel();
-        lCapacity = new javax.swing.JLabel();
-        lNote = new javax.swing.JLabel();
+        lCoaName = new javax.swing.JLabel();
+        lPeriodStart = new javax.swing.JLabel();
+        lPeriodEnd = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        fCode = new javax.swing.JTextField();
-        fName = new javax.swing.JTextField();
-        fArea = new javax.swing.JTextField();
-        fCapacity = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tNote = new javax.swing.JTextArea();
-        lUser1 = new javax.swing.JLabel();
+        fCoaName = new javax.swing.JTextField();
+        title = new javax.swing.JLabel();
+        fPeriodStart = new com.toedter.calendar.JDateChooser();
+        lAmount = new javax.swing.JLabel();
+        fAmount = new javax.swing.JTextField();
+        fPeriodEnd = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lCode.setBackground(new java.awt.Color(204, 255, 255));
-        lCode.setText("Code");
+        lCoaName.setBackground(new java.awt.Color(204, 255, 255));
+        lCoaName.setText("Kategori Keuangan");
 
-        lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("Name");
+        lPeriodStart.setBackground(new java.awt.Color(204, 255, 255));
+        lPeriodStart.setText("Awal Periode");
 
-        lArea.setBackground(new java.awt.Color(204, 255, 255));
-        lArea.setText("Phone");
+        lPeriodEnd.setBackground(new java.awt.Color(204, 255, 255));
+        lPeriodEnd.setText("Akhir Periode");
 
-        lCapacity.setBackground(new java.awt.Color(204, 255, 255));
-        lCapacity.setText("Email");
-
-        lNote.setBackground(new java.awt.Color(204, 255, 255));
-        lNote.setText("Address");
-
-        bSave.setText("Save");
+        bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSaveActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
             }
         });
 
-        tNote.setColumns(20);
-        tNote.setRows(5);
-        jScrollPane1.setViewportView(tNote);
+        fCoaName.setEditable(false);
+        fCoaName.setText("Pilih kategori keuangan...");
+        fCoaName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fCoaNameMouseClicked(evt);
+            }
+        });
+        fCoaName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fCoaNameActionPerformed(evt);
+            }
+        });
 
-        lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Tambah Pengeluaran");
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        title.setText("Tambah Data Anggaran");
+
+        fPeriodStart.setDateFormatString("d-MMM-yyyy");
+
+        lAmount.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount.setText("Nilai Anggaran");
+
+        fAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        fAmount.setText("0");
+
+        fPeriodEnd.setDateFormatString("d-MMM-yyyy");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
@@ -82,66 +150,59 @@ public class CashOutForm extends javax.swing.JFrame {
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lNote, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane1))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lArea, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lCode, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(background1Layout.createSequentialGroup()
                                 .addComponent(bCancel)
                                 .addGap(18, 18, 18)
-                                .addComponent(bSave)))
+                                .addComponent(bSave))
+                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(background1Layout.createSequentialGroup()
+                                    .addComponent(lAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lPeriodEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fPeriodEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lPeriodStart, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fPeriodStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                        .addComponent(lUser1)
+                        .addComponent(title)
                         .addGap(301, 301, 301))))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(lUser1)
-                .addGap(18, 18, 18)
+                .addComponent(title)
+                .addGap(57, 57, 57)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCode)
-                    .addComponent(fCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lName)
-                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lArea)
-                    .addComponent(fArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lCapacity)
-                    .addComponent(fCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lCoaName)
+                    .addComponent(fCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lNote)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lPeriodStart)
+                    .addComponent(fPeriodStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lPeriodEnd)
+                    .addComponent(fPeriodEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lAmount))
+                .addGap(136, 136, 136)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bCancel))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -163,8 +224,16 @@ public class CashOutForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-            dispose();
+        save();
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void fCoaNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fCoaNameActionPerformed
+        lookupCoa();
+    }//GEN-LAST:event_fCoaNameActionPerformed
+
+    private void fCoaNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fCoaNameMouseClicked
+        lookupCoa();
+    }//GEN-LAST:event_fCoaNameMouseClicked
 
     /**
      * @param args the command line arguments
@@ -195,11 +264,15 @@ public class CashOutForm extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+            
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CashOutForm().setVisible(true);
+                new CashOutForm(null, null).setVisible(true);
             }
         });
     }
@@ -208,17 +281,14 @@ public class CashOutForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fArea;
-    private javax.swing.JTextField fCapacity;
-    private javax.swing.JTextField fCode;
-    private javax.swing.JTextField fName;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lArea;
-    private javax.swing.JLabel lCapacity;
-    private javax.swing.JLabel lCode;
-    private javax.swing.JLabel lName;
-    private javax.swing.JLabel lNote;
-    private javax.swing.JLabel lUser1;
-    private javax.swing.JTextArea tNote;
+    private javax.swing.JTextField fAmount;
+    private javax.swing.JTextField fCoaName;
+    private com.toedter.calendar.JDateChooser fPeriodEnd;
+    private com.toedter.calendar.JDateChooser fPeriodStart;
+    private javax.swing.JLabel lAmount;
+    private javax.swing.JLabel lCoaName;
+    private javax.swing.JLabel lPeriodEnd;
+    private javax.swing.JLabel lPeriodStart;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

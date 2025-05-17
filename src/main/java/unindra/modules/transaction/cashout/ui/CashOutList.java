@@ -1,27 +1,57 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package unindra.modules.transaction.cashout.ui;
 
-import unindra.modules.datastore.contact.ui.*;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import unindra.modules.transaction.core.model.Transaction;
+import unindra.modules.transaction.core.service.TransactionService;
+
+import java.util.function.Consumer;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author jeffry
- */
-public class CashOutList extends javax.swing.JFrame {
+public class CashOutList extends javax.swing.JFrame { 
+   
+    private Consumer<Transaction> callback;
 
-    /**
-     * Creates new form RoomList
-     */
+    public static void openLookup(Consumer<Transaction> callback) {
+        CashOutList lookup = new CashOutList();
+        lookup.setCallback(callback);
+        lookup.setVisible(true);
+    }
+    
     public CashOutList() {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        reset();
+        loadData();
+    }
+
+    public void setCallback(Consumer<Transaction> callback) {
+        this.callback = callback;
+        title.setText("Pilih Anggaran");
+    }
+
+    public void loadData() {
+        Object[] headers = {"Kategori Keuangan", "Awal Periode", "Akhir Periode", "Nilai Anggaran"};
+        DefaultTableModel model = new DefaultTableModel(null, headers);
+        List<Transaction> list = TransactionService.find(fSearch.getText());
+        for (Transaction data : list) {
+            model.addRow(new Object[]{
+                data.getTrxDate(), 
+                data.getAmount()
+            });
+        }
+        dataTable.setModel(model);
+    }
+
+    private void search() {
+        bEdit.setVisible(false);
+        bDelete.setVisible(false);
+        bCancel.setVisible(true);
+        fSearch.setVisible(false);
+        bSearch.setVisible(false);
+        bCreate.setVisible(false);
+        loadData();
     }
 
     private void reset() {
@@ -31,6 +61,57 @@ public class CashOutList extends javax.swing.JFrame {
         fSearch.setVisible(true);
         bSearch.setVisible(true);
         bCreate.setVisible(true);
+    }
+
+    private void cancel() {
+        fSearch.setText("");
+        reset();
+        loadData();
+    }
+
+    private void choose() {
+        if (callback!=null) {
+            int selectedRow = dataTable.getSelectedRow();
+            if (selectedRow != -1) {
+                String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+                Transaction data = TransactionService.getByNumber(number);
+                callback.accept(data);
+                dispose();
+            }
+        } else {            
+            bEdit.setVisible(true);
+            bDelete.setVisible(true);
+            bCancel.setVisible(true);
+            fSearch.setVisible(false);
+            bSearch.setVisible(false);
+            bCreate.setVisible(false);
+        }
+    }
+
+    private void create() {
+        new CashOutForm(this, null).setVisible(true);
+    }
+
+    private void edit() {
+        int selectedRow = dataTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+            Transaction data = TransactionService.getByNumber(number);
+            new CashOutForm(this, data).setVisible(true);
+        }
+    }
+
+    private void delete() {
+        int selectedRow = dataTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+            Transaction data = TransactionService.getByNumber(number);
+            int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data anggaran "+data.getTrxNo()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                TransactionService.delete(data.getId());
+                loadData(); // Refresh the data after deletion
+            }
+        }
     }
 
     /**
@@ -44,125 +125,115 @@ public class CashOutList extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        roomTable = new javax.swing.JTable();
+        dataTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
-        bExit = new javax.swing.JButton();
-        title = new javax.swing.JLabel();
         bEdit = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        lUser1 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        roomTable.setModel(new javax.swing.table.DefaultTableModel(
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Code", "Name"
+                "Kategori Keuangan", "Awal Periode", "Akhir Periode", "Nilai Anggaran"
             }
         ));
-        roomTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                roomTableMouseClicked(evt);
+                dataTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(roomTable);
+        jScrollPane1.setViewportView(dataTable);
 
-        bCreate.setText("Create");
+        bCreate.setText("Tambah");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCreateActionPerformed(evt);
             }
         });
 
-        bSearch.setText("Search");
+        bSearch.setText("Cari");
         bSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSearchActionPerformed(evt);
             }
         });
 
-        bExit.setText("Exit");
-        bExit.addActionListener(new java.awt.event.ActionListener() {
+        fSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bExitActionPerformed(evt);
+                fSearchActionPerformed(evt);
             }
         });
 
-        title.setText("User : Fulan");
-
-        bEdit.setText("Edit");
+        bEdit.setText("Ubah");
         bEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bEditActionPerformed(evt);
             }
         });
 
-        bDelete.setText("Delete");
+        bDelete.setText("Hapus");
         bDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bDeleteActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
             }
         });
 
-        lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Daftar Transaksi Pengeluaran");
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Daftar Kontak");
+        title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(background1Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(bExit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bDelete)
-                        .addGap(18, 18, 18)
-                        .addComponent(bEdit)
-                        .addGap(18, 18, 18)
                         .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bSearch)
-                        .addGap(18, 18, 18)
-                        .addComponent(bCreate))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(lUser1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCreate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bCancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bEdit))
+                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(title)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(59, 59, 59))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lUser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(title)
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCreate)
                     .addComponent(bSearch)
                     .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bExit)
                     .addComponent(bEdit)
                     .addComponent(bDelete)
                     .addComponent(bCancel))
@@ -186,37 +257,32 @@ public class CashOutList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
-        // TODO add your handling code here:
+        search();
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
-        reset();
+        create();
     }//GEN-LAST:event_bCreateActionPerformed
 
-    private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_bExitActionPerformed
-
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
-        reset();
+        edit();
     }//GEN-LAST:event_bEditActionPerformed
 
-    private void roomTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomTableMouseClicked
-        bEdit.setVisible(true);
-        bDelete.setVisible(true);
-        bCancel.setVisible(true);
-        fSearch.setVisible(false);
-        bSearch.setVisible(false);
-        bCreate.setVisible(false);
-    }//GEN-LAST:event_roomTableMouseClicked
+    private void dataTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataTableMouseClicked
+        choose();
+    }//GEN-LAST:event_dataTableMouseClicked
 
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
-        reset();
+        cancel();
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        reset();
+        delete();
     }//GEN-LAST:event_bDeleteActionPerformed
+
+    private void fSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fSearchActionPerformed
+        search();
+    }//GEN-LAST:event_fSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,6 +313,10 @@ public class CashOutList extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -261,13 +331,11 @@ public class CashOutList extends javax.swing.JFrame {
     private javax.swing.JButton bCreate;
     private javax.swing.JButton bDelete;
     private javax.swing.JButton bEdit;
-    private javax.swing.JButton bExit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
+    private javax.swing.JTable dataTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lUser1;
-    private javax.swing.JTable roomTable;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
