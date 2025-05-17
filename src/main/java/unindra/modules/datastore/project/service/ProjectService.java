@@ -59,6 +59,35 @@ public class ProjectService {
 		return list;
 	}
 
+	public static Project getByNumber(String number) {
+		try (ResultSet rs = DB.query("SELECT * FROM projects WHERE project_no = ?", number)) {
+			while (rs.next()) {
+				Project data = new Project();
+				data.setId(rs.getInt("id"));
+				data.setCustomerId(rs.getObject("customer_id") != null ? rs.getInt("customer_id") : null);
+				data.setNumber(rs.getString("project_no"));
+				data.setName(rs.getString("name"));
+				data.setDescription(rs.getString("description"));
+				if (rs.getString("start_date")!=null) {
+					data.setStartDate(LocalDate.parse(rs.getString("start_date")));
+				}
+				if (rs.getString("due_date")!=null) {
+					data.setDueDate(LocalDate.parse(rs.getString("due_date")));
+				}
+				if (rs.getString("end_date")!=null) {
+					data.setEndDate(LocalDate.parse(rs.getString("end_date")));
+				}
+				data.setAmount(rs.getBigDecimal("amount"));
+				data.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+				data.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+				return data;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Get project failed: " + e.getMessage(), e);
+		}
+		throw new RuntimeException("Project not found");
+	}
+
 	public static void update(Project data) {
 		try {
 			DB.exec("UPDATE projects SET customer_id = ?, project_no = ?, name = ?, description = ?, start_date = ?, due_date = ?, end_date = ?, amount = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",

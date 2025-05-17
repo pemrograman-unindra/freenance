@@ -42,6 +42,23 @@ public class ContactService {
 		return list;
 	}
 
+	public static Contact getByName(String name) {
+		try (ResultSet rs = DB.query("SELECT * FROM contacts WHERE name = ?", name)) {
+			while (rs.next()) {
+				Contact data = new Contact();
+				data.setId(rs.getInt("id"));
+				data.setName(rs.getString("name"));
+				data.setPhone(rs.getString("phone"));
+				data.setEmail(rs.getString("email"));
+				data.setAddress(rs.getString("address"));
+				return data;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Get contact failed: " + e.getMessage(), e);
+		}
+		throw new RuntimeException("contact not found");
+	}
+
 	public static void update(Contact data) {
 		try {
 			DB.exec("UPDATE contacts SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?",

@@ -77,7 +77,8 @@ public class ProjectList extends javax.swing.JFrame {
         if (callback!=null) {
             int selectedRow = dataTable.getSelectedRow();
             if (selectedRow != -1) {
-                callback.accept(ProjectService.find("").get(selectedRow));
+                Project data = ProjectService.getByNumber(dataTable.getModel().getValueAt(selectedRow, 0).toString());
+                callback.accept(data);
                 dispose();
             }
         } else {            

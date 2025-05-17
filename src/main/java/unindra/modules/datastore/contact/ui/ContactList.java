@@ -75,7 +75,9 @@ public class ContactList extends javax.swing.JFrame {
         if (callback!=null) {
             int selectedRow = dataTable.getSelectedRow();
             if (selectedRow != -1) {
-                callback.accept(ContactService.find("").get(selectedRow));
+                String name = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+                Contact data = ContactService.getByName(name);
+                callback.accept(data);
                 dispose();
             }
         } else {            

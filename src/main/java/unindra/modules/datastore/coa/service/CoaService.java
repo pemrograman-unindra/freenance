@@ -37,6 +37,26 @@ public class CoaService {
 		throw new RuntimeException("Parent is not found");
 	}
 
+	public static Coa getByCode(int code) {
+		Coa data = new Coa();
+		try (ResultSet rs = DB.query("SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.code = ?", code)) {
+			while (rs.next()) {
+				data.setId(rs.getInt("id"));
+				data.setParentId(rs.getInt("parent_id"));
+				data.setParentName(rs.getString("parent_name"));
+				data.setCategoryId(rs.getInt("category_id"));
+				data.setCode(rs.getInt("code"));
+				data.setName(rs.getString("name"));
+				data.setNote(rs.getString("note"));
+				data.setIsCash(rs.getBoolean("is_cash"));
+				return data;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Get chart of account failed: " + e.getMessage(), e);
+		}
+		throw new RuntimeException("Chart of account is not found");
+	}
+
 	public static List<Coa> find(String keyword, String type, int categoryId) {
 		List<Coa> list = new ArrayList<>();
 		String sql = "SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.name like ?";

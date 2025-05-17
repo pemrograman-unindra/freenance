@@ -59,7 +59,7 @@ public class CoaList extends javax.swing.JFrame {
                 data.getNote()
             });
         }
-        coaTable.setModel(model);
+        dataTable.setModel(model);
     }
 
     public void search() {
@@ -89,9 +89,10 @@ public class CoaList extends javax.swing.JFrame {
 
     private void choose() {
         if (callback!=null) {
-            int selectedRow = coaTable.getSelectedRow();
+            int selectedRow = dataTable.getSelectedRow();
             if (selectedRow != -1) {
-                callback.accept(CoaService.find("", "all", 0).get(selectedRow));
+                Coa data = CoaService.getByCode((int) dataTable.getModel().getValueAt(selectedRow, 0));
+                callback.accept(data);
                 dispose();
             }
         } else {            
@@ -109,7 +110,7 @@ public class CoaList extends javax.swing.JFrame {
     }
 
     private void edit() {
-        int selectedRow = coaTable.getSelectedRow();
+        int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
             Coa data = CoaService.find("", "all", 0).get(selectedRow);
             new CoaForm(this, data).setVisible(true);
@@ -117,7 +118,7 @@ public class CoaList extends javax.swing.JFrame {
     }
 
     private void delete() {
-        int selectedRow = coaTable.getSelectedRow();
+        int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
             Coa data = CoaService.find("", "all", 0).get(selectedRow);
             int confirm = JOptionPane.showConfirmDialog(this, "Apakah kamu yakin akan menghapus data kategori keuangan "+data.getName()+"?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
@@ -139,7 +140,7 @@ public class CoaList extends javax.swing.JFrame {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        coaTable = new javax.swing.JTable();
+        dataTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
@@ -150,7 +151,7 @@ public class CoaList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        coaTable.setModel(new javax.swing.table.DefaultTableModel(
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -161,12 +162,12 @@ public class CoaList extends javax.swing.JFrame {
                 "Kode", "Nama", "Subklasifikasi", "Klasifikasi", "Catatan"
             }
         ));
-        coaTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                coaTableMouseClicked(evt);
+                dataTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(coaTable);
+        jScrollPane1.setViewportView(dataTable);
 
         bCreate.setText("Tambah");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -294,9 +295,9 @@ public class CoaList extends javax.swing.JFrame {
         create();
     }//GEN-LAST:event_bCreateActionPerformed
 
-    private void coaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coaTableMouseClicked
+    private void dataTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataTableMouseClicked
         choose();
-    }//GEN-LAST:event_coaTableMouseClicked
+    }//GEN-LAST:event_dataTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -343,7 +344,7 @@ public class CoaList extends javax.swing.JFrame {
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
-    private javax.swing.JTable coaTable;
+    private javax.swing.JTable dataTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;
