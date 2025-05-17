@@ -178,6 +178,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="fPeriodStart">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="d-MMM-yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lAmount">
           <Properties>
@@ -194,6 +197,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="fPeriodEnd">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="d-MMM-yyyy"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

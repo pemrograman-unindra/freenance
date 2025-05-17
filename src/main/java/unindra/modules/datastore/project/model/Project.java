@@ -8,13 +8,13 @@ public class Project {
     private Integer id;
     private Integer customerId;
     private String customerName;
-    private String code;
+    private String number;
     private String name;
     private String description;
     private LocalDate startDate;
     private LocalDate dueDate;
     private LocalDate endDate;
-    private BigDecimal budget;
+    private BigDecimal amount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -42,12 +42,12 @@ public class Project {
         this.customerName = customerName;
     }
 
-    public String getCode() {
-        return code;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getName() {
@@ -90,12 +90,12 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public BigDecimal getBudget() {
-        return budget;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setBudget(BigDecimal budget) {
-        this.budget = budget;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public LocalDateTime getCreatedAt() {

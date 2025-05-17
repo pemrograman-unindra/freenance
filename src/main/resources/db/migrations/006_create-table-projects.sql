@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS projects (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	customer_id INTEGER,
-	code TEXT NOT NULL,
+	project_no TEXT NOT NULL,
 	name TEXT NOT NULL,
 	description TEXT,
 	start_date DATE,
 	due_date DATE,
 	end_date DATE,
-	budget NUMERIC,
+	amount NUMERIC,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

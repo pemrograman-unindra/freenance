@@ -1,13 +1,20 @@
 package unindra.modules.datastore.project.ui;
 
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import unindra.modules.datastore.project.service.ProjectService;
 import unindra.modules.datastore.project.model.Project;
+import unindra.modules.datastore.contact.ui.ContactList;
 
 public class ProjectForm extends javax.swing.JFrame {
 
     private ProjectList list;
 
     private Project selectedData;
+    
+    private int customerId;
 
     public ProjectForm(ProjectList list, Project data) {
         initComponents();
@@ -17,14 +24,50 @@ public class ProjectForm extends javax.swing.JFrame {
         if (data != null) {
             title.setText("Edit Data Proyek");
             selectedData = data;
+            customerId = data.getId();
+            fCustomerName.setText(data.getCustomerName());
+            fNumber.setText(data.getNumber());
             fName.setText(data.getName());
+            fDescription.setText(data.getDescription());
+            fStartDate.setDate(Date.from(data.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fDueDate.setDate(Date.from(data.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fEndDate.setDate(Date.from(data.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            fAmount.setText(data.getAmount().toPlainString());
+        } else {
+            Date now = new Date();
+            fNumber.setText(String.valueOf(now.getTime() / 1000));
+            fStartDate.setDate(now);
+            fDueDate.setDate(now);
+            fEndDate.setDate(now);
         }
+    }
+    
+    private void lookupCustomer() {
+        ContactList.openLookup(data -> {
+            if (data != null) {
+                customerId = data.getId();
+                fCustomerName.setText(data.getName());
+                fName.requestFocus(true);
+            }
+        });
     }
 
     private void save() {
         Project data = new Project();
+        data.setCustomerId(customerId);
+        data.setNumber(fNumber.getText());
         data.setName(fName.getText());
-
+        data.setDescription(fDescription.getText());
+        data.setStartDate(fStartDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        data.setDueDate(fDueDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        data.setEndDate(fEndDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        try {
+            BigDecimal amount = new BigDecimal(fAmount.getText());
+            data.setAmount(amount);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Nilai anggaran harus berupa angka.");
+        }
+        
         if (selectedData == null) {
             ProjectService.create(data);
         } else {
@@ -45,32 +88,36 @@ public class ProjectForm extends javax.swing.JFrame {
     private void initComponents() {
 
         background1 = new unindra.core.Background();
+        lCusomer = new javax.swing.JLabel();
+        lNumber = new javax.swing.JLabel();
         lName = new javax.swing.JLabel();
-        lPhone = new javax.swing.JLabel();
-        lEmail = new javax.swing.JLabel();
-        lAddress = new javax.swing.JLabel();
         bSave = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
+        fCustomerName = new javax.swing.JTextField();
+        fNumber = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
-        fPhone = new javax.swing.JTextField();
-        fEmail = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tAddress = new javax.swing.JTextArea();
         title = new javax.swing.JLabel();
+        lDescription = new javax.swing.JLabel();
+        fDescription = new javax.swing.JTextField();
+        fStartDate = new com.toedter.calendar.JDateChooser();
+        lStartDate = new javax.swing.JLabel();
+        lDueDate = new javax.swing.JLabel();
+        lFinishDate = new javax.swing.JLabel();
+        fDueDate = new com.toedter.calendar.JDateChooser();
+        fEndDate = new com.toedter.calendar.JDateChooser();
+        fAmount = new javax.swing.JTextField();
+        lAmount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lCusomer.setBackground(new java.awt.Color(204, 255, 255));
+        lCusomer.setText("Pelanggan");
+
+        lNumber.setBackground(new java.awt.Color(204, 255, 255));
+        lNumber.setText("Nomor Proyek");
+
         lName.setBackground(new java.awt.Color(204, 255, 255));
-        lName.setText("Nama");
-
-        lPhone.setBackground(new java.awt.Color(204, 255, 255));
-        lPhone.setText("Telp");
-
-        lEmail.setBackground(new java.awt.Color(204, 255, 255));
-        lEmail.setText("Email");
-
-        lAddress.setBackground(new java.awt.Color(204, 255, 255));
-        lAddress.setText("Alamat");
+        lName.setText("Nama Proyek");
 
         bSave.setText("Simpan");
         bSave.addActionListener(new java.awt.event.ActionListener() {
@@ -86,12 +133,45 @@ public class ProjectForm extends javax.swing.JFrame {
             }
         });
 
-        tAddress.setColumns(20);
-        tAddress.setRows(5);
-        jScrollPane1.setViewportView(tAddress);
+        fCustomerName.setEditable(false);
+        fCustomerName.setText("Pilih Pelanggan...");
+        fCustomerName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fCustomerNameMouseClicked(evt);
+            }
+        });
+        fCustomerName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fCustomerNameActionPerformed(evt);
+            }
+        });
 
         title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         title.setText("Tambah Data Proyek");
+
+        lDescription.setBackground(new java.awt.Color(204, 255, 255));
+        lDescription.setText("Deskripsi");
+
+        fStartDate.setDateFormatString("d-MMM-yyyy");
+
+        lStartDate.setBackground(new java.awt.Color(204, 255, 255));
+        lStartDate.setText("Tanggal Mulai");
+
+        lDueDate.setBackground(new java.awt.Color(204, 255, 255));
+        lDueDate.setText("Target Selesai");
+
+        lFinishDate.setBackground(new java.awt.Color(204, 255, 255));
+        lFinishDate.setText("Tanggal Selesai");
+
+        fDueDate.setDateFormatString("d-MMM-yyyy");
+
+        fEndDate.setDateFormatString("d-MMM-yyyy");
+
+        fAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        fAmount.setText("0");
+
+        lAmount.setBackground(new java.awt.Color(204, 255, 255));
+        lAmount.setText("Nilai Proyek");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
@@ -102,27 +182,39 @@ public class ProjectForm extends javax.swing.JFrame {
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane1))
+                                    .addComponent(fNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lCusomer, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lDueDate, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lFinishDate, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(18, 18, 18)
-                                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(fStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(fName, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                                        .addComponent(fDueDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(fEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                    .addComponent(lDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(fDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(background1Layout.createSequentialGroup()
                                 .addComponent(bCancel)
                                 .addGap(18, 18, 18)
-                                .addComponent(bSave)))
+                                .addComponent(bSave))
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                         .addComponent(title)
@@ -133,27 +225,43 @@ public class ProjectForm extends javax.swing.JFrame {
             .addGroup(background1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(title)
-                .addGap(57, 57, 57)
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lCusomer)
+                    .addComponent(fCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lNumber)
+                    .addComponent(fNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lName)
                     .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lPhone)
-                    .addComponent(fPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lDescription)
+                    .addComponent(fDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lStartDate))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fDueDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lDueDate))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lFinishDate))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lEmail)
-                    .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lAddress)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lAmount))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bSave)
                     .addComponent(bCancel))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -177,6 +285,14 @@ public class ProjectForm extends javax.swing.JFrame {
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
         save();
     }//GEN-LAST:event_bSaveActionPerformed
+
+    private void fCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fCustomerNameActionPerformed
+        lookupCustomer();
+    }//GEN-LAST:event_fCustomerNameActionPerformed
+
+    private void fCustomerNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fCustomerNameMouseClicked
+        lookupCustomer();
+    }//GEN-LAST:event_fCustomerNameMouseClicked
 
     /**
      * @param args the command line arguments
@@ -220,15 +336,22 @@ public class ProjectForm extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bSave;
     private unindra.core.Background background1;
-    private javax.swing.JTextField fEmail;
+    private javax.swing.JTextField fAmount;
+    private javax.swing.JTextField fCustomerName;
+    private javax.swing.JTextField fDescription;
+    private com.toedter.calendar.JDateChooser fDueDate;
+    private com.toedter.calendar.JDateChooser fEndDate;
     private javax.swing.JTextField fName;
-    private javax.swing.JTextField fPhone;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lAddress;
-    private javax.swing.JLabel lEmail;
+    private javax.swing.JTextField fNumber;
+    private com.toedter.calendar.JDateChooser fStartDate;
+    private javax.swing.JLabel lAmount;
+    private javax.swing.JLabel lCusomer;
+    private javax.swing.JLabel lDescription;
+    private javax.swing.JLabel lDueDate;
+    private javax.swing.JLabel lFinishDate;
     private javax.swing.JLabel lName;
-    private javax.swing.JLabel lPhone;
-    private javax.swing.JTextArea tAddress;
+    private javax.swing.JLabel lNumber;
+    private javax.swing.JLabel lStartDate;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

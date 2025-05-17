@@ -37,12 +37,12 @@ public class ProjectList extends javax.swing.JFrame {
         List<Project> list = ProjectService.find(fSearch.getText());
         for (Project data : list) {
             model.addRow(new Object[]{
-                data.getCode(), 
+                data.getNumber(), 
                 data.getName(), 
                 data.getStartDate(),
                 data.getDueDate(),
                 data.getEndDate(),
-                data.getBudget()
+                data.getAmount()
             });
         }
         dataTable.setModel(model);
@@ -138,13 +138,13 @@ public class ProjectList extends javax.swing.JFrame {
 
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Kode", "Nama", "Telp", "Email", "Alamat"
+                "Nomor", "Nama", "Tanggal Mulai", "Target Selesai", "Tanggal Selesai", "Nilai"
             }
         ));
         dataTable.addMouseListener(new java.awt.event.MouseAdapter() {

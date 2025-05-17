@@ -135,11 +135,15 @@ public class BudgetForm extends javax.swing.JFrame {
         title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         title.setText("Tambah Data Anggaran");
 
+        fPeriodStart.setDateFormatString("d-MMM-yyyy");
+
         lAmount.setBackground(new java.awt.Color(204, 255, 255));
         lAmount.setText("Nilai Anggaran");
 
         fAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         fAmount.setText("0");
+
+        fPeriodEnd.setDateFormatString("d-MMM-yyyy");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
