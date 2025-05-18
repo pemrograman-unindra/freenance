@@ -4,15 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
-import java.io.InputStream;
-import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.view.JasperViewer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -25,7 +18,6 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
-import unindra.core.DB;
 
 import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
@@ -34,6 +26,14 @@ import unindra.modules.datastore.budget.ui.BudgetList;
 import unindra.modules.transaction.bill.ui.BillList;
 import unindra.modules.transaction.cashin.ui.CashInList;
 import unindra.modules.transaction.cashout.ui.CashOutList;
+import unindra.modules.report.ui.ReportActivity;
+import unindra.modules.report.ui.ReportBalanceSheet;
+import unindra.modules.report.ui.ReportBill;
+import unindra.modules.report.ui.ReportBudgetRealization;
+import unindra.modules.report.ui.ReportCashFlow;
+import unindra.modules.report.ui.ReportExpense;
+import unindra.modules.report.ui.ReportIncome;
+import unindra.modules.report.ui.ReportProject;
 
 public class MainMenu extends javax.swing.JFrame {
 
@@ -49,19 +49,6 @@ public class MainMenu extends javax.swing.JFrame {
         dateFrom.setDate(cal.getTime());
         dateTo.setDate(new Date());
         showDashboardChart();
-    }
-    
-    private void openReportTest() {
-        try {
-            InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
-            HashMap<String, Object> params = new HashMap<>();
-            Connection connection = DB.getConnection();
-            JasperPrint print = JasperFillManager.fillReport(file, params, connection);
-            JasperViewer viewer = new JasperViewer(print, false);
-            viewer.setVisible(true);
-        } catch (Exception e) {
-            throw new RuntimeException("Report error: " + e.getMessage(), e);
-        }
     }
 
     private void showDashboardChart() {
@@ -134,16 +121,16 @@ public class MainMenu extends javax.swing.JFrame {
         bBill = new javax.swing.JButton();
         bCashOut = new javax.swing.JButton();
         Report = new unindra.core.Background();
-        bProject6 = new javax.swing.JButton();
-        bProject7 = new javax.swing.JButton();
-        bProject8 = new javax.swing.JButton();
-        bProject10 = new javax.swing.JButton();
-        bProject11 = new javax.swing.JButton();
-        bProject12 = new javax.swing.JButton();
-        bProject13 = new javax.swing.JButton();
-        bProject14 = new javax.swing.JButton();
+        bReportBalanceSheet = new javax.swing.JButton();
+        bReportCashFlow = new javax.swing.JButton();
+        bReportActivity = new javax.swing.JButton();
+        bReportBill = new javax.swing.JButton();
+        bReportIncome = new javax.swing.JButton();
+        bReportExpense = new javax.swing.JButton();
+        bReportBudgetRealization = new javax.swing.JButton();
+        bReportProject = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         MainMenuTabbedPane.setBackground(new java.awt.Color(222, 242, 251));
         MainMenuTabbedPane.setName(""); // NOI18N
@@ -329,115 +316,115 @@ public class MainMenu extends javax.swing.JFrame {
 
         MainMenuTabbedPane.addTab("Transaksi", new javax.swing.ImageIcon(getClass().getResource("/images/icon-payment.png")), Transaction); // NOI18N
 
-        bProject6.setBackground(new java.awt.Color(211, 68, 233));
-        bProject6.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject6.setForeground(new java.awt.Color(255, 255, 255));
-        bProject6.setText("<html><body style=\"text-align:center\">Laporan<br />Posisi Keuangan</body></html>");
-        bProject6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject6.setDefaultCapable(false);
-        bProject6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject6.addActionListener(new java.awt.event.ActionListener() {
+        bReportBalanceSheet.setBackground(new java.awt.Color(211, 68, 233));
+        bReportBalanceSheet.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportBalanceSheet.setForeground(new java.awt.Color(255, 255, 255));
+        bReportBalanceSheet.setText("<html><body style=\"text-align:center\">Laporan<br />Posisi Keuangan</body></html>");
+        bReportBalanceSheet.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportBalanceSheet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportBalanceSheet.setDefaultCapable(false);
+        bReportBalanceSheet.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportBalanceSheet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject6ActionPerformed(evt);
+                bReportBalanceSheetActionPerformed(evt);
             }
         });
 
-        bProject7.setBackground(new java.awt.Color(40, 170, 233));
-        bProject7.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject7.setForeground(new java.awt.Color(255, 255, 255));
-        bProject7.setText("<html><body style=\"text-align:center\">Laporan<br />Arus Kas</body></html>");
-        bProject7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject7.setDefaultCapable(false);
-        bProject7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject7.addActionListener(new java.awt.event.ActionListener() {
+        bReportCashFlow.setBackground(new java.awt.Color(40, 170, 233));
+        bReportCashFlow.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportCashFlow.setForeground(new java.awt.Color(255, 255, 255));
+        bReportCashFlow.setText("<html><body style=\"text-align:center\">Laporan<br />Arus Kas</body></html>");
+        bReportCashFlow.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportCashFlow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportCashFlow.setDefaultCapable(false);
+        bReportCashFlow.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportCashFlow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject7ActionPerformed(evt);
+                bReportCashFlowActionPerformed(evt);
             }
         });
 
-        bProject8.setBackground(new java.awt.Color(32, 191, 107));
-        bProject8.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject8.setForeground(new java.awt.Color(255, 255, 255));
-        bProject8.setText("<html><body style=\"text-align:center\">Laporan<br />Aktivitas</body></html>");
-        bProject8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject8.setDefaultCapable(false);
-        bProject8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject8.addActionListener(new java.awt.event.ActionListener() {
+        bReportActivity.setBackground(new java.awt.Color(32, 191, 107));
+        bReportActivity.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportActivity.setForeground(new java.awt.Color(255, 255, 255));
+        bReportActivity.setText("<html><body style=\"text-align:center\">Laporan<br />Aktivitas</body></html>");
+        bReportActivity.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportActivity.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportActivity.setDefaultCapable(false);
+        bReportActivity.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportActivity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject8ActionPerformed(evt);
+                bReportActivityActionPerformed(evt);
             }
         });
 
-        bProject10.setBackground(new java.awt.Color(255, 133, 133));
-        bProject10.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject10.setForeground(new java.awt.Color(255, 255, 255));
-        bProject10.setText("<html><body style=\"text-align:center\">Laporan<br />Tagihan</body></html>");
-        bProject10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject10.setDefaultCapable(false);
-        bProject10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject10.addActionListener(new java.awt.event.ActionListener() {
+        bReportBill.setBackground(new java.awt.Color(255, 133, 133));
+        bReportBill.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportBill.setForeground(new java.awt.Color(255, 255, 255));
+        bReportBill.setText("<html><body style=\"text-align:center\">Laporan<br />Tagihan</body></html>");
+        bReportBill.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportBill.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportBill.setDefaultCapable(false);
+        bReportBill.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportBill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject10ActionPerformed(evt);
+                bReportBillActionPerformed(evt);
             }
         });
 
-        bProject11.setBackground(new java.awt.Color(74, 175, 77));
-        bProject11.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject11.setForeground(new java.awt.Color(255, 255, 255));
-        bProject11.setText("<html><body style=\"text-align:center\">Laporan<br />Penerimaan</body></html>");
-        bProject11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject11.setDefaultCapable(false);
-        bProject11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject11.addActionListener(new java.awt.event.ActionListener() {
+        bReportIncome.setBackground(new java.awt.Color(74, 175, 77));
+        bReportIncome.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportIncome.setForeground(new java.awt.Color(255, 255, 255));
+        bReportIncome.setText("<html><body style=\"text-align:center\">Laporan<br />Penerimaan</body></html>");
+        bReportIncome.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportIncome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportIncome.setDefaultCapable(false);
+        bReportIncome.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportIncome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject11ActionPerformed(evt);
+                bReportIncomeActionPerformed(evt);
             }
         });
 
-        bProject12.setBackground(new java.awt.Color(83, 170, 224));
-        bProject12.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject12.setForeground(new java.awt.Color(255, 255, 255));
-        bProject12.setText("<html><body style=\"text-align:center\">Laporan<br />Pengeluaran</body></html>");
-        bProject12.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject12.setDefaultCapable(false);
-        bProject12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject12.addActionListener(new java.awt.event.ActionListener() {
+        bReportExpense.setBackground(new java.awt.Color(83, 170, 224));
+        bReportExpense.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportExpense.setForeground(new java.awt.Color(255, 255, 255));
+        bReportExpense.setText("<html><body style=\"text-align:center\">Laporan<br />Pengeluaran</body></html>");
+        bReportExpense.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportExpense.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportExpense.setDefaultCapable(false);
+        bReportExpense.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportExpense.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject12ActionPerformed(evt);
+                bReportExpenseActionPerformed(evt);
             }
         });
 
-        bProject13.setBackground(new java.awt.Color(245, 170, 59));
-        bProject13.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject13.setForeground(new java.awt.Color(255, 255, 255));
-        bProject13.setText("<html><body style=\"text-align:center\">Laporan<br />Realisasi<br />Anggaran</body></html>");
-        bProject13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject13.setDefaultCapable(false);
-        bProject13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject13.addActionListener(new java.awt.event.ActionListener() {
+        bReportBudgetRealization.setBackground(new java.awt.Color(245, 170, 59));
+        bReportBudgetRealization.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportBudgetRealization.setForeground(new java.awt.Color(255, 255, 255));
+        bReportBudgetRealization.setText("<html><body style=\"text-align:center\">Laporan<br />Realisasi<br />Anggaran</body></html>");
+        bReportBudgetRealization.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportBudgetRealization.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportBudgetRealization.setDefaultCapable(false);
+        bReportBudgetRealization.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportBudgetRealization.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject13ActionPerformed(evt);
+                bReportBudgetRealizationActionPerformed(evt);
             }
         });
 
-        bProject14.setBackground(new java.awt.Color(162, 120, 66));
-        bProject14.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bProject14.setForeground(new java.awt.Color(255, 255, 255));
-        bProject14.setText("<html><body style=\"text-align:center\">Laporan<br />Proyek</body></html>");
-        bProject14.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bProject14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bProject14.setDefaultCapable(false);
-        bProject14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bProject14.addActionListener(new java.awt.event.ActionListener() {
+        bReportProject.setBackground(new java.awt.Color(162, 120, 66));
+        bReportProject.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        bReportProject.setForeground(new java.awt.Color(255, 255, 255));
+        bReportProject.setText("<html><body style=\"text-align:center\">Laporan<br />Proyek</body></html>");
+        bReportProject.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bReportProject.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bReportProject.setDefaultCapable(false);
+        bReportProject.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bReportProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bProject14ActionPerformed(evt);
+                bReportProjectActionPerformed(evt);
             }
         });
 
@@ -449,21 +436,21 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(87, 87, 87)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ReportLayout.createSequentialGroup()
-                        .addComponent(bProject10, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bProject11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bProject12, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bProject14, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ReportLayout.createSequentialGroup()
-                        .addComponent(bProject8, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bProject7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bProject6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bProject13, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
         ReportLayout.setVerticalGroup(
@@ -471,16 +458,16 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(ReportLayout.createSequentialGroup()
                 .addGap(89, 89, 89)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(bProject6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject8, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject13, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(bProject12, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject10, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bProject14, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
 
@@ -524,41 +511,41 @@ public class MainMenu extends javax.swing.JFrame {
         new BudgetList().setVisible(true);
     }//GEN-LAST:event_bBudgetActionPerformed
 
-    private void bProject6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject6ActionPerformed
+    private void bReportBalanceSheetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportBalanceSheetActionPerformed
+        new ReportBalanceSheet().setVisible(true);
+    }//GEN-LAST:event_bReportBalanceSheetActionPerformed
 
-    private void bProject7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject7ActionPerformed
+    private void bReportCashFlowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportCashFlowActionPerformed
+        new ReportCashFlow().setVisible(true);
+    }//GEN-LAST:event_bReportCashFlowActionPerformed
 
-    private void bProject8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject8ActionPerformed
+    private void bReportActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportActivityActionPerformed
+        new ReportActivity().setVisible(true);
+    }//GEN-LAST:event_bReportActivityActionPerformed
 
     private void bCashOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCashOutActionPerformed
         new CashOutList().setVisible(true);
     }//GEN-LAST:event_bCashOutActionPerformed
 
-    private void bProject10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject10ActionPerformed
+    private void bReportBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportBillActionPerformed
+        new ReportBill().setVisible(true);
+    }//GEN-LAST:event_bReportBillActionPerformed
 
-    private void bProject11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject11ActionPerformed
+    private void bReportIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportIncomeActionPerformed
+        new ReportIncome().setVisible(true);
+    }//GEN-LAST:event_bReportIncomeActionPerformed
 
-    private void bProject12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject12ActionPerformed
+    private void bReportExpenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportExpenseActionPerformed
+        new ReportExpense().setVisible(true);
+    }//GEN-LAST:event_bReportExpenseActionPerformed
 
-    private void bProject13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bProject13ActionPerformed
+    private void bReportBudgetRealizationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportBudgetRealizationActionPerformed
+        new ReportBudgetRealization().setVisible(true);
+    }//GEN-LAST:event_bReportBudgetRealizationActionPerformed
 
-    private void bProject14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject14ActionPerformed
-        openReportTest();
-    }//GEN-LAST:event_bProject14ActionPerformed
+    private void bReportProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReportProjectActionPerformed
+        new ReportProject().setVisible(true);
+    }//GEN-LAST:event_bReportProjectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -609,14 +596,14 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton bCashOut;
     private javax.swing.JButton bContact;
     private javax.swing.JButton bProject;
-    private javax.swing.JButton bProject10;
-    private javax.swing.JButton bProject11;
-    private javax.swing.JButton bProject12;
-    private javax.swing.JButton bProject13;
-    private javax.swing.JButton bProject14;
-    private javax.swing.JButton bProject6;
-    private javax.swing.JButton bProject7;
-    private javax.swing.JButton bProject8;
+    private javax.swing.JButton bReportActivity;
+    private javax.swing.JButton bReportBalanceSheet;
+    private javax.swing.JButton bReportBill;
+    private javax.swing.JButton bReportBudgetRealization;
+    private javax.swing.JButton bReportCashFlow;
+    private javax.swing.JButton bReportExpense;
+    private javax.swing.JButton bReportIncome;
+    private javax.swing.JButton bReportProject;
     private com.toedter.calendar.JDateChooser dateFrom;
     private com.toedter.calendar.JDateChooser dateTo;
     // End of variables declaration//GEN-END:variables
