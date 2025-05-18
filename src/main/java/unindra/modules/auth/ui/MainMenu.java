@@ -4,8 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.view.JasperViewer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -18,6 +25,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
+import unindra.core.DB;
 
 import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
@@ -41,6 +49,19 @@ public class MainMenu extends javax.swing.JFrame {
         dateFrom.setDate(cal.getTime());
         dateTo.setDate(new Date());
         showDashboardChart();
+    }
+    
+    private void openReportTest() {
+        try {
+            InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
+            HashMap<String, Object> params = new HashMap<>();
+            Connection connection = DB.getConnection();
+            JasperPrint print = JasperFillManager.fillReport(file, params, connection);
+            JasperViewer viewer = new JasperViewer(print, false);
+            viewer.setVisible(true);
+        } catch (Exception e) {
+            throw new RuntimeException("Report error: " + e.getMessage(), e);
+        }
     }
 
     private void showDashboardChart() {
@@ -536,7 +557,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_bProject13ActionPerformed
 
     private void bProject14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProject14ActionPerformed
-        // TODO add your handling code here:
+        openReportTest();
     }//GEN-LAST:event_bProject14ActionPerformed
 
     /**
