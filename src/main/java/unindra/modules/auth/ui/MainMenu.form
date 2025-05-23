@@ -60,11 +60,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="760" max="32767" attributes="0"/>
-                      <Component id="dateFrom" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="dateStart" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="dateTo" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="dateEnd" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="chartContainer" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -72,25 +73,29 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="dateTo" min="-2" max="-2" attributes="0"/>
-                          <Component id="dateFrom" min="-2" max="-2" attributes="0"/>
+                          <Component id="dateEnd" min="-2" max="-2" attributes="0"/>
+                          <Component id="dateStart" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="558" max="32767" attributes="0"/>
+                      <Component id="chartContainer" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.toedter.calendar.JDateChooser" name="dateFrom">
+            <Component class="com.toedter.calendar.JDateChooser" name="dateStart">
               <Properties>
                 <Property name="dateFormatString" type="java.lang.String" value="d-MMM-yyyy"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="dateTo">
+            <Component class="com.toedter.calendar.JDateChooser" name="dateEnd">
               <Properties>
                 <Property name="dateFormatString" type="java.lang.String" value="d-MMM-yyyy"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JPanel" name="chartContainer">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="unindra.core.Background" name="DataStore">

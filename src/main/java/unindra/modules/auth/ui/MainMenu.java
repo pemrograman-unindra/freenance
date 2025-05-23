@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Calendar;
 import java.util.Date;
-import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -40,23 +39,22 @@ import unindra.modules.report.ui.ReportProject;
 
 public class MainMenu extends javax.swing.JFrame {
 
-    private JPanel chartContainer;
-
     public MainMenu() {
         initComponents();
         pack();
         setLocationRelativeTo(null);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        dateFrom.setDate(cal.getTime());
-        dateTo.setDate(new Date());
+        dateStart.setDate(cal.getTime());
+        dateEnd.setDate(new Date());
         showDashboardChart();
     }
 
     private void showDashboardChart() {
         chartContainer.removeAll();
         chartContainer.setLayout(new GridLayout(1, 2));
-        Analytic analytic = AuthService.getAnalytic();
+        chartContainer.setOpaque(false);
+        Analytic analytic = AuthService.getAnalytic(dateStart.getDate(), dateEnd.getDate());
 
         // ---------------- Grafik Aktivitas Keuangan ----------------
         DefaultCategoryDataset activityDataset = new DefaultCategoryDataset();
@@ -129,8 +127,9 @@ public class MainMenu extends javax.swing.JFrame {
 
         MainMenuTabbedPane = new javax.swing.JTabbedPane();
         Dashboard = new unindra.core.Background();
-        dateFrom = new com.toedter.calendar.JDateChooser();
-        dateTo = new com.toedter.calendar.JDateChooser();
+        dateStart = new com.toedter.calendar.JDateChooser();
+        dateEnd = new com.toedter.calendar.JDateChooser();
+        chartContainer = new javax.swing.JPanel();
         DataStore = new unindra.core.Background();
         bCOA = new javax.swing.JButton();
         bProject = new javax.swing.JButton();
@@ -149,17 +148,15 @@ public class MainMenu extends javax.swing.JFrame {
         bReportExpense = new javax.swing.JButton();
         bReportBudgetRealization = new javax.swing.JButton();
         bReportProject = new javax.swing.JButton();
-        chartContainer = new JPanel();
-        chartContainer.setOpaque(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         MainMenuTabbedPane.setBackground(new java.awt.Color(222, 242, 251));
         MainMenuTabbedPane.setName(""); // NOI18N
 
-        dateFrom.setDateFormatString("d-MMM-yyyy");
+        dateStart.setDateFormatString("d-MMM-yyyy");
 
-        dateTo.setDateFormatString("d-MMM-yyyy");
+        dateEnd.setDateFormatString("d-MMM-yyyy");
 
         javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
         Dashboard.setLayout(DashboardLayout);
@@ -167,9 +164,9 @@ public class MainMenu extends javax.swing.JFrame {
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DashboardLayout.createSequentialGroup()
                 .addGap(760, 760, 760)
-                .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
             .addGroup(DashboardLayout.createSequentialGroup()
                 .addContainerGap()
@@ -181,8 +178,8 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(DashboardLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
                 .addContainerGap())
@@ -632,7 +629,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton bReportExpense;
     private javax.swing.JButton bReportIncome;
     private javax.swing.JButton bReportProject;
-    private com.toedter.calendar.JDateChooser dateFrom;
-    private com.toedter.calendar.JDateChooser dateTo;
+    private javax.swing.JPanel chartContainer;
+    private com.toedter.calendar.JDateChooser dateEnd;
+    private com.toedter.calendar.JDateChooser dateStart;
     // End of variables declaration//GEN-END:variables
 }
