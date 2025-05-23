@@ -1,27 +1,69 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package unindra.modules.transaction.cashin.ui;
 
-import unindra.modules.datastore.contact.ui.*;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.function.Consumer;
 
-/**
- *
- * @author jeffry
- */
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import unindra.core.Config;
+import unindra.modules.transaction.core.model.Transaction;
+import unindra.modules.transaction.core.service.TransactionService;
+
 public class CashInList extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RoomList
-     */
+    private Consumer<Transaction> callback;
+
+    public static void openLookup(Consumer<Transaction> callback) {
+        CashInList lookup = new CashInList();
+        lookup.setCallback(callback);
+        lookup.setVisible(true);
+    }
+
     public CashInList() {
         initComponents();
         pack();
         setLocationRelativeTo(null);
+        reset();
+        loadData();
+    }
+
+    public void setCallback(Consumer<Transaction> callback) {
+        this.callback = callback;
+        title.setText("Pilih Transaksi Penerimaan");
+    }
+
+    public void loadData() {
+        Object[] headers = { "Tanggal", "No. Referensi", "Diterima Dari", "Diterima Melalui", "Penerimaan Atas",
+                "Nilai Diterima" };
+        DefaultTableModel model = new DefaultTableModel(null, headers);
+        List<Transaction> list = TransactionService.find("cash_in", fSearch.getText());
+        for (Transaction data : list) {
+            model.addRow(new Object[] {
+                    data.getTrxDate(),
+                    data.getTrxNumber(),
+                    data.getContactName(),
+                    data.getTargetCoaName(),
+                    data.getOriginCoaName(),
+                    Config.formatNumber().format(data.getAmount())
+            });
+        }
+        dataTable.setModel(model);
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+        dataTable.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+    }
+
+    private void search() {
+        bEdit.setVisible(false);
+        bDelete.setVisible(false);
+        bCancel.setVisible(true);
+        fSearch.setVisible(false);
+        bSearch.setVisible(false);
+        bCreate.setVisible(false);
+        loadData();
     }
 
     private void reset() {
@@ -33,202 +75,249 @@ public class CashInList extends javax.swing.JFrame {
         bCreate.setVisible(true);
     }
 
+    private void cancel() {
+        fSearch.setText("");
+        reset();
+        loadData();
+    }
+
+    private void choose() {
+        if (callback != null) {
+            int selectedRow = dataTable.getSelectedRow();
+            if (selectedRow != -1) {
+                String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+                Transaction data = TransactionService.getByNumber(number);
+                callback.accept(data);
+                dispose();
+            }
+        } else {
+            bEdit.setVisible(true);
+            bDelete.setVisible(true);
+            bCancel.setVisible(true);
+            fSearch.setVisible(false);
+            bSearch.setVisible(false);
+            bCreate.setVisible(false);
+        }
+    }
+
+    private void create() {
+        new CashInForm(this, null).setVisible(true);
+    }
+
+    private void edit() {
+        int selectedRow = dataTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+            Transaction data = TransactionService.getByNumber(number);
+            new CashInForm(this, data).setVisible(true);
+        }
+    }
+
+    private void delete() {
+        int selectedRow = dataTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+            Transaction data = TransactionService.getByNumber(number);
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Apakah kamu yakin akan menghapus data Transaksi Penerimaan " + data.getTrxNumber() + "?",
+                    "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                TransactionService.delete(data.getId());
+                loadData(); // Refresh the data after deletion
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         background1 = new unindra.core.Background();
         jScrollPane1 = new javax.swing.JScrollPane();
-        trxTable = new javax.swing.JTable();
+        dataTable = new javax.swing.JTable();
         bCreate = new javax.swing.JButton();
         bSearch = new javax.swing.JButton();
         fSearch = new javax.swing.JTextField();
-        bExit = new javax.swing.JButton();
-        title = new javax.swing.JLabel();
         bEdit = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
         bCancel = new javax.swing.JButton();
-        lUser1 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        trxTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Parent ID", "Tanggal", "Project", "Contact", "Metode Pembayaran", "Diterima Dari", "Sumber Dana", "Nominal", "Catatan"
-            }
-        ));
-        trxTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {
+                        { null, null, null, null, null, null },
+                        { null, null, null, null, null, null },
+                        { null, null, null, null, null, null },
+                        { null, null, null, null, null, null }
+                },
+                new String[] {
+                        "Tanggal", "No. Referensi", "Diterima Dari", "Diterima Melalui", "Atas Penerimaan",
+                        "Nilai Diterima"
+                }));
+        dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                trxTableMouseClicked(evt);
+                dataTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(trxTable);
+        jScrollPane1.setViewportView(dataTable);
 
-        bCreate.setText("Create");
+        bCreate.setText("Tambah");
         bCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCreateActionPerformed(evt);
             }
         });
 
-        bSearch.setText("Search");
+        bSearch.setText("Cari");
         bSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSearchActionPerformed(evt);
             }
         });
 
-        bExit.setText("Exit");
-        bExit.addActionListener(new java.awt.event.ActionListener() {
+        fSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bExitActionPerformed(evt);
+                fSearchActionPerformed(evt);
             }
         });
 
-        title.setText("User : Fulan");
-
-        bEdit.setText("Edit");
+        bEdit.setText("Ubah");
         bEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bEditActionPerformed(evt);
             }
         });
 
-        bDelete.setText("Delete");
+        bDelete.setText("Hapus");
         bDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bDeleteActionPerformed(evt);
             }
         });
 
-        bCancel.setText("Cancel");
+        bCancel.setText("Batal");
         bCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelActionPerformed(evt);
             }
         });
 
-        lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser1.setText("Daftar Transaksi Penerimaan");
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Daftar Transaksi Penerimaan");
+        title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
-            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(background1Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(bExit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bDelete)
-                        .addGap(18, 18, 18)
-                        .addComponent(bEdit)
-                        .addGap(18, 18, 18)
-                        .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bSearch)
-                        .addGap(18, 18, 18)
-                        .addComponent(bCreate))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(background1Layout.createSequentialGroup()
-                        .addComponent(lUser1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
+                background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                .addContainerGap(57, Short.MAX_VALUE)
+                                .addGroup(background1Layout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                                .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 276,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bSearch)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bCreate)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bCancel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bDelete)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bEdit))
+                                        .addGroup(background1Layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(title)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(59, 59, 59)));
         background1Layout.setVerticalGroup(
-            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lUser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bCreate)
-                    .addComponent(bSearch)
-                    .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bExit)
-                    .addComponent(bEdit)
-                    .addComponent(bDelete)
-                    .addComponent(bCancel))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
+                background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(title)
+                                .addGap(18, 18, 18)
+                                .addGroup(background1Layout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(bCreate)
+                                        .addComponent(bSearch)
+                                        .addComponent(fSearch, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bEdit)
+                                        .addComponent(bDelete)
+                                        .addComponent(bCancel))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(54, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bSearchActionPerformed
+    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSearchActionPerformed
+        search();
+    }// GEN-LAST:event_bSearchActionPerformed
 
-    private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCreateActionPerformed
-    //new CashInForm(this, null).setVisible(true);
-    CashInForm form = new CashInForm();
-    form.setVisible(true);
-    form.setLocationRelativeTo(null); 
-    }//GEN-LAST:event_bCreateActionPerformed
+    private void bCreateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCreateActionPerformed
+        create();
+    }// GEN-LAST:event_bCreateActionPerformed
 
-    private void bExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_bExitActionPerformed
+    private void bEditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bEditActionPerformed
+        edit();
+    }// GEN-LAST:event_bEditActionPerformed
 
-    private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
-        reset();
-    }//GEN-LAST:event_bEditActionPerformed
+    private void dataTableMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_dataTableMouseClicked
+        choose();
+    }// GEN-LAST:event_dataTableMouseClicked
 
-    private void trxTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trxTableMouseClicked
-        bEdit.setVisible(true);
-        bDelete.setVisible(true);
-        bCancel.setVisible(true);
-        fSearch.setVisible(false);
-        bSearch.setVisible(false);
-        bCreate.setVisible(false);
-    }//GEN-LAST:event_trxTableMouseClicked
+    private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCancelActionPerformed
+        cancel();
+    }// GEN-LAST:event_bCancelActionPerformed
 
-    private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelActionPerformed
-        reset();
-    }//GEN-LAST:event_bCancelActionPerformed
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bDeleteActionPerformed
+        delete();
+    }// GEN-LAST:event_bDeleteActionPerformed
 
-    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
-        reset();
-    }//GEN-LAST:event_bDeleteActionPerformed
+    private void fSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fSearchActionPerformed
+        search();
+    }// GEN-LAST:event_fSearchActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -238,18 +327,34 @@ public class CashInList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashInList.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -264,13 +369,11 @@ public class CashInList extends javax.swing.JFrame {
     private javax.swing.JButton bCreate;
     private javax.swing.JButton bDelete;
     private javax.swing.JButton bEdit;
-    private javax.swing.JButton bExit;
     private javax.swing.JButton bSearch;
     private unindra.core.Background background1;
+    private javax.swing.JTable dataTable;
     private javax.swing.JTextField fSearch;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lUser1;
     private javax.swing.JLabel title;
-    private javax.swing.JTable trxTable;
     // End of variables declaration//GEN-END:variables
 }

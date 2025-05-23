@@ -98,25 +98,42 @@ public class TransactionService {
 
 	public static Transaction getByNumber(String number) {
 		String sql = """
-					SELECT
-						parent.trx_no parent_number,
-						c.name contact_name,
-						origin_coa_id.name origin_coa_name,
-						target_coa_id.name target_coa_name,
-						t.*
-					FROM
-						transactions t
-						LEFT JOIN transactions parent on parent.id = t.parent_id
-						LEFT JOIN contacts c on c.id = t.contact_id
-						LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
-						LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
-					WHERE
+				SELECT
+					parent.trx_no parent_number,
+					p.project_no project_number,
+					c.name contact_name,
+					origin_coa.name origin_coa_name,
+					target_coa.name target_coa_name,
+					t.*
+				FROM
+					transactions t
+					LEFT JOIN transactions parent on parent.id = t.parent_id
+					LEFT JOIN projects p on p.id = t.project_id
+					LEFT JOIN contacts c on c.id = t.contact_id
+					LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
+					LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
+				WHERE
 						t.trx_no = ?
 				""";
 		try (ResultSet rs = DB.query(sql, number)) {
 			while (rs.next()) {
 				Transaction data = new Transaction();
 				data.setId(rs.getInt("id"));
+				data.setParentId(rs.getInt("parent_id"));
+				data.setParentNumber(rs.getString("parent_number"));
+				data.setProjectId(rs.getInt("project_id"));
+				data.setProjectNumber(rs.getString("project_number"));
+				data.setContactId(rs.getInt("contact_id"));
+				data.setContactName(rs.getString("contact_name"));
+				data.setOriginCoaId(rs.getInt("origin_coa_id"));
+				data.setOriginCoaName(rs.getString("origin_coa_name"));
+				data.setTargetCoaId(rs.getInt("trx_date"));
+				data.setTargetCoaName(rs.getString("target_coa_name"));
+				data.setTrxType(rs.getString("trx_type"));
+				data.setTrxNumber(rs.getString("trx_no"));
+				data.setTrxDate(LocalDate.parse(rs.getString("trx_date")));
+				data.setDescription(rs.getString("description"));
+				data.setAmount(rs.getBigDecimal("amount"));
 				return data;
 			}
 		} catch (SQLException e) {

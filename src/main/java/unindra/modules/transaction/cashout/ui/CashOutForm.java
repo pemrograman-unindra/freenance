@@ -5,10 +5,12 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import unindra.core.Config;
 
 import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
 import unindra.modules.datastore.project.ui.ProjectList;
+import unindra.modules.transaction.bill.ui.BillList;
 import unindra.modules.transaction.core.model.Transaction;
 import unindra.modules.transaction.core.service.TransactionService;
 
@@ -51,10 +53,17 @@ public class CashOutForm extends javax.swing.JFrame {
     }
 
     private void lookupBill() {
-        ContactList.openLookup(data -> {
+        BillList.openLookup(data -> {
             if (data != null) {
-                contactId = data.getId();
-                fContactName.setText(data.getName());
+                parentId = data.getId();
+                fBillNumber.setText(data.getTrxNumber());
+                projectId = data.getProjectId();
+                fProjectNumber.setText(data.getProjectNumber());
+                contactId = data.getContactId();
+                fContactName.setText(data.getContactName());
+                targetCoaId = data.getOriginCoaId();
+                fTargetCoaName.setText(data.getOriginCoaName());
+                fAmount.setText(Config.formatNumber().format(data.getAmount()));
             }
         });
     }
@@ -92,7 +101,7 @@ public class CashOutForm extends javax.swing.JFrame {
                 targetCoaId = coa.getId();
                 fTargetCoaName.setText(coa.getName());
             }
-        }, "child", 0);
+        }, "cash", 0);
     }
 
     private void save() {
@@ -107,7 +116,7 @@ public class CashOutForm extends javax.swing.JFrame {
         data.setDescription(fDescription.getText());
         data.setTrxDate(fDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         try {
-            BigDecimal amount = new BigDecimal(fAmount.getText());
+            BigDecimal amount = new BigDecimal(fAmount.getText().replace(".", "").replace(",", "."));
             data.setAmount(amount);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Nilai anggaran harus berupa angka.");
@@ -132,7 +141,7 @@ public class CashOutForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         background1 = new unindra.core.Background();
@@ -241,7 +250,7 @@ public class CashOutForm extends javax.swing.JFrame {
         });
 
         lAmount4.setBackground(new java.awt.Color(204, 255, 255));
-        lAmount4.setText("Untuk Keperluan");
+        lAmount4.setText("Untuk Pembayaran");
 
         fTargetCoaName.setEditable(false);
         fTargetCoaName.setText("Pilih Kategori Keuangan...");
@@ -282,245 +291,128 @@ public class CashOutForm extends javax.swing.JFrame {
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
-                background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                                .addGroup(background1Layout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addContainerGap(807, Short.MAX_VALUE)
+                        .addComponent(bCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(bSave))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(background1Layout.createSequentialGroup()
-                                                .addContainerGap(807, Short.MAX_VALUE)
-                                                .addComponent(bCancel)
+                                            .addComponent(lAmount1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fContactName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lDate, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lAmount3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fOriginCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(background1Layout.createSequentialGroup()
+                                        .addComponent(lAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(background1Layout.createSequentialGroup()
+                                            .addComponent(lAmount4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(fTargetCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(background1Layout.createSequentialGroup()
+                                                .addComponent(lCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(bSave))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, background1Layout
-                                                .createSequentialGroup()
-                                                .addGap(35, 35, 35)
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(background1Layout.createSequentialGroup()
-                                                                .addGroup(background1Layout.createParallelGroup(
-                                                                        javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addGroup(background1Layout.createParallelGroup(
-                                                                                javax.swing.GroupLayout.Alignment.LEADING,
-                                                                                false)
-                                                                                .addGroup(background1Layout
-                                                                                        .createSequentialGroup()
-                                                                                        .addComponent(lAmount1,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                182,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addGap(18, 18, 18)
-                                                                                        .addComponent(fContactName,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                236,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                .addGroup(background1Layout
-                                                                                        .createSequentialGroup()
-                                                                                        .addComponent(lDate,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                182,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addGap(18, 18, 18)
-                                                                                        .addComponent(fDate,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                Short.MAX_VALUE)))
-                                                                        .addGroup(background1Layout
-                                                                                .createSequentialGroup()
-                                                                                .addComponent(lAmount3,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        182,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addGap(18, 18, 18)
-                                                                                .addComponent(fOriginCoaName,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        236,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                        .addGroup(background1Layout
-                                                                                .createSequentialGroup()
-                                                                                .addComponent(lAmount,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        182,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addGap(18, 18, 18)
-                                                                                .addComponent(fAmount,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                        236,
-                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                .addPreferredGap(
-                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                        Short.MAX_VALUE)
-                                                                .addGroup(background1Layout.createParallelGroup(
-                                                                        javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addGroup(
-                                                                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                                                                background1Layout.createParallelGroup(
-                                                                                        javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addGroup(background1Layout
-                                                                                                .createSequentialGroup()
-                                                                                                .addComponent(lAmount4,
-                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                        182,
-                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addGap(18, 18, 18)
-                                                                                                .addComponent(
-                                                                                                        fTargetCoaName,
-                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                        236,
-                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                        .addGroup(background1Layout
-                                                                                                .createParallelGroup(
-                                                                                                        javax.swing.GroupLayout.Alignment.LEADING,
-                                                                                                        false)
-                                                                                                .addGroup(
-                                                                                                        background1Layout
-                                                                                                                .createSequentialGroup()
-                                                                                                                .addComponent(
-                                                                                                                        lCoaName,
-                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                        182,
-                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                .addGap(18,
-                                                                                                                        18,
-                                                                                                                        18)
-                                                                                                                .addComponent(
-                                                                                                                        fNumber))
-                                                                                                .addGroup(
-                                                                                                        background1Layout
-                                                                                                                .createSequentialGroup()
-                                                                                                                .addComponent(
-                                                                                                                        lAmount2,
-                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                        182,
-                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                .addGap(18,
-                                                                                                                        18,
-                                                                                                                        18)
-                                                                                                                .addComponent(
-                                                                                                                        fBillNumber,
-                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                        236,
-                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                                        .addGroup(
-                                                                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                                                                background1Layout
-                                                                                        .createSequentialGroup()
-                                                                                        .addComponent(lAmount5,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                182,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addGap(18, 18, 18)
-                                                                                        .addComponent(fProjectNumber,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                236,
-                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                        .addGroup(background1Layout.createSequentialGroup()
-                                                                .addComponent(lAmount6,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 182,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(jScrollPane1)))))
-                                .addGap(31, 31, 31))
-                        .addGroup(background1Layout.createSequentialGroup()
-                                .addGap(382, 382, 382)
-                                .addComponent(title)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+                                                .addComponent(fNumber))
+                                            .addGroup(background1Layout.createSequentialGroup()
+                                                .addComponent(lAmount2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(fBillNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                        .addComponent(lAmount5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(background1Layout.createSequentialGroup()
+                                .addComponent(lAmount6, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1)))))
+                .addGap(31, 31, 31))
+            .addGroup(background1Layout.createSequentialGroup()
+                .addGap(382, 382, 382)
+                .addComponent(title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
         background1Layout.setVerticalGroup(
-                background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(background1Layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(title)
-                                .addGap(30, 30, 30)
-                                .addGroup(background1Layout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(lDate)
-                                                        .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(lAmount1)
-                                                        .addComponent(fContactName,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(fNumber, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(lCoaName))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(lAmount2)
-                                                        .addComponent(fBillNumber,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)
-                                .addGroup(background1Layout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(lAmount3)
-                                                        .addComponent(fOriginCoaName,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(lAmount)))
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(lAmount4)
-                                                        .addComponent(fTargetCoaName,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(background1Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(lAmount5)
-                                                        .addComponent(fProjectNumber,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)
-                                .addGroup(
-                                        background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lAmount6)
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41,
-                                        Short.MAX_VALUE)
-                                .addGroup(background1Layout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(bSave)
-                                        .addComponent(bCancel))
-                                .addGap(35, 35, 35)));
+            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(background1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(title)
+                .addGap(30, 30, 30)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lDate)
+                            .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount1)
+                            .addComponent(fContactName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lCoaName))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount2)
+                            .addComponent(fBillNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount3)
+                            .addComponent(fOriginCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lAmount)))
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount4)
+                            .addComponent(fTargetCoaName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lAmount5)
+                            .addComponent(fProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lAmount6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bSave)
+                    .addComponent(bCancel))
+                .addGap(35, 35, 35))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

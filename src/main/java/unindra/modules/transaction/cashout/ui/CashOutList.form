@@ -100,7 +100,7 @@
                     <Column editable="true" title="No. Referensi" type="java.lang.Object"/>
                     <Column editable="true" title="Dibayar Kepada" type="java.lang.Object"/>
                     <Column editable="true" title="Dibayar Dengan" type="java.lang.Object"/>
-                    <Column editable="true" title="Untuk Keperluan" type="java.lang.Object"/>
+                    <Column editable="true" title="Untuk Pembayaran" type="java.lang.Object"/>
                     <Column editable="true" title="Nilai Pembayaran" type="java.lang.Object"/>
                   </Table>
                 </Property>

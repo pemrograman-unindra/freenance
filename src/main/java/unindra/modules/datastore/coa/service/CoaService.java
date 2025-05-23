@@ -1,28 +1,30 @@
 package unindra.modules.datastore.coa.service;
 
-import unindra.core.DB;
-import unindra.modules.datastore.coa.model.Coa;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import unindra.core.DB;
+import unindra.modules.datastore.coa.model.Coa;
+
 public class CoaService {
 
-	public static void create(Coa data) {
+	public static int create(Coa data) {
+		int newId;
 		try {
-			DB.exec("INSERT INTO chart_of_accounts (parent_id, category_id, code, name, note, is_cash) VALUES (?, ?, ?, ?, ?, ?)",
-				data.getParentId(),
-				data.getCategoryId(),
-				data.getCode(),
-				data.getName(),
-				data.getNote(),
-				data.getIsCash()
-			);
+			newId = DB.exec(
+					"INSERT INTO chart_of_accounts (parent_id, category_id, code, name, note, is_cash) VALUES (?, ?, ?, ?, ?, ?)",
+					data.getParentId(),
+					data.getCategoryId(),
+					data.getCode(),
+					data.getName(),
+					data.getNote(),
+					data.getIsCash());
 		} catch (SQLException e) {
 			throw new RuntimeException("Create chart of account failed: " + e.getMessage(), e);
 		}
+		return newId;
 	}
 
 	public static int nextCodeByParentId(int parentId) {
@@ -39,7 +41,9 @@ public class CoaService {
 
 	public static Coa getByCode(int code) {
 		Coa data = new Coa();
-		try (ResultSet rs = DB.query("SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.code = ?", code)) {
+		try (ResultSet rs = DB.query(
+				"SELECT parent.name parent_name, coa.* FROM chart_of_accounts coa left join chart_of_accounts parent on parent.id = coa.parent_id WHERE coa.code = ?",
+				code)) {
 			while (rs.next()) {
 				data.setId(rs.getInt("id"));
 				data.setParentId(rs.getInt("parent_id"));
@@ -67,11 +71,11 @@ public class CoaService {
 		} else if (type.equals("child")) {
 			sql += " and not exists (select 1 from chart_of_accounts child where child.parent_id = coa.id)";
 		}
-		if (categoryId>0) {
-			sql += " and coa.category_id = "+String.valueOf(categoryId);
+		if (categoryId > 0) {
+			sql += " and coa.category_id = " + String.valueOf(categoryId);
 		}
 		sql += " order by coa.code";
-		try (ResultSet rs = DB.query(sql, "%"+ keyword +"%")) {
+		try (ResultSet rs = DB.query(sql, "%" + keyword + "%")) {
 			while (rs.next()) {
 				Coa data = new Coa();
 				data.setId(rs.getInt("id"));
@@ -92,15 +96,15 @@ public class CoaService {
 
 	public static void update(Coa data) {
 		try {
-			DB.exec("UPDATE chart_of_accounts SET parent_id = ?, category_id = ?, code = ?, name = ?, note = ?, is_cash = ? WHERE id = ?",
-				data.getParentId(),
-				data.getCategoryId(),
-				data.getCode(),
-				data.getName(),
-				data.getNote(),
-				data.getIsCash(),
-				data.getId()
-			);
+			DB.exec(
+					"UPDATE chart_of_accounts SET parent_id = ?, category_id = ?, code = ?, name = ?, note = ?, is_cash = ? WHERE id = ?",
+					data.getParentId(),
+					data.getCategoryId(),
+					data.getCode(),
+					data.getName(),
+					data.getNote(),
+					data.getIsCash(),
+					data.getId());
 		} catch (SQLException e) {
 			throw new RuntimeException("Update chart of account failed: " + e.getMessage(), e);
 		}

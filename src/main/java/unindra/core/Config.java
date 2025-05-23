@@ -1,10 +1,12 @@
 package unindra.core;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Config {
 	private static Dotenv dotenv;
@@ -17,7 +19,8 @@ public class Config {
 			if (envFile.exists()) {
 				dotenv = Dotenv.configure().directory(".").ignoreIfMalformed().ignoreIfMissing().load();
 			}
-		} catch (Exception ignore) {}
+		} catch (Exception ignore) {
+		}
 
 		DEFAULTS.put("DB_NAME", "freenance.db");
 	}
@@ -30,9 +33,14 @@ public class Config {
 	public static String get(String key, String defaultValue) {
 		if (dotenv != null) {
 			String value = dotenv.get(key);
-			if (value != null) return value;
+			if (value != null)
+				return value;
 		}
 		String envValue = System.getenv(key);
 		return envValue != null ? envValue : defaultValue;
+	}
+
+	public static NumberFormat formatNumber() {
+		return NumberFormat.getNumberInstance(new Locale("id", "ID"));
 	}
 }
