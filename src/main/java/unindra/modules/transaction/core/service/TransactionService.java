@@ -15,7 +15,7 @@ public class TransactionService {
 		try {
 			int trxId = DB.exec("""
 					INSERT INTO transactions (
-						parent_id
+						parent_id,
 						project_id,
 						contact_id,
 						origin_coa_id,
@@ -25,7 +25,7 @@ public class TransactionService {
 						trx_date,
 						description,
 						amount
-					) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+					) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 					""",
 					data.getParentId(),
 					data.getProjectId(),
@@ -36,8 +36,7 @@ public class TransactionService {
 					data.getTrxNumber(),
 					data.getTrxDate(),
 					data.getDescription(),
-					data.getAmount(),
-					data.getId());
+					data.getAmount());
 			DB.exec("INSERT INTO journals (trx_id, coa_id, debit, credit) VALUES (?, ?, ?, ?)",
 					trxId, data.getTargetCoaId(), data.getAmount(), 0);
 			DB.exec("INSERT INTO journals (trx_id, coa_id, debit, credit) VALUES (?, ?, ?, ?)",
@@ -52,6 +51,7 @@ public class TransactionService {
 		String sql = """
 				SELECT
 					parent.trx_no parent_number,
+					p.project_no project_number,
 					c.name contact_name,
 					origin_coa.name origin_coa_name,
 					target_coa.name target_coa_name,
@@ -59,6 +59,7 @@ public class TransactionService {
 				FROM
 					transactions t
 					LEFT JOIN transactions parent on parent.id = t.parent_id
+					LEFT JOIN projects p on p.id = t.project_id
 					LEFT JOIN contacts c on c.id = t.contact_id
 					LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
 					LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id

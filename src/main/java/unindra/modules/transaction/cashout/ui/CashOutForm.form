@@ -98,7 +98,7 @@
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="lAmount5" min="-2" pref="182" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="fProjectName" min="-2" pref="236" max="-2" attributes="0"/>
+                                          <Component id="fProjectNumber" min="-2" pref="236" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -170,7 +170,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lAmount5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="fProjectName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="fProjectNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -331,14 +331,14 @@
             <Property name="text" type="java.lang.String" value="Proyek"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="fProjectName">
+        <Component class="javax.swing.JTextField" name="fProjectNumber">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value="Pilih Proyek..."/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fProjectNameMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fProjectNameActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fProjectNumberMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fProjectNumberActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lAmount6">
@@ -356,7 +356,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="fDescription">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
