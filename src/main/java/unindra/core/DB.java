@@ -20,7 +20,7 @@ public class DB {
 
 	private static void openConnection() throws SQLException {
 		try {
-			conn = DriverManager.getConnection("jdbc:sqlite:"+Config.get("DB_NAME"));
+			conn = DriverManager.getConnection("jdbc:sqlite:" + Config.get("DB_NAME"));
 		} catch (SQLException e) {
 			throw new RuntimeException("Failed to connect to database: " + e.getMessage(), e);
 		}
@@ -51,9 +51,18 @@ public class DB {
 
 	// Helper untuk INSERT, UPDATE, DELETE
 	public static int exec(String sql, Object... params) throws SQLException {
+		int affectedRows;
 		try (PreparedStatement stmt = prepareStatement(sql, params)) {
-			return stmt.executeUpdate();
+			affectedRows = stmt.executeUpdate();
+			if (sql.trim().toUpperCase().startsWith("INSERT")) {
+				try (ResultSet rs = stmt.getGeneratedKeys()) {
+					if (rs.next()) {
+						return rs.getInt(1);
+					}
+				}
+			}
 		}
+		return affectedRows;
 	}
 
 	// Helper untuk menyiapkan PreparedStatement dengan parameter
@@ -68,22 +77,22 @@ public class DB {
 	public static void migrate() {
 		try {
 			String[] files = {
-				"001_create-table-users.sql",
-				"002_create-table-chart_of_accounts.sql",
-				"003_insert-default-chart_of_accounts.sql",
-				"004_create-table-contacts.sql",
-				"005_insert-default-contacts.sql",
-				"006_create-table-projects.sql",
-				"007_insert-default-projects.sql",
-				"008_create-table-budgets.sql",
-				"009_create-table-transactions.sql",
-				"010_create-table-journals.sql"
+					"001_create-table-users.sql",
+					"002_create-table-chart_of_accounts.sql",
+					"003_insert-default-chart_of_accounts.sql",
+					"004_create-table-contacts.sql",
+					"005_insert-default-contacts.sql",
+					"006_create-table-projects.sql",
+					"007_insert-default-projects.sql",
+					"008_create-table-budgets.sql",
+					"009_create-table-transactions.sql",
+					"010_create-table-journals.sql"
 			};
 
 			for (String file : files) {
 				System.out.println("Running migration: " + file);
-				try (InputStream in = DB.class.getResourceAsStream("/db/migrations/" + file); 
-					BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+				try (InputStream in = DB.class.getResourceAsStream("/db/migrations/" + file);
+						BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 					String sql = reader.lines().collect(Collectors.joining("\n"));
 					exec(sql);
 				} catch (Exception e) {

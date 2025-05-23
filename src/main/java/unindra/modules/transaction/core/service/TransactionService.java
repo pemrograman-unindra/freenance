@@ -1,35 +1,47 @@
 package unindra.modules.transaction.core.service;
 
-import unindra.core.DB;
-import unindra.modules.transaction.core.model.Transaction;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import unindra.core.DB;
+import unindra.modules.transaction.core.model.Transaction;
+
 public class TransactionService {
 
 	public static void create(Transaction data) {
-		String sql = """
-			INSERT INTO transactions (
-				parent_id
-				project_id,
-				contact_id,
-				origin_coa_id,
-				target_coa_id,
-				trx_type,
-				trx_no,
-				trx_date,
-				description,
-				amount
-			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			""";
 		try {
-			DB.exec(sql,
-				data.getAmount()
-			);
+			int trxId = DB.exec("""
+					INSERT INTO transactions (
+						parent_id
+						project_id,
+						contact_id,
+						origin_coa_id,
+						target_coa_id,
+						trx_type,
+						trx_no,
+						trx_date,
+						description,
+						amount
+					) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+					""",
+					data.getParentId(),
+					data.getProjectId(),
+					data.getContactId(),
+					data.getOriginCoaId(),
+					data.getTargetCoaId(),
+					data.getTrxType(),
+					data.getTrxNumber(),
+					data.getTrxDate(),
+					data.getDescription(),
+					data.getAmount(),
+					data.getId());
+			DB.exec("INSERT INTO journals (trx_id, coa_id, debit, credit) VALUES (?, ?, ?, ?)",
+					trxId, data.getTargetCoaId(), data.getAmount(), 0);
+			DB.exec("INSERT INTO journals (trx_id, coa_id, debit, credit) VALUES (?, ?, ?, ?)",
+					trxId, data.getOriginCoaId(), 0, data.getAmount());
 		} catch (SQLException e) {
 			throw new RuntimeException("Create transaction failed: " + e.getMessage(), e);
 		}
@@ -38,23 +50,23 @@ public class TransactionService {
 	public static List<Transaction> find(String type, String keyword) {
 		List<Transaction> list = new ArrayList<>();
 		String sql = """
-			SELECT 
-				parent.trx_no parent_number,
-				c.name contact_name,
-				origin_coa.name origin_coa_name,
-				target_coa.name target_coa_name,
-				t.* 
-			FROM 
-				transactions t 
-				LEFT JOIN transactions parent on parent.id = t.parent_id
-				LEFT JOIN contacts c on c.id = t.contact_id
-				LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
-				LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
-			WHERE 
-				t.trx_type = ?
-				AND t.trx_no like ?
-			""";
-		String text = "%"+ keyword +"%";
+				SELECT
+					parent.trx_no parent_number,
+					c.name contact_name,
+					origin_coa.name origin_coa_name,
+					target_coa.name target_coa_name,
+					t.*
+				FROM
+					transactions t
+					LEFT JOIN transactions parent on parent.id = t.parent_id
+					LEFT JOIN contacts c on c.id = t.contact_id
+					LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
+					LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
+				WHERE
+					t.trx_type = ?
+					AND t.trx_no like ?
+				""";
+		String text = "%" + keyword + "%";
 		try (ResultSet rs = DB.query(sql, type, text)) {
 			while (rs.next()) {
 				Transaction data = new Transaction();
@@ -85,21 +97,21 @@ public class TransactionService {
 
 	public static Transaction getByNumber(String number) {
 		String sql = """
-			SELECT 
-				parent.trx_no parent_number,
-				c.name contact_name,
-				origin_coa_id.name origin_coa_name,
-				target_coa_id.name target_coa_name,
-				t.* 
-			FROM 
-				transactions t 
-				LEFT JOIN transactions parent on parent.id = t.parent_id
-				LEFT JOIN contacts c on c.id = t.contact_id
-				LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
-				LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
-			WHERE 
-				t.trx_no = ?
-		""";
+					SELECT
+						parent.trx_no parent_number,
+						c.name contact_name,
+						origin_coa_id.name origin_coa_name,
+						target_coa_id.name target_coa_name,
+						t.*
+					FROM
+						transactions t
+						LEFT JOIN transactions parent on parent.id = t.parent_id
+						LEFT JOIN contacts c on c.id = t.contact_id
+						LEFT JOIN chart_of_accounts origin_coa on origin_coa.id = t.origin_coa_id
+						LEFT JOIN chart_of_accounts target_coa on target_coa.id = t.target_coa_id
+					WHERE
+						t.trx_no = ?
+				""";
 		try (ResultSet rs = DB.query(sql, number)) {
 			while (rs.next()) {
 				Transaction data = new Transaction();
@@ -113,26 +125,38 @@ public class TransactionService {
 	}
 
 	public static void update(Transaction data) {
-		String sql = """
-			UPDATE transactions SET
-				parent_id = ?
-				project_id = ?
-				contact_id = ?
-				origin_coa_id = ?
-				target_coa_id = ?
-				trx_type = ?
-				trx_no = ?
-				trx_date = ?
-				description = ?
-				amount = ?
-			WHERE
-				id = ?
-			""";
 		try {
-			DB.exec(sql,
-				data.getAmount(),
-				data.getId()
-			);
+			DB.exec("""
+					UPDATE transactions SET
+						parent_id = ?
+						project_id = ?
+						contact_id = ?
+						origin_coa_id = ?
+						target_coa_id = ?
+						trx_type = ?
+						trx_no = ?
+						trx_date = ?
+						description = ?
+						amount = ?
+					WHERE
+						id = ?
+					""",
+					data.getParentId(),
+					data.getProjectId(),
+					data.getContactId(),
+					data.getOriginCoaId(),
+					data.getTargetCoaId(),
+					data.getTrxType(),
+					data.getTrxNumber(),
+					data.getTrxDate(),
+					data.getDescription(),
+					data.getAmount(),
+					data.getId());
+			DB.exec("DELETE FROM journals WHERE trx_id = ?", data.getId());
+			DB.exec("INSERT INTO journals (trx_id, coa_id, debit, credit) VALUES (?, ?, ?, ?)",
+					data.getId(), data.getTargetCoaId(), data.getAmount(), 0);
+			DB.exec("INSERT INTO journals (trx_id, coa_id, debit, credit) VALUES (?, ?, ?, ?)",
+					data.getId(), data.getOriginCoaId(), 0, data.getAmount());
 		} catch (SQLException e) {
 			throw new RuntimeException("Update transaction failed: " + e.getMessage(), e);
 		}
@@ -141,6 +165,7 @@ public class TransactionService {
 	public static void delete(int id) {
 		try {
 			DB.exec("DELETE FROM transactions WHERE id = ?", id);
+			DB.exec("DELETE FROM journals WHERE trx_id = ?", id);
 		} catch (SQLException e) {
 			throw new RuntimeException("Delete transaction failed: " + e.getMessage(), e);
 		}
