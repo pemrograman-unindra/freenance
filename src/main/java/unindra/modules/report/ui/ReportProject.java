@@ -11,11 +11,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import unindra.core.DB;
 import unindra.modules.auth.ui.MainMenu;
-import unindra.modules.datastore.project.ui.ProjectList;
 
 public class ReportProject extends javax.swing.JFrame {
-    
-    private Integer projectId;
 
     public ReportProject() {
         initComponents();
@@ -27,20 +24,12 @@ public class ReportProject extends javax.swing.JFrame {
         fDateEnd.setDate(new Date());
     }
 
-    private void lookupProject() {
-        ProjectList.openLookup(data -> {
-            if (data != null) {
-                projectId = data.getId();
-            }
-        });
-    }
-
     private void open() {
         try {
             InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
             HashMap<String, Object> params = new HashMap<>();
-            params.put("date", fDateStart.getDate());
-            params.put("project_id", projectId);
+            params.put("date_start", fDateStart.getDate());
+            params.put("date_end", fDateEnd.getDate());
             Connection connection = DB.getConnection();
             JasperPrint print = JasperFillManager.fillReport(file, params, connection);
             JasperViewer viewer = new JasperViewer(print, false);
@@ -69,10 +58,8 @@ public class ReportProject extends javax.swing.JFrame {
         fDateStart = new com.toedter.calendar.JDateChooser();
         fDateEnd = new com.toedter.calendar.JDateChooser();
         bSetEqual = new javax.swing.JButton();
-        fProjectName = new javax.swing.JTextField();
-        lUser2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         bOpen.setText("Buka");
         bOpen.addActionListener(new java.awt.event.ActionListener() {
@@ -105,52 +92,31 @@ public class ReportProject extends javax.swing.JFrame {
             }
         });
 
-        fProjectName.setEditable(false);
-        fProjectName.setText("Pilih Proyek...");
-        fProjectName.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                fProjectNameMouseClicked(evt);
-            }
-        });
-        fProjectName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fProjectNameActionPerformed(evt);
-            }
-        });
-
-        lUser2.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser2.setText("Proyek");
-
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bCancel)
-                .addGap(18, 18, 18)
-                .addComponent(bOpen)
-                .addGap(32, 32, 32))
             .addGroup(background1Layout.createSequentialGroup()
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(177, 177, 177)
+                .addComponent(lUser1)
+                .addContainerGap(240, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(lUser1))
+                        .addGap(20, 20, 20)
+                        .addComponent(lUser)
+                        .addGap(18, 18, 18)
+                        .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bSetEqual)
+                        .addGap(18, 18, 18)
+                        .addComponent(fDateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lUser)
-                            .addComponent(lUser2))
-                        .addGap(41, 41, 41)
-                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(background1Layout.createSequentialGroup()
-                                .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bSetEqual)
-                                .addGap(18, 18, 18)
-                                .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(fProjectName))))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(bOpen)))
+                .addGap(32, 32, 32))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,15 +125,11 @@ public class ReportProject extends javax.swing.JFrame {
                 .addComponent(lUser1)
                 .addGap(41, 41, 41)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lUser)
                     .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSetEqual))
-                .addGap(18, 18, 18)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lUser2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                    .addComponent(bSetEqual)
+                    .addComponent(lUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)
                     .addComponent(bOpen))
@@ -199,14 +161,6 @@ public class ReportProject extends javax.swing.JFrame {
     private void bSetEqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSetEqualActionPerformed
         fDateEnd.setDate(fDateStart.getDate());
     }//GEN-LAST:event_bSetEqualActionPerformed
-
-    private void fProjectNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fProjectNameMouseClicked
-        lookupProject();
-    }//GEN-LAST:event_fProjectNameMouseClicked
-
-    private void fProjectNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fProjectNameActionPerformed
-        lookupProject();
-    }//GEN-LAST:event_fProjectNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,9 +207,7 @@ public class ReportProject extends javax.swing.JFrame {
     private unindra.core.Background background1;
     private com.toedter.calendar.JDateChooser fDateEnd;
     private com.toedter.calendar.JDateChooser fDateStart;
-    private javax.swing.JTextField fProjectName;
     private javax.swing.JLabel lUser;
     private javax.swing.JLabel lUser1;
-    private javax.swing.JLabel lUser2;
     // End of variables declaration//GEN-END:variables
 }

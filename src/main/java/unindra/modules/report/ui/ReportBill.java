@@ -28,7 +28,8 @@ public class ReportBill extends javax.swing.JFrame {
         try {
             InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
             HashMap<String, Object> params = new HashMap<>();
-            params.put("date", fDateStart.getDate());
+            params.put("date_start", fDateStart.getDate());
+            params.put("date_end", fDateEnd.getDate());
             Connection connection = DB.getConnection();
             JasperPrint print = JasperFillManager.fillReport(file, params, connection);
             JasperViewer viewer = new JasperViewer(print, false);
@@ -58,7 +59,7 @@ public class ReportBill extends javax.swing.JFrame {
         fDateEnd = new com.toedter.calendar.JDateChooser();
         bSetEqual = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         bOpen.setText("Buka");
         bOpen.addActionListener(new java.awt.event.ActionListener() {
@@ -95,27 +96,27 @@ public class ReportBill extends javax.swing.JFrame {
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bCancel)
-                .addGap(18, 18, 18)
-                .addComponent(bOpen)
-                .addGap(32, 32, 32))
             .addGroup(background1Layout.createSequentialGroup()
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(177, 177, 177)
+                .addComponent(lUser1)
+                .addContainerGap(240, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(20, 20, 20)
                         .addComponent(lUser)
-                        .addGap(41, 41, 41)
-                        .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(bSetEqual)
                         .addGap(18, 18, 18)
-                        .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(fDateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(lUser1)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(bOpen)))
+                .addGap(32, 32, 32))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,10 +125,10 @@ public class ReportBill extends javax.swing.JFrame {
                 .addComponent(lUser1)
                 .addGap(41, 41, 41)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lUser)
                     .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSetEqual))
+                    .addComponent(bSetEqual)
+                    .addComponent(lUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)

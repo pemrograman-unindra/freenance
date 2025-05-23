@@ -123,6 +123,67 @@ public class AuthService {
 			throw new RuntimeException("Database error: " + e.getMessage(), e);
 		}
 
+		// asset & liability budget
+		try (ResultSet rs = DB.query("""
+			SELECT 
+				coa.category_id category_id,
+				sum(b.amount) amount
+			FROM 
+				budgets b
+				JOIN chart_of_accounts coa on coa.id = b.coa_id
+			WHERE
+				coa.category_id in (1, 2)
+				AND b.period_end <= ?
+				AND NOT EXISTS (
+					SELECT 1 FROM budgets prev
+						WHERE prev.coa_id = b.coa_id
+						AND prev.period_end <= ?
+						AND prev.period_end > b.period_end
+				)
+			GROUP BY
+				coa.category_id
+			""", dateEnd)) {
+			if (rs.next()) {
+				int categoryId = rs.getInt("category_id");
+				BigDecimal amount = rs.getBigDecimal("amount");
+				if (categoryId == 1) {
+					analytic.setAssetBudget(amount);
+				} else if (categoryId == 2) {
+					analytic.setLiabilityBudget(amount);
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Database error: " + e.getMessage(), e);
+		}
+
+		// income & expense budget
+		try (ResultSet rs = DB.query("""
+			SELECT 
+				coa.category_id category_id,
+				sum(b.amount) amount
+			FROM 
+				budgets b
+				JOIN chart_of_accounts coa on coa.id = b.coa_id
+			WHERE
+				coa.category_id in (4, 5)
+				AND b.period_start >= ?
+				AND b.period_end <= ?
+			GROUP BY
+				coa.category_id
+			""", dateStart, dateEnd)) {
+			if (rs.next()) {
+				int categoryId = rs.getInt("category_id");
+				BigDecimal amount = rs.getBigDecimal("amount");
+				if (categoryId == 4) {
+					analytic.setAssetBudget(amount);
+				} else if (categoryId == 5) {
+					analytic.setLiabilityBudget(amount);
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Database error: " + e.getMessage(), e);
+		}
+
 		return analytic;
 	}
 

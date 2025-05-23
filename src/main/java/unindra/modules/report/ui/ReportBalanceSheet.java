@@ -17,14 +17,14 @@ public class ReportBalanceSheet extends javax.swing.JFrame {
         initComponents();
         pack();
         setLocationRelativeTo(null);
-        fDate.setDate(new Date());
+        fDateEnd.setDate(new Date());
     }
 
     private void open() {
         try {
             InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
             HashMap<String, Object> params = new HashMap<>();
-            params.put("date", fDate.getDate());
+            params.put("date_end", fDateEnd.getDate());
             Connection connection = DB.getConnection();
             JasperPrint print = JasperFillManager.fillReport(file, params, connection);
             JasperViewer viewer = new JasperViewer(print, false);
@@ -50,9 +50,9 @@ public class ReportBalanceSheet extends javax.swing.JFrame {
         bCancel = new javax.swing.JButton();
         lUser = new javax.swing.JLabel();
         lUser1 = new javax.swing.JLabel();
-        fDate = new com.toedter.calendar.JDateChooser();
+        fDateEnd = new com.toedter.calendar.JDateChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         bOpen.setText("Buka");
         bOpen.addActionListener(new java.awt.event.ActionListener() {
@@ -74,29 +74,29 @@ public class ReportBalanceSheet extends javax.swing.JFrame {
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Filter Laporan");
 
-        fDate.setDateFormatString("d-MMM-yyyy");
+        fDateEnd.setDateFormatString("d-MMM-yyyy");
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(177, 177, 177)
+                .addComponent(lUser1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(background1Layout.createSequentialGroup()
-                                .addComponent(bCancel)
-                                .addGap(18, 18, 18)
-                                .addComponent(bOpen))
-                            .addGroup(background1Layout.createSequentialGroup()
-                                .addComponent(lUser)
-                                .addGap(41, 41, 41)
-                                .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(20, 20, 20)
+                        .addComponent(lUser)
+                        .addGap(248, 248, 248)
+                        .addComponent(fDateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(background1Layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(lUser1)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(bOpen)))
+                .addGap(32, 32, 32))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,13 +105,13 @@ public class ReportBalanceSheet extends javax.swing.JFrame {
                 .addComponent(lUser1)
                 .addGap(41, 41, 41)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lUser)
-                    .addComponent(fDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                    .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)
                     .addComponent(bOpen))
-                .addGap(28, 28, 28))
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,7 +178,7 @@ public class ReportBalanceSheet extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOpen;
     private unindra.core.Background background1;
-    private com.toedter.calendar.JDateChooser fDate;
+    private com.toedter.calendar.JDateChooser fDateEnd;
     private javax.swing.JLabel lUser;
     private javax.swing.JLabel lUser1;
     // End of variables declaration//GEN-END:variables
