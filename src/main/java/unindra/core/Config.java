@@ -2,6 +2,7 @@ package unindra.core;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -42,5 +43,9 @@ public class Config {
 
 	public static NumberFormat formatNumber() {
 		return NumberFormat.getNumberInstance(new Locale("id", "ID"));
+	}
+
+	public static SimpleDateFormat formatDate() {
+		return new SimpleDateFormat("yyyy-MM-dd");
 	}
 }
