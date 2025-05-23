@@ -55,7 +55,7 @@ public class Login extends javax.swing.JFrame {
         lPass = new javax.swing.JLabel();
         lUser1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bLogin.setText("Masuk");
         bLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +78,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         lUser.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser.setText("Telp / Email");
+        lUser.setText("Username");
 
         lPass.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lPass.setText("Kata Sandi");
@@ -91,7 +91,7 @@ public class Login extends javax.swing.JFrame {
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(background1Layout.createSequentialGroup()
-                .addContainerGap(200, Short.MAX_VALUE)
+                .addContainerGap(205, Short.MAX_VALUE)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

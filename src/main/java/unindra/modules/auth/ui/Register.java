@@ -19,9 +19,10 @@ public class Register extends javax.swing.JFrame {
             user.setName(fName.getText());
             user.setPhone(fPhone.getText());
             user.setEmail(fEmail.getText());
+            user.setUsername(fUsername.getText());
             char[] passChars = fPass.getPassword();
             String pass = new String(passChars);
-            user.setpassword(pass);
+            user.setPassword(pass);
             AuthService.register(user);
             JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
             new MainMenu().setVisible(true);
@@ -52,8 +53,10 @@ public class Register extends javax.swing.JFrame {
         fEmail = new javax.swing.JTextField();
         fPhone = new javax.swing.JTextField();
         fName = new javax.swing.JTextField();
+        fUsername = new javax.swing.JTextField();
+        lUsername = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bRegister.setText("Daftar");
         bRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -90,6 +93,9 @@ public class Register extends javax.swing.JFrame {
         lName.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lName.setText("Nama");
 
+        lUsername.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
+        lUsername.setText("Username");
+
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
@@ -117,10 +123,15 @@ public class Register extends javax.swing.JFrame {
                                     .addComponent(bCancel)
                                     .addGap(18, 18, 18)
                                     .addComponent(bRegister))
-                                .addGroup(background1Layout.createSequentialGroup()
-                                    .addComponent(lPass)
-                                    .addGap(47, 47, 47)
-                                    .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                        .addComponent(lUsername)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(fUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                                        .addComponent(lPass)
+                                        .addGap(47, 47, 47)
+                                        .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(176, Short.MAX_VALUE))
         );
         background1Layout.setVerticalGroup(
@@ -142,13 +153,17 @@ public class Register extends javax.swing.JFrame {
                     .addComponent(fEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lUsername))
+                .addGap(18, 18, 18)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lPass))
                 .addGap(18, 18, 18)
                 .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancel)
                     .addComponent(bRegister))
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -221,10 +236,12 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField fName;
     private javax.swing.JPasswordField fPass;
     private javax.swing.JTextField fPhone;
+    private javax.swing.JTextField fUsername;
     private javax.swing.JLabel lEmail;
     private javax.swing.JLabel lName;
     private javax.swing.JLabel lPass;
     private javax.swing.JLabel lPhone;
     private javax.swing.JLabel lUser1;
+    private javax.swing.JLabel lUsername;
     // End of variables declaration//GEN-END:variables
 }

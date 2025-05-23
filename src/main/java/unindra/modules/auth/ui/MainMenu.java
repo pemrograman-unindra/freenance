@@ -1,11 +1,12 @@
 package unindra.modules.auth.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -19,6 +20,8 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import unindra.modules.auth.model.Analytic;
+import unindra.modules.auth.service.AuthService;
 import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
 import unindra.modules.datastore.project.ui.ProjectList;
@@ -37,9 +40,8 @@ import unindra.modules.report.ui.ReportProject;
 
 public class MainMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+    private JPanel chartContainer;
+
     public MainMenu() {
         initComponents();
         pack();
@@ -52,24 +54,47 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     private void showDashboardChart() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        double incomeBudget = 9300000;
-        double expenseBudget = 7200000;
-        double marginBudget = incomeBudget - expenseBudget;
+        chartContainer.removeAll();
+        chartContainer.setLayout(new GridLayout(1, 2));
+        Analytic analytic = AuthService.getAnalytic();
 
-        double incomeReal = 10000000;
-        double expenseReal = 7000000;
-        double marginReal = incomeReal - expenseReal;
+        // ---------------- Grafik Aktivitas Keuangan ----------------
+        DefaultCategoryDataset activityDataset = new DefaultCategoryDataset();
+        activityDataset.addValue(analytic.getIncomeBudget(), "Anggaran", "Penerimaan");
+        activityDataset.addValue(analytic.getExpenseBudget(), "Anggaran", "Pengeluaran");
+        activityDataset.addValue(analytic.getMarginBudget(), "Anggaran", "Sisa");
+        activityDataset.addValue(analytic.getIncomeReal(), "Realisasi", "Penerimaan");
+        activityDataset.addValue(analytic.getExpenseReal(), "Realisasi", "Pengeluaran");
+        activityDataset.addValue(analytic.getMarginReal(), "Realisasi", "Sisa");
+        JFreeChart activityChart = ChartFactory.createBarChart("Aktivitas Keuangan", "", "Nilai (Rp)", activityDataset);
+        styleChart(activityChart);
+        ChartPanel activityPanel = new ChartPanel(activityChart);
+        activityPanel.setOpaque(false);
+        activityPanel.setPreferredSize(new Dimension(600, 400));
 
-        dataset.addValue(incomeBudget, "Anggaran", "Penerimaan");
-        dataset.addValue(expenseBudget, "Anggaran", "Pengeluaran");
-        dataset.addValue(marginBudget, "Anggaran", "Selisih");
+        // ---------------- Grafik Kekayaan ----------------
+        DefaultCategoryDataset wealthDataset = new DefaultCategoryDataset();
+        wealthDataset.addValue(analytic.getAssetBudget(), "Anggaran", "Harta");
+        wealthDataset.addValue(analytic.getLiabilityBudget(), "Anggaran", "Utang");
+        wealthDataset.addValue(analytic.getNetWorthBudget(), "Anggaran", "Kekayaan Bersih");
+        wealthDataset.addValue(analytic.getAssetReal(), "Realisasi", "Harta");
+        wealthDataset.addValue(analytic.getLiabilityReal(), "Realisasi", "Utang");
+        wealthDataset.addValue(analytic.getNetWorthReal(), "Realisasi", "Kekayaan Bersih");
+        JFreeChart wealthChart = ChartFactory.createBarChart("Kekayaan", "", "Nilai (Rp)", wealthDataset);
+        styleChart(wealthChart);
+        ChartPanel wealthPanel = new ChartPanel(wealthChart);
+        wealthPanel.setOpaque(false);
+        wealthPanel.setPreferredSize(new Dimension(600, 400));
 
-        dataset.addValue(incomeReal, "Realisasi", "Penerimaan");
-        dataset.addValue(expenseReal, "Realisasi", "Pengeluaran");
-        dataset.addValue(marginReal, "Realisasi", "Selisih");
+        // ---------------- Tambahkan ke panel dashboard ----------------
+        chartContainer.add(activityPanel);
+        chartContainer.add(wealthPanel);
+        chartContainer.revalidate();
+        chartContainer.repaint();
+    }
 
-        JFreeChart chart = ChartFactory.createBarChart("Aktivitas Keuangan", "", "Nilai (Rp)", dataset);
+    // Styling yang digunakan bersama untuk grafik
+    private void styleChart(JFreeChart chart) {
         chart.setBackgroundPaint(null);
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setBackgroundPaint(new Color(0, 0, 0, 0));
@@ -88,15 +113,10 @@ public class MainMenu extends javax.swing.JFrame {
         renderer.setBarPainter(new StandardBarPainter());
         renderer.setShadowVisible(false);
         renderer.setMaximumBarWidth(0.15);
+
         plot.setRenderer(renderer);
-        ChartPanel panel = new ChartPanel(chart);
-        panel.setPreferredSize(new Dimension(600, 400));
-        panel.setOpaque(false);
-        panel.setBackground(new Color(0, 0, 0, 0));
-        Dashboard.setLayout(new BorderLayout());
-        Dashboard.add(panel, BorderLayout.CENTER);
-        Dashboard.validate();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -129,6 +149,8 @@ public class MainMenu extends javax.swing.JFrame {
         bReportExpense = new javax.swing.JButton();
         bReportBudgetRealization = new javax.swing.JButton();
         bReportProject = new javax.swing.JButton();
+        chartContainer = new JPanel();
+        chartContainer.setOpaque(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,12 +165,16 @@ public class MainMenu extends javax.swing.JFrame {
         Dashboard.setLayout(DashboardLayout);
         DashboardLayout.setHorizontalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DashboardLayout.createSequentialGroup()
-                .addContainerGap(760, Short.MAX_VALUE)
+            .addGroup(DashboardLayout.createSequentialGroup()
+                .addGap(760, 760, 760)
                 .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addContainerGap(31, Short.MAX_VALUE))
+            .addGroup(DashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         DashboardLayout.setVerticalGroup(
             DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,7 +183,9 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(558, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         MainMenuTabbedPane.addTab("Dasbor", new javax.swing.ImageIcon(getClass().getResource("/images/icon-analytics.png")), Dashboard); // NOI18N
