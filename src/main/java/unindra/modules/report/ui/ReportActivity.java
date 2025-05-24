@@ -6,11 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.swing.JRViewer;
 import unindra.core.Config;
 import unindra.core.DB;
 import unindra.modules.auth.ui.MainMenu;
@@ -29,14 +30,18 @@ public class ReportActivity extends javax.swing.JFrame {
 
     private void open() {
         try {
-            InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
+            InputStream file = MainMenu.class.getResourceAsStream("/reports/activity.jasper");
             HashMap<String, Object> params = new HashMap<>();
             params.put("date_start", Config.formatDate().format(fDateStart.getDate()));
             params.put("date_end", Config.formatDate().format(fDateEnd.getDate()));
             Connection connection = DB.getConnection();
             JasperPrint print = JasperFillManager.fillReport(file, params, connection);
-            JasperViewer viewer = new JasperViewer(print, false);
-            viewer.setVisible(true);
+            JFrame frame = new JFrame("Laporan Aktivitas");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.getContentPane().add(new JRViewer(print));
+            frame.setSize(900, 700);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Laporan gagal dibuka : " + e.getMessage());
         } finally {

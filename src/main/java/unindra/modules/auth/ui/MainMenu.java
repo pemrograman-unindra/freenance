@@ -27,10 +27,9 @@ import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
 import unindra.modules.datastore.project.ui.ProjectList;
 import unindra.modules.report.ui.ReportActivity;
-import unindra.modules.report.ui.ReportBalanceSheet;
+import unindra.modules.report.ui.ReportWealth;
 import unindra.modules.report.ui.ReportBill;
 import unindra.modules.report.ui.ReportBudgetRealization;
-import unindra.modules.report.ui.ReportCashFlow;
 import unindra.modules.report.ui.ReportExpense;
 import unindra.modules.report.ui.ReportIncome;
 import unindra.modules.report.ui.ReportProject;
@@ -142,7 +141,6 @@ public class MainMenu extends javax.swing.JFrame {
         bCashOut = new javax.swing.JButton();
         Report = new unindra.core.Background();
         bReportBalanceSheet = new javax.swing.JButton();
-        bReportCashFlow = new javax.swing.JButton();
         bReportActivity = new javax.swing.JButton();
         bReportBill = new javax.swing.JButton();
         bReportIncome = new javax.swing.JButton();
@@ -340,7 +338,7 @@ public class MainMenu extends javax.swing.JFrame {
         bReportBalanceSheet.setBackground(new java.awt.Color(211, 68, 233));
         bReportBalanceSheet.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportBalanceSheet.setForeground(new java.awt.Color(255, 255, 255));
-        bReportBalanceSheet.setText("<html><body style=\"text-align:center\">Laporan<br />Posisi Keuangan</body></html>");
+        bReportBalanceSheet.setText("<html><body style=\"text-align:center\">Laporan<br />Kekayaan</body></html>");
         bReportBalanceSheet.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportBalanceSheet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportBalanceSheet.setDefaultCapable(false);
@@ -348,20 +346,6 @@ public class MainMenu extends javax.swing.JFrame {
         bReportBalanceSheet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bReportBalanceSheetActionPerformed(evt);
-            }
-        });
-
-        bReportCashFlow.setBackground(new java.awt.Color(40, 170, 233));
-        bReportCashFlow.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        bReportCashFlow.setForeground(new java.awt.Color(255, 255, 255));
-        bReportCashFlow.setText("<html><body style=\"text-align:center\">Laporan<br />Arus Kas</body></html>");
-        bReportCashFlow.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bReportCashFlow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bReportCashFlow.setDefaultCapable(false);
-        bReportCashFlow.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bReportCashFlow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bReportCashFlowActionPerformed(evt);
             }
         });
 
@@ -461,17 +445,15 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ReportLayout.createSequentialGroup()
                         .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
         ReportLayout.setVerticalGroup(
@@ -480,15 +462,14 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(89, 89, 89)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
 
@@ -533,12 +514,8 @@ public class MainMenu extends javax.swing.JFrame {
     }// GEN-LAST:event_bBudgetActionPerformed
 
     private void bReportBalanceSheetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBalanceSheetActionPerformed
-        new ReportBalanceSheet().setVisible(true);
+        new ReportWealth().setVisible(true);
     }// GEN-LAST:event_bReportBalanceSheetActionPerformed
-
-    private void bReportCashFlowActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportCashFlowActionPerformed
-        new ReportCashFlow().setVisible(true);
-    }// GEN-LAST:event_bReportCashFlowActionPerformed
 
     private void bReportActivityActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportActivityActionPerformed
         new ReportActivity().setVisible(true);
@@ -625,7 +602,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton bReportBalanceSheet;
     private javax.swing.JButton bReportBill;
     private javax.swing.JButton bReportBudgetRealization;
-    private javax.swing.JButton bReportCashFlow;
     private javax.swing.JButton bReportExpense;
     private javax.swing.JButton bReportIncome;
     private javax.swing.JButton bReportProject;

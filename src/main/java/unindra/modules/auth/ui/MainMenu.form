@@ -402,17 +402,15 @@
                               <Component id="bReportIncome" min="-2" pref="220" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="bReportExpense" min="-2" pref="220" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="bReportProject" min="-2" pref="220" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="bReportActivity" min="-2" pref="220" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="bReportCashFlow" min="-2" pref="220" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="bReportBalanceSheet" min="-2" pref="220" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="bReportBudgetRealization" min="-2" pref="220" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="bReportProject" min="-2" pref="220" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="88" max="32767" attributes="0"/>
@@ -425,16 +423,15 @@
                       <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="bReportBalanceSheet" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
-                          <Component id="bReportCashFlow" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                           <Component id="bReportActivity" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                           <Component id="bReportBudgetRealization" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="bReportProject" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="bReportExpense" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                           <Component id="bReportIncome" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                           <Component id="bReportBill" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
-                          <Component id="bReportProject" alignment="2" min="-2" pref="220" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="90" max="32767" attributes="0"/>
                   </Group>
@@ -453,7 +450,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body style=&quot;text-align:center&quot;&gt;Laporan&lt;br /&gt;Posisi Keuangan&lt;/body&gt;&lt;/html&gt;"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body style=&quot;text-align:center&quot;&gt;Laporan&lt;br /&gt;Kekayaan&lt;/body&gt;&lt;/html&gt;"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                     <EmptyBorder/>
@@ -467,33 +464,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bReportBalanceSheetActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="bReportCashFlow">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="e9" green="aa" red="28" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Liberation Sans" size="24" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;body style=&quot;text-align:center&quot;&gt;Laporan&lt;br /&gt;Arus Kas&lt;/body&gt;&lt;/html&gt;"/>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                    <EmptyBorder/>
-                  </Border>
-                </Property>
-                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Hand Cursor"/>
-                </Property>
-                <Property name="defaultCapable" type="boolean" value="false"/>
-                <Property name="horizontalTextPosition" type="int" value="0"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bReportCashFlowActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="bReportActivity">
