@@ -81,7 +81,7 @@ public class TransactionService {
 				data.setContactName(rs.getString("contact_name"));
 				data.setOriginCoaId(rs.getInt("origin_coa_id"));
 				data.setOriginCoaName(rs.getString("origin_coa_name"));
-				data.setTargetCoaId(rs.getInt("trx_date"));
+				data.setTargetCoaId(rs.getInt("target_coa_id"));
 				data.setTargetCoaName(rs.getString("target_coa_name"));
 				data.setTrxType(rs.getString("trx_type"));
 				data.setTrxNumber(rs.getString("trx_no"));
@@ -127,7 +127,7 @@ public class TransactionService {
 				data.setContactName(rs.getString("contact_name"));
 				data.setOriginCoaId(rs.getInt("origin_coa_id"));
 				data.setOriginCoaName(rs.getString("origin_coa_name"));
-				data.setTargetCoaId(rs.getInt("trx_date"));
+				data.setTargetCoaId(rs.getInt("target_coa_id"));
 				data.setTargetCoaName(rs.getString("target_coa_name"));
 				data.setTrxType(rs.getString("trx_type"));
 				data.setTrxNumber(rs.getString("trx_no"));

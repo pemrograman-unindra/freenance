@@ -58,20 +58,11 @@ public class CashInForm extends javax.swing.JFrame {
         }
     }
 
-    private void lookupBill() {
-        ContactList.openLookup(data -> {
-            if (data != null) {
-                contactId = data.getId();
-                fContactName.setText(data.getName());
-            }
-        });
-    }
-
     private void lookupProject() {
         ProjectList.openLookup(data -> {
             if (data != null) {
                 projectId = data.getId();
-                fProjectNumber.setText(data.getName());
+                fProjectNumber.setText(data.getNumber());
             }
         });
     }
@@ -91,7 +82,7 @@ public class CashInForm extends javax.swing.JFrame {
                 originCoaId = coa.getId();
                 fOriginCoaName.setText(coa.getName());
             }
-        }, "child", 0);
+        }, "child", 4);
     }
 
     private void lookupTargetCoa() {

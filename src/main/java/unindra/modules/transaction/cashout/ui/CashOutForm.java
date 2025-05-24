@@ -81,7 +81,7 @@ public class CashOutForm extends javax.swing.JFrame {
         ProjectList.openLookup(data -> {
             if (data != null) {
                 projectId = data.getId();
-                fProjectNumber.setText(data.getName());
+                fProjectNumber.setText(data.getNumber());
             }
         });
     }
@@ -101,7 +101,7 @@ public class CashOutForm extends javax.swing.JFrame {
                 originCoaId = coa.getId();
                 fOriginCoaName.setText(coa.getName());
             }
-        }, "child", 0);
+        }, "cash", 0);
     }
 
     private void lookupTargetCoa() {
@@ -110,7 +110,7 @@ public class CashOutForm extends javax.swing.JFrame {
                 targetCoaId = coa.getId();
                 fTargetCoaName.setText(coa.getName());
             }
-        }, "cash", 0);
+        }, "child", 5);
     }
 
     private void save() {

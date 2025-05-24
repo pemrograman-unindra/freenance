@@ -60,7 +60,7 @@ public class BillForm extends javax.swing.JFrame {
         ProjectList.openLookup(data -> {
             if (data != null) {
                 projectId = data.getId();
-                fProjectNumber.setText(data.getName());
+                fProjectNumber.setText(data.getNumber());
             }
         });
     }

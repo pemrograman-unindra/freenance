@@ -38,8 +38,9 @@ public class ReportBill extends javax.swing.JFrame {
             JFrame frame = new JFrame("Laporan Daftar Tagihan");
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(new JRViewer(print));
-            frame.setSize(900, 700);
-            frame.setLocationRelativeTo(null);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setSize(900, screenSize.height);
+            frame.setLocation((screenSize.width - 900) / 2, 0);
             frame.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Laporan gagal dibuka : " + e.getMessage());
