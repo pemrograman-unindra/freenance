@@ -154,8 +154,18 @@ public class MainMenu extends javax.swing.JFrame {
         MainMenuTabbedPane.setName(""); // NOI18N
 
         dateStart.setDateFormatString("d-MMM-yyyy");
+        dateStart.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateStartPropertyChange(evt);
+            }
+        });
 
         dateEnd.setDateFormatString("d-MMM-yyyy");
+        dateEnd.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateEndPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
         Dashboard.setLayout(DashboardLayout);
@@ -488,6 +498,18 @@ public class MainMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void dateStartPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateStartPropertyChange
+        if ((dateStart.getDate() != null) && (dateEnd.getDate() != null)) {
+            showDashboardChart();
+        }
+    }//GEN-LAST:event_dateStartPropertyChange
+
+    private void dateEndPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateEndPropertyChange
+        if ((dateStart.getDate() != null) && (dateEnd.getDate() != null)) {
+            showDashboardChart();
+        }
+    }//GEN-LAST:event_dateEndPropertyChange
 
     private void bCOAActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCOAActionPerformed
         new CoaList().setVisible(true);

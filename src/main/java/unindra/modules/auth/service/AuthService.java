@@ -88,7 +88,7 @@ public class AuthService {
 		try (ResultSet rs = DB.query("""
 				SELECT
 					coa.category_id category_id,
-					sum(j.debit-j.credit) amount
+					sum(j.credit-j.debit) amount
 				FROM
 					journals j
 					JOIN transactions t on t.id = j.trx_id
