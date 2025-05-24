@@ -3,6 +3,7 @@ package unindra.core;
 import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -51,6 +52,10 @@ public class Config {
 
 	public static SimpleDateFormat formatDate() {
 		return new SimpleDateFormat("yyyy-MM-dd");
+	}
+
+	public static DateTimeFormatter dateFormatter() {
+		return DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 	}
 
 	public static void debug(Object obj) {

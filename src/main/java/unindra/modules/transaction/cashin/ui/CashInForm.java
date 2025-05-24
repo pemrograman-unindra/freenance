@@ -1,5 +1,7 @@
 package unindra.modules.transaction.cashin.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.Date;
@@ -27,7 +29,9 @@ public class CashInForm extends javax.swing.JFrame {
     public CashInForm(CashInList list, Transaction data) {
         initComponents();
         pack();
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = getSize();
+        setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
         this.list = list;
         if (data != null) {
             title.setText("Edit Transaksi Penerimaan");

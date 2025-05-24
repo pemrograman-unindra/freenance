@@ -91,7 +91,7 @@ public class Project {
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return amount != null ? amount : BigDecimal.ZERO;
     }
 
     public void setAmount(BigDecimal amount) {

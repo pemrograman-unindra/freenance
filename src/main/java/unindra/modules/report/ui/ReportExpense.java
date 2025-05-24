@@ -1,5 +1,7 @@
 package unindra.modules.report.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Calendar;
@@ -21,7 +23,9 @@ public class ReportExpense extends javax.swing.JFrame {
     public ReportExpense() {
         initComponents();
         pack();
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = getSize();
+        setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
         fDateStart.setDate(cal.getTime());

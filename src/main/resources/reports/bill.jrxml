@@ -162,7 +162,7 @@ ORDER BY
 				</element>
 				<element kind="textField" uuid="33aee17b-9e56-4d57-8e99-d096eb138363" positionType="Float" mode="Opaque" x="385" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
 					<paragraph rightIndent="5"/>
-					<expression><![CDATA[$V{total_amount}]]></expression>
+					<expression><![CDATA[$V{total_payment}]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97d30e77-ebc0-4184-a332-ff58f5f85ed5"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -170,7 +170,7 @@ ORDER BY
 				</element>
 				<element kind="textField" uuid="9ee7c93b-2efb-40f4-a0e3-640b49770c58" positionType="Float" mode="Opaque" x="470" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
 					<paragraph rightIndent="5"/>
-					<expression><![CDATA[$V{total_amount}]]></expression>
+					<expression><![CDATA[$V{total_balance}]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -289,7 +289,7 @@ ORDER BY
 	<summary height="125" splitType="Stretch">
 		<element kind="textField" uuid="9eca7086-2e8c-45fa-ba13-126507c67ccc" positionType="Float" mode="Opaque" x="470" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
 			<paragraph rightIndent="5"/>
-			<expression><![CDATA[$V{grand_total_amount}]]></expression>
+			<expression><![CDATA[$V{grand_total_balance}]]></expression>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 			<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -306,7 +306,7 @@ ORDER BY
 		</element>
 		<element kind="textField" uuid="029d694c-cf1d-4c9f-b319-f068cc8690c4" positionType="Float" mode="Opaque" x="385" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
 			<paragraph rightIndent="5"/>
-			<expression><![CDATA[$V{grand_total_amount}]]></expression>
+			<expression><![CDATA[$V{grand_total_payment}]]></expression>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97d30e77-ebc0-4184-a332-ff58f5f85ed5"/>
 			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 			<property name="com.jaspersoft.studio.unit.width" value="px"/>

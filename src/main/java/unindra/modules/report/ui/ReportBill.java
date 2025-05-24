@@ -1,5 +1,7 @@
 package unindra.modules.report.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Date;
@@ -20,7 +22,9 @@ public class ReportBill extends javax.swing.JFrame {
     public ReportBill() {
         initComponents();
         pack();
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = getSize();
+        setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
         fDateEnd.setDate(new Date());
     }
 

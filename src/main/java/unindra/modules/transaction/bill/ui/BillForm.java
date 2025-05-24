@@ -1,5 +1,7 @@
 package unindra.modules.transaction.bill.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.Date;
@@ -28,7 +30,9 @@ public class BillForm extends javax.swing.JFrame {
     public BillForm(BillList list, Transaction data) {
         initComponents();
         pack();
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = getSize();
+        setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
         this.list = list;
         if (data != null) {
             title.setText("Edit Tagihan");

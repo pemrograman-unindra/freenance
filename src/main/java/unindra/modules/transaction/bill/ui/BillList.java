@@ -1,5 +1,7 @@
 package unindra.modules.transaction.bill.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -25,7 +27,9 @@ public class BillList extends javax.swing.JFrame {
     public BillList() {
         initComponents();
         pack();
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = getSize();
+        setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
         reset();
         loadData();
     }
@@ -41,7 +45,7 @@ public class BillList extends javax.swing.JFrame {
         List<Transaction> list = TransactionService.find("bill", fSearch.getText());
         for (Transaction data : list) {
             model.addRow(new Object[] {
-                    data.getTrxDate(),
+                    data.getTrxDate().format(Config.dateFormatter()),
                     data.getTrxNumber(),
                     data.getContactName(),
                     data.getTargetCoaName(),

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,101 +28,105 @@ import unindra.modules.datastore.coa.ui.CoaList;
 import unindra.modules.datastore.contact.ui.ContactList;
 import unindra.modules.datastore.project.ui.ProjectList;
 import unindra.modules.report.ui.ReportActivity;
-import unindra.modules.report.ui.ReportWealth;
 import unindra.modules.report.ui.ReportBill;
 import unindra.modules.report.ui.ReportBudgetRealization;
 import unindra.modules.report.ui.ReportExpense;
 import unindra.modules.report.ui.ReportIncome;
 import unindra.modules.report.ui.ReportProject;
+import unindra.modules.report.ui.ReportWealth;
 import unindra.modules.transaction.bill.ui.BillList;
 import unindra.modules.transaction.cashin.ui.CashInList;
 import unindra.modules.transaction.cashout.ui.CashOutList;
 
 public class MainMenu extends javax.swing.JFrame {
 
-    public MainMenu() {
-        initComponents();
-        pack();
-        setLocationRelativeTo(null);
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        dateStart.setDate(cal.getTime());
-        dateEnd.setDate(new Date());
-        showDashboardChart();
-    }
+        public MainMenu() {
+                initComponents();
+                pack();
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                Dimension windowSize = getSize();
+                setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                dateStart.setDate(cal.getTime());
+                dateEnd.setDate(new Date());
+                showDashboardChart();
+        }
 
-    private void showDashboardChart() {
-        chartContainer.removeAll();
-        chartContainer.setLayout(new GridLayout(1, 2));
-        chartContainer.setOpaque(false);
-        Analytic analytic = AuthService.getAnalytic(Config.formatDate().format(dateStart.getDate()),
-                Config.formatDate().format(dateEnd.getDate()));
+        private void showDashboardChart() {
+                chartContainer.removeAll();
+                chartContainer.setLayout(new GridLayout(1, 2));
+                chartContainer.setOpaque(false);
+                Analytic analytic = AuthService.getAnalytic(Config.formatDate().format(dateStart.getDate()),
+                                Config.formatDate().format(dateEnd.getDate()));
 
-        // ---------------- Grafik Aktivitas Keuangan ----------------
-        DefaultCategoryDataset activityDataset = new DefaultCategoryDataset();
-        activityDataset.addValue(analytic.getIncomeBudget(), "Anggaran", "Penerimaan");
-        activityDataset.addValue(analytic.getExpenseBudget(), "Anggaran", "Pengeluaran");
-        activityDataset.addValue(analytic.getMarginBudget(), "Anggaran", "Sisa");
-        activityDataset.addValue(analytic.getIncomeReal(), "Realisasi", "Penerimaan");
-        activityDataset.addValue(analytic.getExpenseReal(), "Realisasi", "Pengeluaran");
-        activityDataset.addValue(analytic.getMarginReal(), "Realisasi", "Sisa");
-        JFreeChart activityChart = ChartFactory.createBarChart("Aktivitas Keuangan", "", "Nilai (Rp)", activityDataset);
-        styleChart(activityChart);
-        ChartPanel activityPanel = new ChartPanel(activityChart);
-        activityPanel.setOpaque(false);
-        activityPanel.setPreferredSize(new Dimension(600, 400));
+                // ---------------- Grafik Aktivitas Keuangan ----------------
+                DefaultCategoryDataset activityDataset = new DefaultCategoryDataset();
+                activityDataset.addValue(analytic.getIncomeBudget(), "Anggaran", "Penerimaan");
+                activityDataset.addValue(analytic.getExpenseBudget(), "Anggaran", "Pengeluaran");
+                activityDataset.addValue(analytic.getMarginBudget(), "Anggaran", "Sisa");
+                activityDataset.addValue(analytic.getIncomeReal(), "Realisasi", "Penerimaan");
+                activityDataset.addValue(analytic.getExpenseReal(), "Realisasi", "Pengeluaran");
+                activityDataset.addValue(analytic.getMarginReal(), "Realisasi", "Sisa");
+                JFreeChart activityChart = ChartFactory.createBarChart("Aktivitas Keuangan", "", "Nilai (Rp)",
+                                activityDataset);
+                styleChart(activityChart);
+                ChartPanel activityPanel = new ChartPanel(activityChart);
+                activityPanel.setOpaque(false);
+                activityPanel.setPreferredSize(new Dimension(600, 400));
 
-        // ---------------- Grafik Kekayaan ----------------
-        DefaultCategoryDataset wealthDataset = new DefaultCategoryDataset();
-        wealthDataset.addValue(analytic.getAssetBudget(), "Anggaran", "Harta");
-        wealthDataset.addValue(analytic.getLiabilityBudget(), "Anggaran", "Utang");
-        wealthDataset.addValue(analytic.getNetWorthBudget(), "Anggaran", "Kekayaan Bersih");
-        wealthDataset.addValue(analytic.getAssetReal(), "Realisasi", "Harta");
-        wealthDataset.addValue(analytic.getLiabilityReal(), "Realisasi", "Utang");
-        wealthDataset.addValue(analytic.getNetWorthReal(), "Realisasi", "Kekayaan Bersih");
-        JFreeChart wealthChart = ChartFactory.createBarChart("Kekayaan", "", "Nilai (Rp)", wealthDataset);
-        styleChart(wealthChart);
-        ChartPanel wealthPanel = new ChartPanel(wealthChart);
-        wealthPanel.setOpaque(false);
-        wealthPanel.setPreferredSize(new Dimension(600, 400));
+                // ---------------- Grafik Kekayaan ----------------
+                DefaultCategoryDataset wealthDataset = new DefaultCategoryDataset();
+                wealthDataset.addValue(analytic.getAssetBudget(), "Anggaran", "Harta");
+                wealthDataset.addValue(analytic.getLiabilityBudget(), "Anggaran", "Utang");
+                wealthDataset.addValue(analytic.getNetWorthBudget(), "Anggaran", "Kekayaan Bersih");
+                wealthDataset.addValue(analytic.getAssetReal(), "Realisasi", "Harta");
+                wealthDataset.addValue(analytic.getLiabilityReal(), "Realisasi", "Utang");
+                wealthDataset.addValue(analytic.getNetWorthReal(), "Realisasi", "Kekayaan Bersih");
+                JFreeChart wealthChart = ChartFactory.createBarChart("Kekayaan", "", "Nilai (Rp)", wealthDataset);
+                styleChart(wealthChart);
+                ChartPanel wealthPanel = new ChartPanel(wealthChart);
+                wealthPanel.setOpaque(false);
+                wealthPanel.setPreferredSize(new Dimension(600, 400));
 
-        // ---------------- Tambahkan ke panel dashboard ----------------
-        chartContainer.add(activityPanel);
-        chartContainer.add(wealthPanel);
-        chartContainer.revalidate();
-        chartContainer.repaint();
-    }
+                // ---------------- Tambahkan ke panel dashboard ----------------
+                chartContainer.add(activityPanel);
+                chartContainer.add(wealthPanel);
+                chartContainer.revalidate();
+                chartContainer.repaint();
+        }
 
-    // Styling yang digunakan bersama untuk grafik
-    private void styleChart(JFreeChart chart) {
-        chart.setBackgroundPaint(null);
-        CategoryPlot plot = chart.getCategoryPlot();
-        plot.setBackgroundPaint(new Color(0, 0, 0, 0));
-        plot.setOutlineVisible(false);
-        plot.setRangeGridlinePaint(Color.GRAY);
+        // Styling yang digunakan bersama untuk grafik
+        private void styleChart(JFreeChart chart) {
+                chart.setBackgroundPaint(null);
+                CategoryPlot plot = chart.getCategoryPlot();
+                plot.setBackgroundPaint(new Color(0, 0, 0, 0));
+                plot.setOutlineVisible(false);
+                plot.setRangeGridlinePaint(Color.GRAY);
 
-        BarRenderer renderer = new BarRenderer();
-        renderer.setSeriesPaint(0, new Color(60, 179, 113));
-        renderer.setSeriesPaint(1, new Color(67, 140, 255));
-        renderer.setDefaultItemLabelsVisible(true);
-        renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-        renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
-        renderer.setDefaultPositiveItemLabelPosition(
-                new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER));
-        renderer.setBarPainter(new StandardBarPainter());
-        renderer.setShadowVisible(false);
-        renderer.setMaximumBarWidth(0.15);
+                BarRenderer renderer = new BarRenderer();
+                renderer.setSeriesPaint(0, new Color(60, 179, 113));
+                renderer.setSeriesPaint(1, new Color(67, 140, 255));
+                renderer.setDefaultItemLabelsVisible(true);
+                renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+                renderer.setDefaultItemLabelFont(new Font("SansSerif", Font.BOLD, 12));
+                renderer.setDefaultPositiveItemLabelPosition(
+                                new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER));
+                renderer.setBarPainter(new StandardBarPainter());
+                renderer.setShadowVisible(false);
+                renderer.setMaximumBarWidth(0.15);
 
-        plot.setRenderer(renderer);
-    }
+                plot.setRenderer(renderer);
+        }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated
+        // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -362,7 +367,7 @@ public class MainMenu extends javax.swing.JFrame {
         bReportActivity.setBackground(new java.awt.Color(32, 191, 107));
         bReportActivity.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportActivity.setForeground(new java.awt.Color(255, 255, 255));
-        bReportActivity.setText("<html><body style=\"text-align:center\">Laporan<br />Aktivitas</body></html>");
+        bReportActivity.setText("<html><body style=\"text-align:center\">Laporan<br />Aktivitas Keuangan</body></html>");
         bReportActivity.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportActivity.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportActivity.setDefaultCapable(false);
@@ -390,7 +395,7 @@ public class MainMenu extends javax.swing.JFrame {
         bReportIncome.setBackground(new java.awt.Color(74, 175, 77));
         bReportIncome.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportIncome.setForeground(new java.awt.Color(255, 255, 255));
-        bReportIncome.setText("<html><body style=\"text-align:center\">Laporan<br />Penerimaan</body></html>");
+        bReportIncome.setText("<html><body style=\"text-align:center\">Laporan<br />Transaksi Penerimaan</body></html>");
         bReportIncome.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportIncome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportIncome.setDefaultCapable(false);
@@ -404,7 +409,7 @@ public class MainMenu extends javax.swing.JFrame {
         bReportExpense.setBackground(new java.awt.Color(83, 170, 224));
         bReportExpense.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportExpense.setForeground(new java.awt.Color(255, 255, 255));
-        bReportExpense.setText("<html><body style=\"text-align:center\">Laporan<br />Pengeluaran</body></html>");
+        bReportExpense.setText("<html><body style=\"text-align:center\">Laporan<br />Transaksi Pengeluaran</body></html>");
         bReportExpense.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportExpense.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportExpense.setDefaultCapable(false);
@@ -499,113 +504,118 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dateStartPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateStartPropertyChange
-        if ((dateStart.getDate() != null) && (dateEnd.getDate() != null)) {
-            showDashboardChart();
-        }
-    }//GEN-LAST:event_dateStartPropertyChange
-
-    private void dateEndPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateEndPropertyChange
-        if ((dateStart.getDate() != null) && (dateEnd.getDate() != null)) {
-            showDashboardChart();
-        }
-    }//GEN-LAST:event_dateEndPropertyChange
-
-    private void bCOAActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCOAActionPerformed
-        new CoaList().setVisible(true);
-    }// GEN-LAST:event_bCOAActionPerformed
-
-    private void bProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bProjectActionPerformed
-        new ProjectList().setVisible(true);
-    }// GEN-LAST:event_bProjectActionPerformed
-
-    private void bContactActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bContactActionPerformed
-        new ContactList().setVisible(true);
-    }// GEN-LAST:event_bContactActionPerformed
-
-    private void bCashInActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCashInActionPerformed
-        new CashInList().setVisible(true);
-    }// GEN-LAST:event_bCashInActionPerformed
-
-    private void bBillActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bBillActionPerformed
-        new BillList().setVisible(true);
-    }// GEN-LAST:event_bBillActionPerformed
-
-    private void bBudgetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bBudgetActionPerformed
-        new BudgetList().setVisible(true);
-    }// GEN-LAST:event_bBudgetActionPerformed
-
-    private void bReportBalanceSheetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBalanceSheetActionPerformed
-        new ReportWealth().setVisible(true);
-    }// GEN-LAST:event_bReportBalanceSheetActionPerformed
-
-    private void bReportActivityActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportActivityActionPerformed
-        new ReportActivity().setVisible(true);
-    }// GEN-LAST:event_bReportActivityActionPerformed
-
-    private void bCashOutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCashOutActionPerformed
-        new CashOutList().setVisible(true);
-    }// GEN-LAST:event_bCashOutActionPerformed
-
-    private void bReportBillActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBillActionPerformed
-        new ReportBill().setVisible(true);
-    }// GEN-LAST:event_bReportBillActionPerformed
-
-    private void bReportIncomeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportIncomeActionPerformed
-        new ReportIncome().setVisible(true);
-    }// GEN-LAST:event_bReportIncomeActionPerformed
-
-    private void bReportExpenseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportExpenseActionPerformed
-        new ReportExpense().setVisible(true);
-    }// GEN-LAST:event_bReportExpenseActionPerformed
-
-    private void bReportBudgetRealizationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBudgetRealizationActionPerformed
-        new ReportBudgetRealization().setVisible(true);
-    }// GEN-LAST:event_bReportBudgetRealizationActionPerformed
-
-    private void bReportProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportProjectActionPerformed
-        new ReportProject().setVisible(true);
-    }// GEN-LAST:event_bReportProjectActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+        private void dateStartPropertyChange(java.beans.PropertyChangeEvent evt) {// GEN-FIRST:event_dateStartPropertyChange
+                if ((dateStart.getDate() != null) && (dateEnd.getDate() != null)) {
+                        showDashboardChart();
                 }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        // </editor-fold>
-        // </editor-fold>
+        }// GEN-LAST:event_dateStartPropertyChange
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainMenu().setVisible(true);
-            }
-        });
-    }
+        private void dateEndPropertyChange(java.beans.PropertyChangeEvent evt) {// GEN-FIRST:event_dateEndPropertyChange
+                if ((dateStart.getDate() != null) && (dateEnd.getDate() != null)) {
+                        showDashboardChart();
+                }
+        }// GEN-LAST:event_dateEndPropertyChange
+
+        private void bCOAActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCOAActionPerformed
+                new CoaList().setVisible(true);
+        }// GEN-LAST:event_bCOAActionPerformed
+
+        private void bProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bProjectActionPerformed
+                new ProjectList().setVisible(true);
+        }// GEN-LAST:event_bProjectActionPerformed
+
+        private void bContactActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bContactActionPerformed
+                new ContactList().setVisible(true);
+        }// GEN-LAST:event_bContactActionPerformed
+
+        private void bCashInActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCashInActionPerformed
+                new CashInList().setVisible(true);
+        }// GEN-LAST:event_bCashInActionPerformed
+
+        private void bBillActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bBillActionPerformed
+                new BillList().setVisible(true);
+        }// GEN-LAST:event_bBillActionPerformed
+
+        private void bBudgetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bBudgetActionPerformed
+                new BudgetList().setVisible(true);
+        }// GEN-LAST:event_bBudgetActionPerformed
+
+        private void bReportBalanceSheetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBalanceSheetActionPerformed
+                new ReportWealth().setVisible(true);
+        }// GEN-LAST:event_bReportBalanceSheetActionPerformed
+
+        private void bReportActivityActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportActivityActionPerformed
+                new ReportActivity().setVisible(true);
+        }// GEN-LAST:event_bReportActivityActionPerformed
+
+        private void bCashOutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCashOutActionPerformed
+                new CashOutList().setVisible(true);
+        }// GEN-LAST:event_bCashOutActionPerformed
+
+        private void bReportBillActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBillActionPerformed
+                new ReportBill().setVisible(true);
+        }// GEN-LAST:event_bReportBillActionPerformed
+
+        private void bReportIncomeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportIncomeActionPerformed
+                new ReportIncome().setVisible(true);
+        }// GEN-LAST:event_bReportIncomeActionPerformed
+
+        private void bReportExpenseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportExpenseActionPerformed
+                new ReportExpense().setVisible(true);
+        }// GEN-LAST:event_bReportExpenseActionPerformed
+
+        private void bReportBudgetRealizationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportBudgetRealizationActionPerformed
+                new ReportBudgetRealization().setVisible(true);
+        }// GEN-LAST:event_bReportBudgetRealizationActionPerformed
+
+        private void bReportProjectActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bReportProjectActionPerformed
+                new ReportProject().setVisible(true);
+        }// GEN-LAST:event_bReportProjectActionPerformed
+
+        /**
+         * @param args the command line arguments
+         */
+        public static void main(String args[]) {
+                /* Set the Nimbus look and feel */
+                // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+                // (optional) ">
+                /*
+                 * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+                 * look and feel.
+                 * For details see
+                 * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+                 */
+                try {
+                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+                                        .getInstalledLookAndFeels()) {
+                                if ("Nimbus".equals(info.getName())) {
+                                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                                        break;
+                                }
+                        }
+                } catch (ClassNotFoundException ex) {
+                        java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE,
+                                        null, ex);
+                } catch (InstantiationException ex) {
+                        java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE,
+                                        null, ex);
+                } catch (IllegalAccessException ex) {
+                        java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE,
+                                        null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                        java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE,
+                                        null, ex);
+                }
+                // </editor-fold>
+                // </editor-fold>
+
+                /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                                new MainMenu().setVisible(true);
+                        }
+                });
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private unindra.core.Background Dashboard;

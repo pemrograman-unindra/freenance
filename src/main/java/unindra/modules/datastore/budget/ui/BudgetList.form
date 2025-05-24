@@ -190,7 +190,7 @@
               <Font name="Liberation Sans" size="17" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Daftar Kontak"/>
+            <Property name="text" type="java.lang.String" value="Perencanaan Anggaran"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
         </Component>
