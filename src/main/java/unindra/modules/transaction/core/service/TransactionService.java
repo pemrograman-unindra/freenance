@@ -146,15 +146,15 @@ public class TransactionService {
 		try {
 			DB.exec("""
 					UPDATE transactions SET
-						parent_id = ?
-						project_id = ?
-						contact_id = ?
-						origin_coa_id = ?
-						target_coa_id = ?
-						trx_type = ?
-						trx_no = ?
-						trx_date = ?
-						description = ?
+						parent_id = ?,
+						project_id = ?,
+						contact_id = ?,
+						origin_coa_id = ?,
+						target_coa_id = ?,
+						trx_type = ?,
+						trx_no = ?,
+						trx_date = ?,
+						description = ?,
 						amount = ?
 					WHERE
 						id = ?

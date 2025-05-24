@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Config {
@@ -47,5 +51,17 @@ public class Config {
 
 	public static SimpleDateFormat formatDate() {
 		return new SimpleDateFormat("yyyy-MM-dd");
+	}
+
+	public static void debug(Object obj) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.registerModule(new JavaTimeModule()); // Support untuk Java 8 Time
+			mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // ISO format
+			String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+			System.out.println(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

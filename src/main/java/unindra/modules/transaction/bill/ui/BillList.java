@@ -105,7 +105,7 @@ public class BillList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+            String number = dataTable.getModel().getValueAt(selectedRow, 1).toString();
             Transaction data = TransactionService.getByNumber(number);
             new BillForm(this, data).setVisible(true);
         }
@@ -114,7 +114,7 @@ public class BillList extends javax.swing.JFrame {
     private void delete() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            String number = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+            String number = dataTable.getModel().getValueAt(selectedRow, 1).toString();
             Transaction data = TransactionService.getByNumber(number);
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Apakah kamu yakin akan menghapus data tagihan " + data.getTrxNumber() + "?",
