@@ -2,7 +2,6 @@ package unindra.modules.report.ui;
 
 import java.io.InputStream;
 import java.sql.Connection;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -21,17 +20,13 @@ public class ReportBill extends javax.swing.JFrame {
         initComponents();
         pack();
         setLocationRelativeTo(null);
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        fDateStart.setDate(cal.getTime());
         fDateEnd.setDate(new Date());
     }
 
     private void open() {
         try {
-            InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
+            InputStream file = MainMenu.class.getResourceAsStream("/reports/bill.jasper");
             HashMap<String, Object> params = new HashMap<>();
-            params.put("date_start", Config.formatDate().format(fDateStart.getDate()));
             params.put("date_end", Config.formatDate().format(fDateEnd.getDate()));
             Connection connection = DB.getConnection();
             JasperPrint print = JasperFillManager.fillReport(file, params, connection);
@@ -51,7 +46,7 @@ public class ReportBill extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         background1 = new unindra.core.Background();
@@ -59,9 +54,7 @@ public class ReportBill extends javax.swing.JFrame {
         bCancel = new javax.swing.JButton();
         lUser = new javax.swing.JLabel();
         lUser1 = new javax.swing.JLabel();
-        fDateStart = new com.toedter.calendar.JDateChooser();
         fDateEnd = new com.toedter.calendar.JDateChooser();
-        bSetEqual = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -80,84 +73,59 @@ public class ReportBill extends javax.swing.JFrame {
         });
 
         lUser.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
-        lUser.setText("Tanggal");
+        lUser.setText("Per Tanggal");
 
         lUser1.setFont(new java.awt.Font("Liberation Sans", 1, 17)); // NOI18N
         lUser1.setText("Filter Laporan");
 
-        fDateStart.setDateFormatString("d-MMM-yyyy");
-
         fDateEnd.setDateFormatString("d-MMM-yyyy");
-
-        bSetEqual.setText(">");
-        bSetEqual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bSetEqualActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
-                background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(background1Layout.createSequentialGroup()
-                                .addGap(177, 177, 177)
-                                .addComponent(lUser1)
-                                .addContainerGap(240, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                                .addGroup(background1Layout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                                .addGap(20, 20, 20)
-                                                .addComponent(lUser)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 165,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bSetEqual)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(fDateEnd, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(background1Layout.createSequentialGroup()
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(bCancel)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bOpen)))
-                                .addGap(32, 32, 32)));
+            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(background1Layout.createSequentialGroup()
+                .addGap(177, 177, 177)
+                .addComponent(lUser1)
+                .addContainerGap(240, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(background1Layout.createSequentialGroup()
+                        .addComponent(bCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(bOpen))
+                    .addComponent(fDateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
+        );
         background1Layout.setVerticalGroup(
-                background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(background1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(lUser1)
-                                .addGap(41, 41, 41)
-                                .addGroup(
-                                        background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(fDateStart, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(bSetEqual)
-                                                .addComponent(lUser))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190,
-                                        Short.MAX_VALUE)
-                                .addGroup(background1Layout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(bCancel)
-                                        .addComponent(bOpen))
-                                .addGap(25, 25, 25)));
+            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(background1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(lUser1)
+                .addGap(41, 41, 41)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bCancel)
+                    .addComponent(bOpen))
+                .addGap(25, 25, 25))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -169,10 +137,6 @@ public class ReportBill extends javax.swing.JFrame {
     private void bOpenActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bOpenActionPerformed
         open();
     }// GEN-LAST:event_bOpenActionPerformed
-
-    private void bSetEqualActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bSetEqualActionPerformed
-        fDateEnd.setDate(fDateStart.getDate());
-    }// GEN-LAST:event_bSetEqualActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,10 +187,8 @@ public class ReportBill extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bOpen;
-    private javax.swing.JButton bSetEqual;
     private unindra.core.Background background1;
     private com.toedter.calendar.JDateChooser fDateEnd;
-    private com.toedter.calendar.JDateChooser fDateStart;
     private javax.swing.JLabel lUser;
     private javax.swing.JLabel lUser1;
     // End of variables declaration//GEN-END:variables

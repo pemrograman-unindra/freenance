@@ -29,7 +29,7 @@ public class ReportExpense extends javax.swing.JFrame {
 
     private void open() {
         try {
-            InputStream file = MainMenu.class.getResourceAsStream("/reports/tes.jasper");
+            InputStream file = MainMenu.class.getResourceAsStream("/reports/expense.jasper");
             HashMap<String, Object> params = new HashMap<>();
             params.put("date_start", Config.formatDate().format(fDateStart.getDate()));
             params.put("date_end", Config.formatDate().format(fDateEnd.getDate()));

@@ -123,7 +123,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MainMenuTabbedPane = new javax.swing.JTabbedPane();
@@ -162,38 +162,26 @@ public class MainMenu extends javax.swing.JFrame {
         javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
         Dashboard.setLayout(DashboardLayout);
         DashboardLayout.setHorizontalGroup(
-                DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(DashboardLayout.createSequentialGroup()
-                                .addGap(760, 760, 760)
-                                .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(31, Short.MAX_VALUE))
-                        .addGroup(DashboardLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap()));
+            DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DashboardLayout.createSequentialGroup()
+                .addContainerGap(760, Short.MAX_VALUE)
+                .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+            .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
         DashboardLayout.setVerticalGroup(
-                DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(DashboardLayout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 500,
-                                        Short.MAX_VALUE)
-                                .addContainerGap()));
+            DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DashboardLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(chartContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        MainMenuTabbedPane.addTab("Dasbor",
-                new javax.swing.ImageIcon(getClass().getResource("/images/icon-analytics.png")), Dashboard); // NOI18N
+        MainMenuTabbedPane.addTab("Dasbor", new javax.swing.ImageIcon(getClass().getResource("/images/icon-analytics.png")), Dashboard); // NOI18N
 
         bCOA.setBackground(new java.awt.Color(32, 191, 107));
         bCOA.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
@@ -254,38 +242,31 @@ public class MainMenu extends javax.swing.JFrame {
         javax.swing.GroupLayout DataStoreLayout = new javax.swing.GroupLayout(DataStore);
         DataStore.setLayout(DataStoreLayout);
         DataStoreLayout.setHorizontalGroup(
-                DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(DataStoreLayout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(88, Short.MAX_VALUE)));
+            DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DataStoreLayout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
+        );
         DataStoreLayout.setVerticalGroup(
-                DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(DataStoreLayout.createSequentialGroup()
-                                .addGap(190, 190, 190)
-                                .addGroup(DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(227, Short.MAX_VALUE)));
+            DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DataStoreLayout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addGroup(DataStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(bProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bContact, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bCOA, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(227, Short.MAX_VALUE))
+        );
 
-        MainMenuTabbedPane.addTab("Data-data",
-                new javax.swing.ImageIcon(getClass().getResource("/images/icon-box.png")), DataStore); // NOI18N
+        MainMenuTabbedPane.addTab("Data-data", new javax.swing.ImageIcon(getClass().getResource("/images/icon-box.png")), DataStore); // NOI18N
 
         bCashIn.setBackground(new java.awt.Color(74, 175, 77));
         bCashIn.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
@@ -332,42 +313,34 @@ public class MainMenu extends javax.swing.JFrame {
         javax.swing.GroupLayout TransactionLayout = new javax.swing.GroupLayout(Transaction);
         Transaction.setLayout(TransactionLayout);
         TransactionLayout.setHorizontalGroup(
-                TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(TransactionLayout.createSequentialGroup()
-                                .addGap(206, 206, 206)
-                                .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(207, Short.MAX_VALUE)));
+            TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TransactionLayout.createSequentialGroup()
+                .addGap(206, 206, 206)
+                .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(207, Short.MAX_VALUE))
+        );
         TransactionLayout.setVerticalGroup(
-                TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(TransactionLayout.createSequentialGroup()
-                                .addGap(190, 190, 190)
-                                .addGroup(TransactionLayout
-                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(TransactionLayout
-                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(227, Short.MAX_VALUE)));
+            TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TransactionLayout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addGroup(TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(TransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bCashIn, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bCashOut, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(227, Short.MAX_VALUE))
+        );
 
-        MainMenuTabbedPane.addTab("Transaksi",
-                new javax.swing.ImageIcon(getClass().getResource("/images/icon-payment.png")), Transaction); // NOI18N
+        MainMenuTabbedPane.addTab("Transaksi", new javax.swing.ImageIcon(getClass().getResource("/images/icon-payment.png")), Transaction); // NOI18N
 
         bReportBalanceSheet.setBackground(new java.awt.Color(211, 68, 233));
         bReportBalanceSheet.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportBalanceSheet.setForeground(new java.awt.Color(255, 255, 255));
-        bReportBalanceSheet
-                .setText("<html><body style=\"text-align:center\">Laporan<br />Posisi Keuangan</body></html>");
+        bReportBalanceSheet.setText("<html><body style=\"text-align:center\">Laporan<br />Posisi Keuangan</body></html>");
         bReportBalanceSheet.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportBalanceSheet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportBalanceSheet.setDefaultCapable(false);
@@ -409,7 +382,7 @@ public class MainMenu extends javax.swing.JFrame {
         bReportBill.setBackground(new java.awt.Color(255, 133, 133));
         bReportBill.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportBill.setForeground(new java.awt.Color(255, 255, 255));
-        bReportBill.setText("<html><body style=\"text-align:center\">Laporan<br />Tagihan</body></html>");
+        bReportBill.setText("<html><body style=\"text-align:center\">Laporan<br />Daftar Tagihan</body></html>");
         bReportBill.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportBill.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportBill.setDefaultCapable(false);
@@ -451,8 +424,7 @@ public class MainMenu extends javax.swing.JFrame {
         bReportBudgetRealization.setBackground(new java.awt.Color(245, 170, 59));
         bReportBudgetRealization.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         bReportBudgetRealization.setForeground(new java.awt.Color(255, 255, 255));
-        bReportBudgetRealization
-                .setText("<html><body style=\"text-align:center\">Laporan<br />Realisasi<br />Anggaran</body></html>");
+        bReportBudgetRealization.setText("<html><body style=\"text-align:center\">Laporan<br />Realisasi<br />Anggaran</body></html>");
         bReportBudgetRealization.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bReportBudgetRealization.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bReportBudgetRealization.setDefaultCapable(false);
@@ -480,73 +452,58 @@ public class MainMenu extends javax.swing.JFrame {
         javax.swing.GroupLayout ReportLayout = new javax.swing.GroupLayout(Report);
         Report.setLayout(ReportLayout);
         ReportLayout.setHorizontalGroup(
-                ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(ReportLayout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(ReportLayout.createSequentialGroup()
-                                                .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(ReportLayout.createSequentialGroup()
-                                                .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bReportBalanceSheet,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bReportBudgetRealization,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(88, Short.MAX_VALUE)));
+            ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReportLayout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ReportLayout.createSequentialGroup()
+                        .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ReportLayout.createSequentialGroup()
+                        .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(88, Short.MAX_VALUE))
+        );
         ReportLayout.setVerticalGroup(
-                ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(ReportLayout.createSequentialGroup()
-                                .addGap(89, 89, 89)
-                                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(90, Short.MAX_VALUE)));
+            ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReportLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(bReportBalanceSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportCashFlow, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportBudgetRealization, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(bReportExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportBill, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bReportProject, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(90, Short.MAX_VALUE))
+        );
 
-        MainMenuTabbedPane.addTab("Laporan",
-                new javax.swing.ImageIcon(getClass().getResource("/images/icon-report.png")), Report); // NOI18N
+        MainMenuTabbedPane.addTab("Laporan", new javax.swing.ImageIcon(getClass().getResource("/images/icon-report.png")), Report); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(MainMenuTabbedPane));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(MainMenuTabbedPane)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(MainMenuTabbedPane));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(MainMenuTabbedPane)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
