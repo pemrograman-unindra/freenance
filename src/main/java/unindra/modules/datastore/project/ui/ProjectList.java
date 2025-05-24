@@ -47,9 +47,9 @@ public class ProjectList extends javax.swing.JFrame {
             model.addRow(new Object[] {
                     data.getNumber(),
                     data.getName(),
-                    data.getStartDate(),
-                    data.getDueDate(),
-                    data.getEndDate(),
+                    data.getStartDate() != null ? data.getStartDate().format(Config.dateFormatter()) : "-",
+                    data.getDueDate() != null ? data.getDueDate().format(Config.dateFormatter()) : "-",
+                    data.getEndDate() != null ? data.getEndDate().format(Config.dateFormatter()) : "-",
                     Config.formatNumber().format(data.getAmount())
             });
         }

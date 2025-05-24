@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -52,6 +53,16 @@ public class Config {
 
 	public static SimpleDateFormat formatDate() {
 		return new SimpleDateFormat("yyyy-MM-dd");
+	}
+
+	public static String convertDateFormat(String formattedDate, String oldFormat, String newFormat) {
+		Date date;
+		try {
+			date = new SimpleDateFormat(oldFormat).parse(formattedDate);
+			return new SimpleDateFormat(newFormat).format(date);
+		} catch (Exception e) {
+		}
+		return formattedDate;
 	}
 
 	public static DateTimeFormatter dateFormatter() {

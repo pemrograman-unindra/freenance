@@ -86,11 +86,7 @@ public class BudgetList extends javax.swing.JFrame {
         if (callback != null) {
             int selectedRow = dataTable.getSelectedRow();
             if (selectedRow != -1) {
-                String coaName = dataTable.getModel().getValueAt(selectedRow, 0).toString();
-                String start = dataTable.getModel().getValueAt(selectedRow, 1).toString();
-                String end = dataTable.getModel().getValueAt(selectedRow, 2).toString();
-                Budget data = BudgetService.getByCoaNameStartEnd(coaName, start, end);
-                callback.accept(data);
+                callback.accept(getSelectedBudget(selectedRow));
                 dispose();
             }
         } else {
@@ -103,6 +99,15 @@ public class BudgetList extends javax.swing.JFrame {
         }
     }
 
+    private Budget getSelectedBudget(int selectedRow) {
+        String coaName = dataTable.getModel().getValueAt(selectedRow, 0).toString();
+        String start = Config.convertDateFormat(dataTable.getModel().getValueAt(selectedRow, 1).toString(),
+                "dd-MMM-yyyy", "yyyy-MM-dd");
+        String end = Config.convertDateFormat(dataTable.getModel().getValueAt(selectedRow, 2).toString(), "dd-MMM-yyyy",
+                "yyyy-MM-dd");
+        return BudgetService.getByCoaNameStartEnd(coaName, start, end);
+    }
+
     private void create() {
         new BudgetForm(this, null).setVisible(true);
     }
@@ -110,21 +115,14 @@ public class BudgetList extends javax.swing.JFrame {
     private void edit() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            String coaName = dataTable.getModel().getValueAt(selectedRow, 0).toString();
-            String start = dataTable.getModel().getValueAt(selectedRow, 1).toString();
-            String end = dataTable.getModel().getValueAt(selectedRow, 2).toString();
-            Budget data = BudgetService.getByCoaNameStartEnd(coaName, start, end);
-            new BudgetForm(this, data).setVisible(true);
+            new BudgetForm(this, getSelectedBudget(selectedRow)).setVisible(true);
         }
     }
 
     private void delete() {
         int selectedRow = dataTable.getSelectedRow();
         if (selectedRow != -1) {
-            String coaName = dataTable.getModel().getValueAt(selectedRow, 0).toString();
-            String start = dataTable.getModel().getValueAt(selectedRow, 1).toString();
-            String end = dataTable.getModel().getValueAt(selectedRow, 2).toString();
-            Budget data = BudgetService.getByCoaNameStartEnd(coaName, start, end);
+            Budget data = getSelectedBudget(selectedRow);
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Apakah kamu yakin akan menghapus data anggaran " + data.getCoaName() + "?", "Konfirmasi",
                     JOptionPane.YES_NO_OPTION);

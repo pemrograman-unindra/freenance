@@ -1,24 +1,23 @@
 package unindra.modules.datastore.budget.service;
 
-import unindra.core.DB;
-import unindra.modules.datastore.budget.model.Budget;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import unindra.core.DB;
+import unindra.modules.datastore.budget.model.Budget;
+
 public class BudgetService {
 
 	public static void create(Budget data) {
 		try {
 			DB.exec("INSERT INTO budgets (coa_id, period_start, period_end, amount) VALUES (?, ?, ?, ?)",
-				data.getCoaId(),
-				data.getPeriodStart(),
-				data.getPeriodEnd(),
-				data.getAmount()
-			);
+					data.getCoaId(),
+					data.getPeriodStart(),
+					data.getPeriodEnd(),
+					data.getAmount());
 		} catch (SQLException e) {
 			throw new RuntimeException("Create budget failed: " + e.getMessage(), e);
 		}
@@ -26,8 +25,10 @@ public class BudgetService {
 
 	public static List<Budget> find(String keyword) {
 		List<Budget> list = new ArrayList<>();
-		String text = "%"+ keyword +"%";
-		try (ResultSet rs = DB.query("SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name like ?", text)) {
+		String text = "%" + keyword + "%";
+		try (ResultSet rs = DB.query(
+				"SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name like ?",
+				text)) {
 			while (rs.next()) {
 				Budget data = new Budget();
 				data.setId(rs.getInt("id"));
@@ -45,7 +46,9 @@ public class BudgetService {
 	}
 
 	public static Budget getByCoaNameStartEnd(String coaName, String start, String end) {
-		try (ResultSet rs = DB.query("SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name = ? and period_start = ? and period_end = ?", coaName, start, end)) {
+		try (ResultSet rs = DB.query(
+				"SELECT coa.name coa_name, b.* FROM budgets b JOIN chart_of_accounts coa on coa.id = b.coa_id WHERE coa.name = ? and period_start = ? and period_end = ?",
+				coaName, start, end)) {
 			while (rs.next()) {
 				Budget data = new Budget();
 				data.setId(rs.getInt("id"));
@@ -65,12 +68,11 @@ public class BudgetService {
 	public static void update(Budget data) {
 		try {
 			DB.exec("UPDATE budgets SET coa_id = ?, period_start = ?, period_end = ?, amount = ? WHERE id = ?",
-				data.getCoaId(),
-				data.getPeriodStart(),
-				data.getPeriodEnd(),
-				data.getAmount(),
-				data.getId()
-			);
+					data.getCoaId(),
+					data.getPeriodStart(),
+					data.getPeriodEnd(),
+					data.getAmount(),
+					data.getId());
 		} catch (SQLException e) {
 			throw new RuntimeException("Update budget failed: " + e.getMessage(), e);
 		}

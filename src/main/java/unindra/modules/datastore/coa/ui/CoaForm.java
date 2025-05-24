@@ -29,6 +29,8 @@ public class CoaForm extends javax.swing.JFrame {
         if (data != null) {
             title.setText("Edit Data Kategori Keuangan");
             selectedData = data;
+            parentId = data.getParentId();
+            categoryId = data.getCategoryId();
             fCode.setText(String.valueOf(data.getCode()));
             fName.setText(data.getName());
             fNote.setText(data.getNote());

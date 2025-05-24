@@ -30,14 +30,20 @@ public class ProjectForm extends javax.swing.JFrame {
         if (data != null) {
             title.setText("Edit Data Proyek");
             selectedData = data;
-            customerId = data.getId();
+            customerId = data.getCustomerId();
             fCustomerName.setText(data.getCustomerName());
             fNumber.setText(data.getNumber());
             fName.setText(data.getName());
             fDescription.setText(data.getDescription());
-            fStartDate.setDate(Date.from(data.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            fDueDate.setDate(Date.from(data.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            fEndDate.setDate(Date.from(data.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            if (data.getStartDate() != null) {
+                fStartDate.setDate(Date.from(data.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+            if (data.getDueDate() != null) {
+                fDueDate.setDate(Date.from(data.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
+            if (data.getEndDate() != null) {
+                fEndDate.setDate(Date.from(data.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            }
             fAmount.setText(data.getAmount().toPlainString());
         } else {
             Date now = new Date();
@@ -64,9 +70,15 @@ public class ProjectForm extends javax.swing.JFrame {
         data.setNumber(fNumber.getText());
         data.setName(fName.getText());
         data.setDescription(fDescription.getText());
-        data.setStartDate(fStartDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        data.setDueDate(fDueDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        data.setEndDate(fEndDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        if (fStartDate.getDate() != null) {
+            data.setStartDate(fStartDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        if (fDueDate.getDate() != null) {
+            data.setDueDate(fDueDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        if (fEndDate.getDate() != null) {
+            data.setEndDate(fEndDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
         try {
             BigDecimal amount = new BigDecimal(fAmount.getText());
             data.setAmount(amount);
