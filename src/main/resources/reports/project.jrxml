@@ -1,0 +1,343 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="income" language="java" columnCount="1" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sqlite"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="382"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="606"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50.0" bold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18.0" bold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14.0" bold="true"/>
+	<style name="Detail" mode="Transparent" fontName="SansSerif"/>
+	<style name="Row" mode="Transparent" fontName="SansSerif" pdfFontName="SansSerif">
+		<conditionalStyle mode="Opaque" backcolor="#F0EFEF">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 1]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<parameter name="date_start" class="java.lang.String"/>
+	<parameter name="date_end" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[select
+	(select name from users limit 1) user_name,
+	p.project_no project_number,
+	p.name project_name,
+	c.name customer_name,
+	p.description,
+	p.start_date,
+	p.due_date,
+	p.end_date,
+	p.amount,
+	coalesce(e.amount,0) expense
+from
+	projects p
+	left join contacts c on c.id = p.customer_id
+	left join (
+		select
+			t.project_id,
+			sum(j.debit-j.credit) amount
+		from
+			transactions t
+			join journals j on j.trx_id = t.id
+			join chart_of_accounts coa on coa.id = j.id and coa.category_id = 5
+		where
+			t.trx_date >= $P{date_start}
+			and t.trx_date <= $P{date_end}
+		group by
+			t.project_id) e on e.project_id = p.id
+where
+	p.project_no != 'N/A']]></query>
+	<field name="user_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="user_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="user_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="users"/>
+	</field>
+	<field name="project_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="project_number"/>
+		<property name="com.jaspersoft.studio.field.label" value="project_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="project_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="project_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="project_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="customer_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="customer_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="customer_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="contacts"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="start_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="start_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="start_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="due_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="due_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="due_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="end_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="end_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="end_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="amount" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<field name="expense" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="expense"/>
+		<property name="com.jaspersoft.studio.field.label" value="expense"/>
+	</field>
+	<variable name="total_amount" calculation="Sum" class="java.math.BigDecimal">
+		<expression><![CDATA[$F{amount}]]></expression>
+	</variable>
+	<background splitType="Stretch"/>
+	<title height="80" splitType="Stretch">
+		<element kind="textField" uuid="9bfdc3b3-ba45-4dc8-aa8a-6b5928407946" positionType="Float" x="0" y="0" width="800" height="25" fontName="SansSerif" fontSize="14.0" textAdjust="StretchHeight" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<expression><![CDATA[$F{user_name}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22e760ba-8d02-4b43-8b76-725749621fec"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="55364197-95e9-4f23-a601-6e9be1b0181b" mode="Opaque" x="0" y="25" width="800" height="25" forecolor="#058FFF" backcolor="#FFFFFF" fontName="SansSerif" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<text><![CDATA[Laporan Proyek]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="textField" uuid="b51184cd-7f0c-430a-ac9c-858587107380" positionType="Float" x="0" y="50" width="798" height="20" fontName="SansSerif" fontSize="12.0" textAdjust="StretchHeight" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Row">
+			<paragraph leftIndent="5"/>
+			<expression><![CDATA[new java.text.SimpleDateFormat("dd MMM yyyy", new java.util.Locale("id"))
+      .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{date_start})) + " s/d " + new java.text.SimpleDateFormat("dd MMM yyyy", new java.util.Locale("id"))
+      .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{date_end}))]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22e760ba-8d02-4b43-8b76-725749621fec"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</title>
+	<pageHeader height="20">
+		<element kind="staticText" uuid="11d6eedc-b15b-4957-9b01-72d09359702a" mode="Opaque" x="80" y="0" width="150" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5" rightIndent="0"/>
+			<text><![CDATA[Nama Proyek]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22e760ba-8d02-4b43-8b76-725749621fec"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+		</element>
+		<element kind="staticText" uuid="608cbe6f-315b-42d1-9275-be07a67cbfe0" mode="Opaque" x="230" y="0" width="159" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5" rightIndent="0"/>
+			<text><![CDATA[Nama Klien]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="edbcf782-024e-49d5-89ff-6eaa17e67418"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+		</element>
+		<element kind="staticText" uuid="f061ddba-e32a-49ab-b586-502be90f57af" mode="Opaque" x="0" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<text><![CDATA[Nomor Proyek]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e8dd309-ea99-4304-af79-59d5bc42fe3e"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="staticText" uuid="814d09f4-7f9d-4ec8-9f6e-2d2999854654" mode="Opaque" x="715" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<paragraph rightIndent="5"/>
+			<text><![CDATA[Biaya Proyek]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="staticText" uuid="d99c1a8f-d2e6-487b-992f-cdb321b5ec51" mode="Opaque" x="630" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<paragraph rightIndent="5"/>
+			<text><![CDATA[Nilai Proyek]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="staticText" uuid="b995c4e2-68c7-4b57-a180-da86950c1bc9" mode="Opaque" x="550" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<text><![CDATA[Selesai]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="staticText" uuid="3794e786-a27a-4059-b98f-02cc53a19826" mode="Opaque" x="470" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<text><![CDATA[Jatuh Tempo]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="staticText" uuid="451c68ca-fb6f-43ee-a401-13a58bf5a677" mode="Opaque" x="390" y="0" width="80" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<text><![CDATA[Mulai]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<element kind="textField" uuid="54d3f1d0-5495-43ed-835e-7018e2fa40b5" positionType="Float" stretchType="ContainerHeight" x="630" y="0" width="85" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" hTextAlign="Right" vTextAlign="Middle" style="Row">
+				<paragraph rightIndent="5"/>
+				<expression><![CDATA[$F{amount}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
+				<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="cb4e1961-99a9-4629-9b46-7e214805810c" positionType="Float" stretchType="ContainerHeight" x="230" y="0" width="159" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" hTextAlign="Left" vTextAlign="Middle" style="Row">
+				<paragraph leftIndent="5" rightIndent="0"/>
+				<expression><![CDATA[$F{customer_name}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="edbcf782-024e-49d5-89ff-6eaa17e67418"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="792220cd-2475-4d46-ac48-ae5948281266" positionType="Float" stretchType="ContainerHeight" x="80" y="0" width="150" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
+				<paragraph leftIndent="5" rightIndent="0"/>
+				<expression><![CDATA[$F{project_name}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22e760ba-8d02-4b43-8b76-725749621fec"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			</element>
+			<element kind="textField" uuid="b2b220ef-efb4-4723-b0a7-c48988e66ba3" positionType="Float" stretchType="ContainerHeight" x="0" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
+				<paragraph leftIndent="5"/>
+				<expression><![CDATA[$F{project_number}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e8dd309-ea99-4304-af79-59d5bc42fe3e"/>
+				<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="dc72a8b4-ee72-4696-8875-4b9a3b75da66" positionType="Float" stretchType="ContainerHeight" x="715" y="0" width="85" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" hTextAlign="Right" vTextAlign="Middle" style="Row">
+				<paragraph rightIndent="5" style="Row"/>
+				<expression><![CDATA[$F{expense}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
+				<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="4c949950-e502-4451-a54d-6fc71e98eabf" positionType="Float" stretchType="ContainerHeight" x="550" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
+				<paragraph leftIndent="5" style="Row"/>
+				<expression><![CDATA[new java.text.SimpleDateFormat("dd-MMM-yyyy", new java.util.Locale("id"))
+      .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{end_date}))]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+				<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="40d0c4af-bf9e-490d-8b42-8e7cec67bd28" positionType="Float" stretchType="ContainerHeight" x="470" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
+				<paragraph leftIndent="5" style="Row"/>
+				<expression><![CDATA[new java.text.SimpleDateFormat("dd-MMM-yyyy", new java.util.Locale("id"))
+      .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{due_date}))]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+				<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="e4ccb8a5-458f-4b29-b6ea-4104e2c6696e" positionType="Float" stretchType="ContainerHeight" x="390" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
+				<paragraph leftIndent="5" style="Row"/>
+				<expression><![CDATA[new java.text.SimpleDateFormat("dd-MMM-yyyy", new java.util.Locale("id"))
+      .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{start_date}))]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
+				<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<pageFooter height="20">
+		<element kind="textField" uuid="9825b46e-76f1-469a-abb8-a1cc27aad685" x="0" y="0" width="799" height="20" forecolor="#333333" fontName="SansSerif" fontSize="8.0" evaluationTime="Report" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+			<expression><![CDATA["Hal " + $V{PAGE_NUMBER} + " dari " + $V{PAGE_NUMBER}]]></expression>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="net.sf.jasperreports.style.evaluation.time.enabled" value="false"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</pageFooter>
+	<summary height="125" splitType="Stretch">
+		<element kind="textField" uuid="9eca7086-2e8c-45fa-ba13-126507c67ccc" positionType="Float" mode="Opaque" x="630" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
+			<paragraph rightIndent="5"/>
+			<expression><![CDATA[$V{total_amount}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="c8030acf-c7f9-43c2-bd7c-f7a62ae2d3e9" positionType="Float" mode="Opaque" x="0" y="5" width="630" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<paragraph leftIndent="5" rightIndent="0"/>
+			<expression><![CDATA["Total"]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="edbcf782-024e-49d5-89ff-6eaa17e67418"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+		</element>
+		<element kind="textField" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc" x="630" y="40" width="169" height="20" forecolor="#000000" fontName="SansSerif" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
+			<expression><![CDATA["Jakarta, "+ new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id"))
+      .format(new java.util.Date())]]></expression>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="textField" uuid="dbe25b7d-e836-4395-99ce-3e09c035c217" positionType="Float" x="632" y="100" width="168" height="25" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<paragraph leftIndent="5"/>
+			<expression><![CDATA[$F{user_name}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22e760ba-8d02-4b43-8b76-725749621fec"/>
+			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="0bea99e9-a0a3-4c78-882e-7ef94cb753da" positionType="Float" mode="Opaque" x="715" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
+			<paragraph rightIndent="5" style="Detail"/>
+			<expression><![CDATA[$V{total_amount}]]></expression>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
+			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</summary>
+</jasperReport>
