@@ -192,7 +192,7 @@ order by
 		</element>
 		<element kind="textField" uuid="c8030acf-c7f9-43c2-bd7c-f7a62ae2d3e9" positionType="Float" mode="Opaque" x="0" y="5" width="470" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Left" vTextAlign="Middle">
 			<paragraph leftIndent="5" rightIndent="0"/>
-			<expression><![CDATA["Kekayaan Bersih"]]></expression>
+			<expression><![CDATA["Sisa Penerimaan"]]></expression>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="edbcf782-024e-49d5-89ff-6eaa17e67418"/>
 			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 			<property name="com.jaspersoft.studio.unit.width" value="px"/>
