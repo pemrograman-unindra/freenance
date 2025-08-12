@@ -4,7 +4,7 @@ Aplikasi Manajemen Keuangan Untuk Pekerja Lepas (Freelancer)
 ## Kontributor
 - 202243570023 [Helmi sigit suseno](https://github.com/helmi-suseno)
 - 202243570024 [Jeffry Luqman](https://github.com/jeffry-luqman)
-- 202243579068 [Agus Setiawan]([https://github.com/Ican1903](https://github.com/NyongNgapak))
+- 202243579068 [Agus Setiawan](https://github.com/NyongNgapak)
 
 ## Memulai
 1. Pastikan komputer kamu sudah terinstall :
