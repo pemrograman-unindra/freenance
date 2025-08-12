@@ -2,14 +2,9 @@
 Aplikasi Manajemen Keuangan Untuk Pekerja Lepas (Freelancer)
 
 ## Kontributor
-- 202143500078 [Muhammad Febrisal](https://github.com/Reishall)
-- 202143501841 [Ihsan Abdul Rozak](https://github.com/xtnsn)
 - 202243570023 [Helmi sigit suseno](https://github.com/helmi-suseno)
 - 202243570024 [Jeffry Luqman](https://github.com/jeffry-luqman)
-- 202343579042 [Ichsan kamil](https://github.com/Ican1903)
-- 202443570025 [Zakharia Harjana](https://github.com/misterzack)
-- 202443579038 [Bagus Sadewa](https://github.com/BaguSadewa)
-- 202443570059 [Fachmi Agmar](https://github.com/FachmiAgmar)
+- 202243579068 [Agus Setiawan]([https://github.com/Ican1903](https://github.com/NyongNgapak))
 
 ## Memulai
 1. Pastikan komputer kamu sudah terinstall :
