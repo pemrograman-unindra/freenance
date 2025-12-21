@@ -1,6 +1,5 @@
 @startuml Sequence Diagram - Transaksi
 autonumber
-title Sequence Diagram - Proses Transaksi Keuangan
 
 actor "Pekerja Lepas" as User
 boundary "TransactionUI" as UI <<boundary>>

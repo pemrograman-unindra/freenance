@@ -2,8 +2,6 @@
 skinparam activityFontSize 11
 skinparam activityDiamondFontSize 10
 
-title Activity Diagram - Generate Laporan
-
 |Pekerja Lepas|
 start
 :Membuka menu laporan;
@@ -20,8 +18,7 @@ note right
   - Pengeluaran
 end note
 
-:Mengisi parameter
-(periode/tanggal/proyek);
+:Mengisi parameter filter;
 :Klik tombol generate;
 
 |Sistem|
@@ -39,8 +36,7 @@ if (Cetak/Export?) then (ya)
   :Klik tombol cetak/export;
   
   |Sistem|
-  :Generate file laporan
-  (PDF/Excel);
+  :Generate file laporan (PDF/Excel);
   
   |Pekerja Lepas|
   :Menyimpan/mencetak laporan;

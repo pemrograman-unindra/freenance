@@ -2,8 +2,6 @@
 skinparam activityFontSize 11
 skinparam activityDiamondFontSize 10
 
-title Activity Diagram - Proses Transaksi Keuangan
-
 |Pekerja Lepas|
 start
 :Membuka menu transaksi;
@@ -14,35 +12,28 @@ note right
   - Penerimaan
   - Pengeluaran
 end note
-:Memilih kontak;
-:Memilih proyek/kategori COA;
-:Mengisi nomor transaksi;
-:Mengisi tanggal transaksi;
-:Mengisi deskripsi;
-:Mengisi jumlah;
+:Mengisi form transaksi;
 :Klik tombol simpan;
 
 |Sistem|
 :Menerima data transaksi;
 :Validasi data;
 
-if (Data valid?) then (ya)
-  :Menyimpan transaksi
-  ke database;
-  :Generate 2 jurnal entries
-  (Debit dan Credit);
-  :Menyimpan jurnal
-  ke database;
-  :Menampilkan pesan sukses;
-  
-  |Pekerja Lepas|
-  :Melihat konfirmasi sukses;
-  stop
-else (tidak)
+if (Data valid?) then (tidak)
   :Menampilkan pesan error;
   
   |Pekerja Lepas|
   :Melihat pesan error;
+  stop
+else (ya)
+  |Sistem|
+  :Menyimpan transaksi ke database;
+  :Generate 2 jurnal entries (Debit dan Credit);
+  :Menyimpan jurnal ke database;
+  :Menampilkan pesan sukses;
+  
+  |Pekerja Lepas|
+  :Melihat konfirmasi sukses;
   stop
 endif
 @enduml

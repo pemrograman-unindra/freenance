@@ -1,10 +1,9 @@
 @startuml Sequence Diagram - Generate Laporan
 autonumber
-title Sequence Diagram - Generate Laporan
 
 actor "Pekerja Lepas" as User
 boundary "ReportUI" as UI <<boundary>>
-control "AuthService" as Service <<control>>
+control "ReportService" as Service <<control>>
 entity "Database" as DB <<entity>>
 
 User -> UI: Membuka menu laporan
@@ -13,40 +12,23 @@ UI --> User: Menampilkan pilihan laporan
 deactivate UI
 
 User -> UI: Pilih jenis laporan
-User -> UI: Input parameter\n(periode/tanggal/proyek)
+User -> UI: Input parameter filter
 User -> UI: Klik generate
 
 activate UI
-UI -> Service: getAnalytic(dateStart, dateEnd)
+UI -> Service: generate
 activate Service
 
-note right of Service
-  Untuk laporan lain,
-  query langsung ke DB
-  tanpa melalui Service
-end note
-
-Service -> DB: Query data jurnal\nberdasarkan periode
+Service -> DB: Query ke DB
 activate DB
-DB --> Service: Return data jurnal
-deactivate DB
-
-Service -> DB: Query data COA
-activate DB
-DB --> Service: Return data COA
-deactivate DB
-
-Service -> DB: Query data anggaran
-activate DB
-DB --> Service: Return data anggaran
+DB --> Service: Return data dari DB
 deactivate DB
 
 Service -> Service: Kalkulasi analitik:\n- Asset & Liability (real vs budget)\n- Income & Expense (real vs budget)\n- Margin & Net Worth
 
-Service --> UI: Return Analytic object
+Service --> UI: Format data untuk tampilan
 deactivate Service
 
-UI -> UI: Format data untuk tampilan
 UI --> User: Menampilkan laporan
 deactivate UI
 

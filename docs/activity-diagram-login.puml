@@ -2,8 +2,6 @@
 skinparam activityFontSize 11
 skinparam activityDiamondFontSize 10
 
-title Activity Diagram - Proses Login
-
 |Pekerja Lepas|
 start
 :Membuka aplikasi;
@@ -13,17 +11,18 @@ start
 :Menerima kredensial;
 :Validasi dengan BCrypt;
 
-if (Kredensial valid?) then (ya)
-  :Membuka main menu/dashboard;
-  
-  |Pekerja Lepas|
-  :Masuk ke aplikasi;
-  stop
-else (tidak)
+if (Kredensial valid?) then (tidak)
   :Menampilkan pesan error;
   
   |Pekerja Lepas|
   :Melihat pesan error;
+  stop
+else (ya)
+  |Sistem|
+  :Membuka dashboard;
+  
+  |Pekerja Lepas|
+  :Masuk ke aplikasi;
   stop
 endif
 

@@ -1,6 +1,5 @@
 @startuml Sequence Diagram - CRUD Data Master
 autonumber
-title Sequence Diagram - Kelola Data Master (Tambah)
 
 actor "Pekerja Lepas" as User
 boundary "DataMasterUI" as UI <<boundary>>

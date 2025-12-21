@@ -2,8 +2,6 @@
 skinparam activityFontSize 11
 skinparam activityDiamondFontSize 10
 
-title Activity Diagram - Kelola Data Master
-
 |Pekerja Lepas|
 start
 :Membuka menu data master;
@@ -22,7 +20,50 @@ note right
   - Hapus
 end note
 
-if (Aksi Lihat/Cari?) then (ya)
+if (Aksi Lihat/Cari?) then (tidak)
+  if (Aksi Hapus?) then (tidak)
+    :Mengisi/mengubah data;
+    :Klik tombol simpan;
+    
+    |Sistem|
+    :Menerima data;
+    :Validasi data;
+    
+    if (Data valid?) then (tidak)
+      :Menampilkan pesan error;
+      
+      |Pekerja Lepas|
+      :Melihat pesan error;
+      stop
+    else (ya)
+      :Simpan/update database;
+      :Menampilkan pesan sukses;
+      
+      |Pekerja Lepas|
+      :Melihat konfirmasi sukses;
+      stop
+    endif
+    
+  else (ya)
+    :Memilih data dari list;
+    :Klik tombol hapus;
+    :Konfirmasi penghapusan;
+    
+    if (Konfirmasi ya?) then (tidak)
+      :Batal hapus;
+      stop
+    else (ya)
+      |Sistem|
+      :Menghapus dari database;
+      :Menampilkan pesan sukses;
+      
+      |Pekerja Lepas|
+      :Melihat konfirmasi sukses;
+      stop
+    endif
+  endif
+  
+else (ya)
   :Mengisi keyword pencarian
   (opsional);
   :Klik tombol cari;
@@ -35,49 +76,6 @@ if (Aksi Lihat/Cari?) then (ya)
   |Pekerja Lepas|
   :Melihat daftar data;
   stop
-  
-else (tidak)
-  if (Aksi Hapus?) then (ya)
-    :Memilih data dari list;
-    :Klik tombol hapus;
-    :Konfirmasi penghapusan;
-    
-    if (Konfirmasi ya?) then (ya)
-      |Sistem|
-      :Menghapus dari database;
-      :Menampilkan pesan sukses;
-      
-      |Pekerja Lepas|
-      :Melihat konfirmasi sukses;
-      stop
-    else (tidak)
-      :Batal hapus;
-      stop
-    endif
-    
-  else (tidak - Tambah/Edit)
-    :Mengisi/mengubah data;
-    :Klik tombol simpan;
-    
-    |Sistem|
-    :Menerima data;
-    :Validasi data;
-    
-    if (Data valid?) then (ya)
-      :Simpan/update database;
-      :Menampilkan pesan sukses;
-      
-      |Pekerja Lepas|
-      :Melihat konfirmasi sukses;
-      stop
-    else (tidak)
-      :Menampilkan pesan error;
-      
-      |Pekerja Lepas|
-      :Melihat pesan error;
-      stop
-    endif
-  endif
 endif
 
 @enduml

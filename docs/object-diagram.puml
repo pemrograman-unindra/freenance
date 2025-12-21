@@ -1,6 +1,4 @@
 @startuml Object Diagram - Transaksi
-title Object Diagram - Contoh Transaksi Penerimaan
-
 object ":User" as user {
   id = 1
   name = "Ahmad Fauzi"

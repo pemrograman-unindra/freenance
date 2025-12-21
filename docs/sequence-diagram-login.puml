@@ -1,6 +1,5 @@
 @startuml Sequence Diagram - Login
 autonumber
-title Sequence Diagram - Proses Login
 
 actor "Pekerja Lepas" as User
 boundary "LoginUI" as UI <<boundary>>

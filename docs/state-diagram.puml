@@ -1,7 +1,4 @@
 @startuml State Machine Diagram - User Session
-title State Machine Diagram - Sesi Pengguna
-
-[*] --> LoggedOut : Aplikasi dibuka
 
 LoggedOut : User belum login
 LoggedOut : Menampilkan form login
