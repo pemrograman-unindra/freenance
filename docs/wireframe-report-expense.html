@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Laporan Daftar Transaksi Pengeluaran</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 842px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .company-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .report-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .report-period {
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .table-header {
+            background: black;
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .table-header .col-date {
+            width: 80px;
+            padding-left: 5px;
+        }
+
+        .table-header .col-number {
+            width: 100px;
+        }
+
+        .table-header .col-to {
+            width: 150px;
+        }
+
+        .table-header .col-with {
+            width: 150px;
+        }
+
+        .table-header .col-for {
+            width: 150px;
+        }
+
+        .table-header .col-amount {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .report-table {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .report-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            font-size: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .report-row:nth-child(even) {
+            background: #f0f0f0;
+        }
+
+        .report-row .col-date {
+            width: 80px;
+            padding-left: 5px;
+        }
+
+        .report-row .col-number {
+            width: 100px;
+        }
+
+        .report-row .col-to {
+            width: 150px;
+        }
+
+        .report-row .col-with {
+            width: 150px;
+        }
+
+        .report-row .col-for {
+            width: 150px;
+        }
+
+        .report-row .col-amount {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .total-row {
+            background: black;
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
+        .total-row .label {
+            padding-left: 5px;
+        }
+
+        .total-row .amount {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .signature {
+            text-align: center;
+            margin-top: 40px;
+            margin-left: 650px;
+        }
+
+        .signature .location {
+            font-size: 10px;
+            margin-bottom: 60px;
+        }
+
+        .signature .name {
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 8px;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-name">Nama Pekerja Lepas</div>
+            <div class="report-title">Laporan Daftar Transaksi Pengeluaran</div>
+            <div class="report-period">01 Jan 2024 s/d 31 Jan 2024</div>
+        </div>
+
+        <div class="table-header">
+            <div class="col-date">Tanggal</div>
+            <div class="col-number">No. Referensi</div>
+            <div class="col-to">Dibayar Kepada</div>
+            <div class="col-with">Dibayar Dengan</div>
+            <div class="col-for">Untuk Pembayaran</div>
+            <div class="col-amount">Nilai Pembayaran</div>
+        </div>
+        <div class="report-table">
+            <div class="report-row">
+                <div class="col-date">15-Jan-2024</div>
+                <div class="col-number">OUT-2024-001</div>
+                <div class="col-to">PT. Supplier Jaya</div>
+                <div class="col-with">Bank BCA</div>
+                <div class="col-for">Pembelian Bahan</div>
+                <div class="col-amount">12,000,000</div>
+            </div>
+            <div class="report-row">
+                <div class="col-date">20-Jan-2024</div>
+                <div class="col-number">OUT-2024-002</div>
+                <div class="col-to">CV. Teknologi</div>
+                <div class="col-with">Kas</div>
+                <div class="col-for">Biaya Operasional</div>
+                <div class="col-amount">8,500,000</div>
+            </div>
+            <div class="report-row">
+                <div class="col-date">25-Jan-2024</div>
+                <div class="col-number">OUT-2024-003</div>
+                <div class="col-to">Toko Peralatan</div>
+                <div class="col-with">Bank Mandiri</div>
+                <div class="col-for">Pembelian Aset</div>
+                <div class="col-amount">15,750,000</div>
+            </div>
+            <div class="report-row">
+                <div class="col-date">28-Jan-2024</div>
+                <div class="col-number">OUT-2024-004</div>
+                <div class="col-to">Karyawan</div>
+                <div class="col-with">Bank BNI</div>
+                <div class="col-for">Gaji</div>
+                <div class="col-amount">30,000,000</div>
+            </div>
+        </div>
+
+        <div class="total-row">
+            <div class="label">Total</div>
+            <div class="amount">66,250,000</div>
+        </div>
+
+        <div class="signature">
+            <div class="location">Jakarta, 21 Desember 2024</div>
+            <div class="name">Nama Pekerja Lepas</div>
+        </div>
+
+        <div class="footer">Hal 1 dari 1</div>
+    </div>
+</body>
+
+</html>

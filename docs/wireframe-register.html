@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Register Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 800px;
+            height: 500px;
+            border: 2px solid black;
+            position: relative;
+            background: white;
+        }
+
+        .title {
+            position: absolute;
+            top: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 104px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .form-row label {
+            width: 120px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .form-row input {
+            flex: 1;
+            height: 30px;
+            border: 2px solid black;
+            padding: 0 8px;
+            background: white;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .button-row button {
+            padding: 8px 24px;
+            border: 2px solid black;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 80px;
+        }
+
+        .button-row button:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Title -->
+        <div class="title">Daftar</div>
+
+        <!-- Form -->
+        <div class="form-container">
+            <div class="form-row">
+                <label>Nama</label>
+                <input type="text" placeholder="">
+            </div>
+
+            <div class="form-row">
+                <label>Telp</label>
+                <input type="text" placeholder="">
+            </div>
+
+            <div class="form-row">
+                <label>Email</label>
+                <input type="email" placeholder="">
+            </div>
+
+            <div class="form-row">
+                <label>Username</label>
+                <input type="text" placeholder="">
+            </div>
+
+            <div class="form-row">
+                <label>Kata Sandi</label>
+                <input type="password" placeholder="">
+            </div>
+
+            <div class="button-row">
+                <button>Batal</button>
+                <button>Daftar</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

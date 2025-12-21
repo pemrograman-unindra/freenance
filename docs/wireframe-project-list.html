@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Daftar Proyek</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 1060px;
+            height: 700px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+            padding: 24px 57px 54px 57px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 18px;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 276px;
+            height: 30px;
+            border: 2px solid black;
+            padding: 0 8px;
+            background: white;
+        }
+
+        .btn {
+            padding: 6px 16px;
+            border: 2px solid black;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+        }
+
+        .table-container {
+            width: 943px;
+            height: 537px;
+            border: 2px solid black;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f0f0f0;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        td.right-align {
+            text-align: right;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">Daftar Proyek</div>
+
+        <div class="toolbar">
+            <input type="text" class="search-input" placeholder="">
+            <button class="btn">Cari</button>
+            <button class="btn">Batal</button>
+            <button class="btn">Hapus</button>
+            <button class="btn">Ubah</button>
+            <button class="btn">Tambah</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nomor</th>
+                        <th>Nama</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Target Selesai</th>
+                        <th>Tanggal Selesai</th>
+                        <th>Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PRJ-001</td>
+                        <td>Pembangunan Gedung Kantor</td>
+                        <td>1-Jan-2024</td>
+                        <td>31-Dec-2024</td>
+                        <td>-</td>
+                        <td class="right-align">500,000,000</td>
+                    </tr>
+                    <tr>
+                        <td>PRJ-002</td>
+                        <td>Renovasi Pabrik</td>
+                        <td>15-Feb-2024</td>
+                        <td>30-Jun-2024</td>
+                        <td>25-Jun-2024</td>
+                        <td class="right-align">250,000,000</td>
+                    </tr>
+                    <tr>
+                        <td>PRJ-003</td>
+                        <td>Pengembangan Sistem Informasi</td>
+                        <td>1-Mar-2024</td>
+                        <td>31-Aug-2024</td>
+                        <td>-</td>
+                        <td class="right-align">150,000,000</td>
+                    </tr>
+                    <tr>
+                        <td>PRJ-004</td>
+                        <td>Pembangunan Jalan Akses</td>
+                        <td>10-Apr-2024</td>
+                        <td>10-Oct-2024</td>
+                        <td>-</td>
+                        <td class="right-align">300,000,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Form Transaksi Penerimaan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 950px;
+            height: 650px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+            padding: 25px 35px 35px 35px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-row label {
+            width: 182px;
+            font-size: 14px;
+        }
+
+        .form-row input {
+            width: 236px;
+            height: 30px;
+            border: 2px solid black;
+            padding: 0 8px;
+            background: white;
+            font-size: 13px;
+        }
+
+        .form-row input[readonly] {
+            background: #f5f5f5;
+            cursor: pointer;
+        }
+
+        .form-row input.right-align {
+            text-align: right;
+        }
+
+        .form-row-full {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .form-row-full label {
+            width: 182px;
+            font-size: 14px;
+            padding-top: 6px;
+        }
+
+        .form-row-full textarea {
+            width: calc(100% - 200px);
+            height: 265px;
+            border: 2px solid black;
+            padding: 8px;
+            background: white;
+            font-size: 13px;
+            resize: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 18px;
+            margin-top: 41px;
+        }
+
+        .btn {
+            padding: 6px 20px;
+            border: 2px solid black;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">Tambah Transaksi Penerimaan</div>
+
+        <div class="form-grid">
+            <div class="form-row">
+                <label>Tanggal</label>
+                <input type="text" placeholder="d-MMM-yyyy">
+            </div>
+
+            <div class="form-row">
+                <label>No. Referensi</label>
+                <input type="text" placeholder="">
+            </div>
+
+            <div class="form-row">
+                <label>Diterima Dari</label>
+                <input type="text" readonly value="Pilih Kontak...">
+            </div>
+
+            <div class="form-row">
+                <label>Penerimaan Atas</label>
+                <input type="text" readonly value="Pilih Kategori Keuangan...">
+            </div>
+
+            <div class="form-row">
+                <label>Diterima Melalui</label>
+                <input type="text" readonly value="Pilih Kategori Keuangan...">
+            </div>
+
+            <div class="form-row">
+                <label>Proyek</label>
+                <input type="text" readonly value="Pilih Proyek...">
+            </div>
+
+            <div class="form-row">
+                <label>Nilai Penerimaan</label>
+                <input type="text" class="right-align" value="0">
+            </div>
+
+            <div class="form-row-full">
+                <label>Catatan</label>
+                <textarea placeholder=""></textarea>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="btn">Batal</button>
+            <button class="btn">Simpan</button>
+        </div>
+    </div>
+</body>
+
+</html>

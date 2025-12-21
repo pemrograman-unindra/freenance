@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Laporan Realisasi Anggaran</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 595px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .company-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .report-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .report-period {
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            background: black;
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .section-header .label {
+            width: 300px;
+            padding-left: 5px;
+        }
+
+        .section-header .col {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .report-table {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .report-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            font-size: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .report-row:nth-child(even) {
+            background: #f0f0f0;
+        }
+
+        .report-row .label {
+            width: 300px;
+            padding-left: 5px;
+        }
+
+        .report-row .col {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .total-row {
+            background: black;
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-row .label {
+            width: 300px;
+            padding-left: 5px;
+        }
+
+        .total-row .col {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .grand-total {
+            background: black;
+            color: white;
+            padding: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        .grand-total .label {
+            width: 300px;
+            padding-left: 5px;
+        }
+
+        .grand-total .col {
+            width: 85px;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .signature {
+            text-align: center;
+            margin-top: 40px;
+            margin-left: 400px;
+        }
+
+        .signature .location {
+            font-size: 10px;
+            margin-bottom: 60px;
+        }
+
+        .signature .name {
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 8px;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-name">Nama Pekerja Lepas</div>
+            <div class="report-title">Laporan Realisasi Anggaran</div>
+            <div class="report-period">01 Jan 2024 s/d 31 Jan 2024</div>
+        </div>
+
+        <div class="section-header">
+            <div class="label">Penerimaan</div>
+            <div class="col">Anggaran</div>
+            <div class="col">Realisasi</div>
+            <div class="col">Selisih</div>
+        </div>
+        <div class="report-table">
+            <div class="report-row">
+                <div class="label">Penjualan Produk</div>
+                <div class="col">50,000,000</div>
+                <div class="col">45,000,000</div>
+                <div class="col">5,000,000</div>
+            </div>
+            <div class="report-row">
+                <div class="label">Jasa Konsultasi</div>
+                <div class="col">30,000,000</div>
+                <div class="col">25,000,000</div>
+                <div class="col">5,000,000</div>
+            </div>
+            <div class="report-row">
+                <div class="label">Pendapatan Lain-lain</div>
+                <div class="col">5,000,000</div>
+                <div class="col">5,000,000</div>
+                <div class="col">0</div>
+            </div>
+        </div>
+        <div class="total-row">
+            <div class="label">Total Penerimaan</div>
+            <div class="col">85,000,000</div>
+            <div class="col">75,000,000</div>
+            <div class="col">10,000,000</div>
+        </div>
+
+        <div class="section-header">
+            <div class="label">Pengeluaran</div>
+            <div class="col">Anggaran</div>
+            <div class="col">Realisasi</div>
+            <div class="col">Selisih</div>
+        </div>
+        <div class="report-table">
+            <div class="report-row">
+                <div class="label">Biaya Operasional</div>
+                <div class="col">20,000,000</div>
+                <div class="col">-15,000,000</div>
+                <div class="col">5,000,000</div>
+            </div>
+            <div class="report-row">
+                <div class="label">Gaji Karyawan</div>
+                <div class="col">30,000,000</div>
+                <div class="col">-30,000,000</div>
+                <div class="col">0</div>
+            </div>
+            <div class="report-row">
+                <div class="label">Biaya Pemasaran</div>
+                <div class="col">10,000,000</div>
+                <div class="col">-8,000,000</div>
+                <div class="col">2,000,000</div>
+            </div>
+            <div class="report-row">
+                <div class="label">Pembelian Bahan Baku</div>
+                <div class="col">15,000,000</div>
+                <div class="col">-12,000,000</div>
+                <div class="col">3,000,000</div>
+            </div>
+        </div>
+        <div class="total-row">
+            <div class="label">Total Pengeluaran</div>
+            <div class="col">75,000,000</div>
+            <div class="col">-65,000,000</div>
+            <div class="col">10,000,000</div>
+        </div>
+
+        <div class="grand-total">
+            <div class="label">Sisa Penerimaan</div>
+            <div class="col">10,000,000</div>
+            <div class="col">10,000,000</div>
+            <div class="col">0</div>
+        </div>
+
+        <div class="signature">
+            <div class="location">Jakarta, 21 Desember 2024</div>
+            <div class="name">Nama Pekerja Lepas</div>
+        </div>
+
+        <div class="footer">Hal 1 dari 1</div>
+    </div>
+</body>
+
+</html>

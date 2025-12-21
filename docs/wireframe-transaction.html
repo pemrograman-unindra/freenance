@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Transaksi Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 1100px;
+            height: 650px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid black;
+        }
+
+        .tab {
+            padding: 12px 30px;
+            border-right: 2px solid black;
+            background: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background: #f0f0f0;
+        }
+
+        .tab-content {
+            padding: 20px;
+            position: relative;
+            height: calc(100% - 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-buttons {
+            display: flex;
+            gap: 18px;
+            margin-top: -40px;
+        }
+
+        .menu-button {
+            width: 220px;
+            height: 220px;
+            border: 2px solid black;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .menu-button:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab">Dasbor</div>
+            <div class="tab">Data-data</div>
+            <div class="tab active">Transaksi</div>
+            <div class="tab">Laporan</div>
+        </div>
+
+        <div class="tab-content">
+            <div class="menu-buttons">
+                <div class="menu-button">
+                    Tagihan
+                </div>
+                <div class="menu-button">
+                    Transaksi<br>Penerimaan
+                </div>
+                <div class="menu-button">
+                    Transaksi<br>Pengeluaran
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

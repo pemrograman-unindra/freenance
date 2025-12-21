@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Daftar Kategori Keuangan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 1060px;
+            height: 700px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+            padding: 24px 57px 54px 57px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 18px;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 276px;
+            height: 30px;
+            border: 2px solid black;
+            padding: 0 8px;
+            background: white;
+        }
+
+        .btn {
+            padding: 6px 16px;
+            border: 2px solid black;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+        }
+
+        .table-container {
+            width: 943px;
+            height: 537px;
+            border: 2px solid black;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f0f0f0;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">Daftar Kategori Keuangan</div>
+
+        <div class="toolbar">
+            <input type="text" class="search-input" placeholder="">
+            <button class="btn">Cari</button>
+            <button class="btn">Batal</button>
+            <button class="btn">Hapus</button>
+            <button class="btn">Ubah</button>
+            <button class="btn">Tambah</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th>Subklasifikasi</th>
+                        <th>Klasifikasi</th>
+                        <th>Catatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Kas</td>
+                        <td>Aset Lancar</td>
+                        <td>Aset</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Bank</td>
+                        <td>Aset Lancar</td>
+                        <td>Aset</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>201</td>
+                        <td>Utang Usaha</td>
+                        <td>Kewajiban Lancar</td>
+                        <td>Kewajiban</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>301</td>
+                        <td>Modal</td>
+                        <td>Ekuitas</td>
+                        <td>Ekuitas</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>401</td>
+                        <td>Pendapatan Usaha</td>
+                        <td>Pendapatan</td>
+                        <td>Pendapatan</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

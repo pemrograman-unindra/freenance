@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Form Perencanaan Anggaran</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 800px;
+            height: 550px;
+            border: 2px solid black;
+            margin: 0 auto;
+            background: white;
+            padding: 37px 47px 42px 47px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 57px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .form-row label {
+            width: 182px;
+            font-size: 14px;
+        }
+
+        .form-row input {
+            width: 495px;
+            height: 30px;
+            border: 2px solid black;
+            padding: 0 8px;
+            background: white;
+            font-size: 13px;
+        }
+
+        .form-row input[readonly] {
+            background: #f5f5f5;
+            cursor: pointer;
+        }
+
+        .form-row input.right-align {
+            text-align: right;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 18px;
+            margin-top: 136px;
+        }
+
+        .btn {
+            padding: 6px 20px;
+            border: 2px solid black;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">Tambah Data Anggaran</div>
+
+        <div class="form-row">
+            <label>Kategori Keuangan</label>
+            <input type="text" readonly value="Pilih kategori keuangan...">
+        </div>
+
+        <div class="form-row">
+            <label>Awal Periode</label>
+            <input type="text" placeholder="d-MMM-yyyy">
+        </div>
+
+        <div class="form-row">
+            <label>Akhir Periode</label>
+            <input type="text" placeholder="d-MMM-yyyy">
+        </div>
+
+        <div class="form-row">
+            <label>Nilai Anggaran</label>
+            <input type="text" class="right-align" value="0">
+        </div>
+
+        <div class="button-row">
+            <button class="btn">Batal</button>
+            <button class="btn">Simpan</button>
+        </div>
+    </div>
+</body>
+
+</html>
