@@ -1,0 +1,57 @@
+@startuml Sequence Diagram - CRUD Data Master
+autonumber
+title Sequence Diagram - Kelola Data Master (Tambah)
+
+actor "Pekerja Lepas" as User
+boundary "DataMasterUI" as UI <<boundary>>
+control "Service" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+note over Service
+  Service bisa:
+  - CoaService
+  - ContactService
+  - ProjectService
+  - BudgetService
+end note
+
+User -> UI: Membuka menu data master
+activate UI
+UI --> User: Menampilkan list data
+deactivate UI
+
+User -> UI: Klik tombol tambah
+activate UI
+UI --> User: Menampilkan form input
+deactivate UI
+
+User -> UI: Mengisi data
+User -> UI: Klik simpan
+
+activate UI
+UI -> Service: create(data)
+activate Service
+
+Service -> Service: Validasi data
+
+alt Data valid
+    Service -> DB: INSERT INTO table\n(field1, field2, ...)
+    activate DB
+    DB --> Service: Return new ID
+    deactivate DB
+    
+    Service --> UI: Data berhasil disimpan
+    deactivate Service
+    
+    UI --> User: Menampilkan pesan sukses
+    deactivate UI
+    
+else Data tidak valid
+    Service --> UI: Throw RuntimeException\n"Validation error"
+    deactivate Service
+    
+    UI --> User: Menampilkan pesan error
+    deactivate UI
+end
+
+@enduml

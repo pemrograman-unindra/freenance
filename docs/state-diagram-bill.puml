@@ -1,0 +1,44 @@
+@startuml State Machine Diagram - Tagihan
+title State Machine Diagram - Status Tagihan (Bill)
+
+[*] --> Unpaid : Buat tagihan baru
+
+Unpaid : Tagihan belum dibayar
+Unpaid : parentId = null pada transaksi pembayaran
+
+Unpaid --> PartiallyPaid : Bayar sebagian
+Unpaid --> Paid : Bayar lunas
+Unpaid --> Cancelled : Batalkan tagihan
+
+PartiallyPaid : Tagihan dibayar sebagian
+PartiallyPaid : Total pembayaran < amount
+
+PartiallyPaid --> Paid : Bayar sisa
+PartiallyPaid --> Cancelled : Batalkan tagihan
+
+Paid : Tagihan lunas
+Paid : Total pembayaran = amount
+Paid : Ada transaksi cash_in dengan parentId
+
+Paid --> [*]
+
+Cancelled : Tagihan dibatalkan
+Cancelled : Tidak valid
+
+Cancelled --> [*]
+
+note right of Unpaid
+  State awal:
+  - trxType = "bill"
+  - Belum ada pembayaran
+  - parentId = null
+end note
+
+note right of Paid
+  State akhir:
+  - Ada transaksi cash_in
+  - cash_in.parentId = bill.id
+  - SUM(pembayaran) = bill.amount
+end note
+
+@enduml

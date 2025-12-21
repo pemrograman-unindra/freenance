@@ -1,0 +1,83 @@
+@startuml Activity Diagram - CRUD Data Master
+skinparam activityFontSize 11
+skinparam activityDiamondFontSize 10
+
+title Activity Diagram - Kelola Data Master
+
+|Pekerja Lepas|
+start
+:Membuka menu data master;
+:Memilih sub menu data master;
+note right
+  - Kategori Keuangan
+  - Data Kontak
+  - Data Proyek
+  - Merencanaan Anggaran
+end note
+:Memilih aksi;
+note right
+  - Lihat
+  - Tambah
+  - Edit
+  - Hapus
+end note
+
+if (Aksi Lihat/Cari?) then (ya)
+  :Mengisi keyword pencarian
+  (opsional);
+  :Klik tombol cari;
+  
+  |Sistem|
+  :Query data dari database;
+  :Filter sesuai keyword;
+  :Menampilkan daftar data;
+  
+  |Pekerja Lepas|
+  :Melihat daftar data;
+  stop
+  
+else (tidak)
+  if (Aksi Hapus?) then (ya)
+    :Memilih data dari list;
+    :Klik tombol hapus;
+    :Konfirmasi penghapusan;
+    
+    if (Konfirmasi ya?) then (ya)
+      |Sistem|
+      :Menghapus dari database;
+      :Menampilkan pesan sukses;
+      
+      |Pekerja Lepas|
+      :Melihat konfirmasi sukses;
+      stop
+    else (tidak)
+      :Batal hapus;
+      stop
+    endif
+    
+  else (tidak - Tambah/Edit)
+    :Mengisi/mengubah data;
+    :Klik tombol simpan;
+    
+    |Sistem|
+    :Menerima data;
+    :Validasi data;
+    
+    if (Data valid?) then (ya)
+      :Simpan/update database;
+      :Menampilkan pesan sukses;
+      
+      |Pekerja Lepas|
+      :Melihat konfirmasi sukses;
+      stop
+    else (tidak)
+      :Menampilkan pesan error;
+      
+      |Pekerja Lepas|
+      :Melihat pesan error;
+      stop
+    endif
+  endif
+endif
+
+@enduml

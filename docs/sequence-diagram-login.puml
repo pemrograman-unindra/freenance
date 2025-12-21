@@ -1,0 +1,40 @@
+@startuml Sequence Diagram - Login
+autonumber
+title Sequence Diagram - Proses Login
+
+actor "Pekerja Lepas" as User
+boundary "LoginUI" as UI <<boundary>>
+control "AuthService" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+User -> UI: Membuka aplikasi
+activate UI
+UI -> User: Menampilkan form login
+deactivate UI
+
+User -> UI: Input username dan password
+activate UI
+UI -> Service: login(username, password)
+activate Service
+
+Service -> DB: SELECT password FROM users\nWHERE username = ?
+activate DB
+DB --> Service: Return hashed password
+deactivate DB
+
+Service -> Service: BCrypt.checkpw(password, hashed)
+
+alt Kredensial valid
+    Service --> UI: Login berhasil
+    deactivate Service
+    UI -> UI: Membuka MainMenu
+    UI --> User: Menampilkan dashboard
+    deactivate UI
+else Kredensial tidak valid
+    Service --> UI: Throw RuntimeException\n"Username or password is not valid!"
+    deactivate Service
+    UI --> User: Menampilkan pesan error
+    deactivate UI
+end
+
+@enduml

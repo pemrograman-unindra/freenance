@@ -1,0 +1,56 @@
+@startuml State Machine Diagram - User Session
+title State Machine Diagram - Sesi Pengguna
+
+[*] --> LoggedOut : Aplikasi dibuka
+
+LoggedOut : User belum login
+LoggedOut : Menampilkan form login
+
+LoggedOut --> LoggingIn : Input kredensial
+LoggedOut --> Registering : Klik register
+
+Registering : Mengisi form registrasi
+Registering : Validasi data
+
+Registering --> LoggedOut : Batal registrasi
+Registering --> LoggingIn : Registrasi sukses,\notomatis login
+
+LoggingIn : Validasi kredensial
+LoggingIn : BCrypt.checkpw()
+
+LoggingIn --> LoggedIn : Kredensial valid
+LoggingIn --> LoggedOut : Kredensial invalid
+
+LoggedIn : User sudah login
+LoggedIn : Akses ke semua menu
+LoggedIn : Dashboard ditampilkan
+
+state LoggedIn {
+  [*] --> Dashboard
+  Dashboard --> DataMaster : Kelola data master
+  Dashboard --> Transaction : Kelola transaksi
+  Dashboard --> Report : Lihat laporan
+  
+  DataMaster --> Dashboard
+  Transaction --> Dashboard
+  Report --> Dashboard
+}
+
+LoggedIn --> LoggedOut : Logout/Close app
+
+note right of LoggingIn
+  Validasi:
+  - Query user dari database
+  - BCrypt.checkpw(input, hashed)
+  - Throw exception jika invalid
+end note
+
+note right of LoggedIn
+  User dapat:
+  - Kelola data master
+  - Buat transaksi
+  - Generate laporan
+  - Logout
+end note
+
+@enduml

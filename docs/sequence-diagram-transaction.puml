@@ -1,0 +1,46 @@
+@startuml Sequence Diagram - Transaksi
+autonumber
+title Sequence Diagram - Proses Transaksi Keuangan
+
+actor "Pekerja Lepas" as User
+boundary "TransactionUI" as UI <<boundary>>
+control "TransactionService" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+User -> UI: Membuka menu transaksi
+activate UI
+UI --> User: Menampilkan form transaksi
+deactivate UI
+
+User -> UI: Pilih jenis transaksi\n(Tagihan/Penerimaan/Pengeluaran)
+User -> UI: Pilih kontak
+User -> UI: Pilih proyek/COA
+User -> UI: Input detail transaksi\n(nomor, tanggal, deskripsi, jumlah)
+User -> UI: Klik simpan
+
+activate UI
+UI -> Service: create(transaction)
+activate Service
+
+Service -> DB: INSERT INTO transactions\n(parent_id, project_id, contact_id,\norigin_coa_id, target_coa_id,\ntrx_type, trx_no, trx_date,\ndescription, amount)
+activate DB
+DB --> Service: Return transaction ID
+deactivate DB
+
+Service -> DB: INSERT INTO journals\n(trx_id, coa_id, debit, credit)\n-- Entry 1: Debit
+activate DB
+DB --> Service: Success
+deactivate DB
+
+Service -> DB: INSERT INTO journals\n(trx_id, coa_id, debit, credit)\n-- Entry 2: Credit
+activate DB
+DB --> Service: Success
+deactivate DB
+
+Service --> UI: Transaction created
+deactivate Service
+
+UI --> User: Menampilkan pesan sukses
+deactivate UI
+
+@enduml

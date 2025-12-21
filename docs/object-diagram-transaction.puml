@@ -1,0 +1,96 @@
+@startuml Object Diagram - Transaksi
+title Object Diagram - Contoh Transaksi Penerimaan
+
+object ":User" as user {
+  id = 1
+  name = "Ahmad Fauzi"
+  username = "ahmad"
+}
+
+object "PT Maju Jaya:Contact" as contact {
+  id = 5
+  name = "PT Maju Jaya"
+  phone = "021-12345678"
+  email = "info@majujaya.com"
+  address = "Jakarta"
+  billCoaId = 15
+}
+
+object "Website E-Commerce:Project" as project {
+  id = 3
+  customerId = 5
+  customerName = "PT Maju Jaya"
+  number = "PRJ-2024-003"
+  name = "Website E-Commerce"
+  amount = 50000000
+  startDate = "2024-01-15"
+  dueDate = "2024-03-15"
+}
+
+object "Kas Bank BCA:Coa" as coaKas {
+  id = 10
+  parent_id = 1
+  category_id = 1
+  code = 1101
+  name = "Kas Bank BCA"
+  is_cash = true
+}
+
+object "Pendapatan Jasa:Coa" as coaPendapatan {
+  id = 25
+  parent_id = 20
+  category_id = 4
+  code = 4001
+  name = "Pendapatan Jasa"
+  is_cash = false
+}
+
+object "TRX-2024-001:Transaction" as trx {
+  id = 1
+  projectId = 3
+  contactId = 5
+  originCoaId = 25
+  targetCoaId = 10
+  trxType = "cash_in"
+  trxNumber = "TRX-2024-001"
+  trxDate = "2024-02-01"
+  description = "Pembayaran DP Website"
+  amount = 25000000
+}
+
+object "journal1:Journal" as j1 {
+  id = 1
+  trxId = 1
+  coaId = 10
+  coaName = "Kas Bank BCA"
+  debit = 25000000
+  credit = 0
+}
+
+object "journal2:Journal" as j2 {
+  id = 2
+  trxId = 1
+  coaId = 25
+  coaName = "Pendapatan Jasa"
+  debit = 0
+  credit = 25000000
+}
+
+user --> trx : "membuat"
+contact --> trx : "terlibat"
+project --> trx : "terkait"
+trx --> coaKas : "targetCoa"
+trx --> coaPendapatan : "originCoa"
+trx --> j1 : "generates"
+trx --> j2 : "generates"
+j1 --> coaKas : "account"
+j2 --> coaPendapatan : "account"
+
+note right of trx
+  Transaksi Penerimaan:
+  - Debit: Kas Bank BCA (Harta bertambah)
+  - Credit: Pendapatan Jasa (Pendapatan bertambah)
+  Total Debit = Total Credit = Rp 25.000.000
+end note
+
+@enduml

@@ -1,0 +1,97 @@
+@startuml Use Case Diagram - Freenance
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Pekerja Lepas" as User
+
+rectangle "Aplikasi Manajemen Keuangan Pekerja Lepas" {
+  
+  package "Autentikasi" {
+    (Register) as reg
+    (Login) as login
+  }
+  
+  package "Dashboard" {
+    (Lihat Dashboard) as dash
+  }
+  
+  package "Data Master" {
+    
+    rectangle "Kategori Keuangan" {
+      (Kelola Kategori Keuangan) as coa
+    }
+    
+    rectangle "Data Kontak" {
+      (Kelola Kontak) as contact
+    }
+    
+    rectangle "Data Proyek" {
+      (Kelola Proyek) as project
+    }
+    
+    rectangle "Perencanaan Anggaran" {
+      (Kelola Anggaran) as budget
+    }
+  }
+  
+  package "Transaksi" {
+    
+    rectangle "Tagihan" {
+      (Kelola Tagihan) as bill
+    }
+    
+    rectangle "Penerimaan" {
+      (Kelola Penerimaan) as cashin
+    }
+    
+    rectangle "Pengeluaran" {
+      (Kelola Pengeluaran) as cashout
+    }
+  }
+  
+  package "Laporan" {
+    (Laporan Aktivitas Keuangan) as rep1
+    (Laporan Kekayaan) as rep2
+    (Laporan Realisasi Anggaran) as rep3
+    (Laporan Proyek) as rep4
+    (Laporan Daftar Tagihan) as rep5
+    (Laporan Transaksi Penerimaan) as rep6
+    (Laporan Transaksi Pengeluaran) as rep7
+  }
+}
+
+' Relasi User
+User --> reg
+User --> login
+User --> dash
+
+User --> bill
+User --> cashin
+User --> cashout
+
+User --> rep1
+User --> rep2
+User --> rep3
+User --> rep4
+User --> rep5
+User --> rep6
+User --> rep7
+
+' Include relationships
+bill ..> contact : <<include>>
+bill ..> project : <<include>>
+
+cashin ..> contact : <<include>>
+cashin ..> coa : <<include>>
+
+cashout ..> contact : <<include>>
+cashout ..> coa : <<include>>
+
+rep3 ..> budget : <<include>>
+rep4 ..> project : <<include>>
+
+note right of "Data Master"
+  Kelola = Tambah, Lihat, Edit, Hapus
+end note
+
+@enduml

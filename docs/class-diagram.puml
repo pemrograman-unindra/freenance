@@ -1,0 +1,155 @@
+@startuml Class Diagram
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 10
+skinparam ranksep 10
+
+package "unindra.modules.auth" {
+  class User {
+    + id: int
+    + name: String
+    + phone: String
+    + email: String
+    + username: String
+    - password: String
+    + isUserExists(): boolean
+    + register(user: User): void
+    + login(username: String, password: String): void
+    + close(): void
+  }
+  note right of User::password
+    hashed with BCrypt
+  end note
+}
+
+package "unindra.modules.transaction" {
+  class Transaction {
+    + id: Integer
+    + parentId: Integer
+    + parentNumber: String
+    + projectId: Integer
+    + projectNumber: String
+    + contactId: Integer
+    + contactName: String
+    + originCoaId: Integer
+    + originCoaName: String
+    + targetCoaId: Integer
+    + targetCoaName: String
+    + trxType: String
+    + trxNumber: String
+    + trxDate: LocalDate
+    + description: String
+    + amount: BigDecimal
+    + createdAt: LocalDateTime
+    + updatedAt: LocalDateTime
+    + create(data: Transaction): void
+    + find(type: String, keyword: String): List<Transaction>
+    + getByNumber(number: String): Transaction
+    + update(data: Transaction): void
+    + delete(id: int): void
+  }
+  class Journal {
+    + id: Integer
+    + trxId: Integer
+    + coaId: Integer
+    + coaCode: Integer
+    + coaName: String
+    + debit: BigDecimal
+    + credit: BigDecimal
+    + createdAt: LocalDateTime
+    + updatedAt: LocalDateTime
+  }
+  note right of Transaction
+    trxType values:
+    - "bill" (Tagihan)
+    - "cash_in" (Penerimaan)
+    - "cash_out" (Pengeluaran)
+  end note
+  note right of Journal
+    Transaction automatically generates
+    2 Journal entries (debit & credit)
+  end note
+}
+
+
+package "unindra.modules.datastore" {
+  class Coa {
+    + id: int
+    + parent_id: int
+    + parent_name: String
+    + category_id: int
+    + code: int
+    + name: String
+    + note: String
+    + is_cash: boolean
+    + getCategoryName(): String
+    + create(data: Coa): int
+    + nextCodeByParentId(parentId: int): int
+    + getByCode(code: int): Coa
+    + find(keyword: String, type: String, categoryId: int): List<Coa>
+    + update(data: Coa): void
+    + delete(id: int): void
+  }
+  class Contact {
+    + id: int
+    + name: String
+    + phone: String
+    + email: String
+    + address: String
+    + billCoaId: int
+    + create(data: Contact): void
+    + find(keyword: String): List<Contact>
+    + getByName(name: String): Contact
+    + update(data: Contact): void
+    + delete(id: int): void
+  }
+  class Project {
+    + id: Integer
+    + customerId: Integer
+    + customerName: String
+    + number: String
+    + name: String
+    + description: String
+    + startDate: LocalDate
+    + dueDate: LocalDate
+    + endDate: LocalDate
+    + amount: BigDecimal
+    + createdAt: LocalDateTime
+    + updatedAt: LocalDateTime
+    + create(data: Project): void
+    + find(keyword: String): List<Project>
+    + getByNumber(number: String): Project
+    + update(data: Project): void
+    + delete(id: int): void
+  }
+  class Budget {
+    + id: Integer
+    + coaId: Integer
+    + coaName: String
+    + periodStart: LocalDate
+    + periodEnd: LocalDate
+    + amount: BigDecimal
+    + createdAt: LocalDateTime
+    + updatedAt: LocalDateTime
+    + create(data: Budget): void
+    + find(keyword: String): List<Budget>
+    + getByCoaNameStartEnd(coaName: String, start: String, end: String): Budget
+    + update(data: Budget): void
+    + delete(id: int): void
+  }
+}
+
+Coa "0..1" -- "0..*" Coa : parent
+Contact "1" -- "0..1" Coa : billCoa
+Project "*" -- "0..1" Contact : customer
+Budget "*" -- "1" Coa : category
+
+Transaction "0..1" -- "0..*" Transaction : parent
+Transaction "1" -- "2..*" Journal : generates
+Transaction "*" -- "0..1" Contact : involves
+Transaction "*" -- "0..1" Project : relatedTo
+Transaction "*" -- "1" Coa : originCoa
+Transaction "*" -- "1" Coa : targetCoa
+Journal "*" -- "1" Coa : account
+@enduml

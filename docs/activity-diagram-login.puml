@@ -1,0 +1,30 @@
+@startuml Activity Diagram - Login
+skinparam activityFontSize 11
+skinparam activityDiamondFontSize 10
+
+title Activity Diagram - Proses Login
+
+|Pekerja Lepas|
+start
+:Membuka aplikasi;
+:Memasukkan username\ndan password;
+
+|Sistem|
+:Menerima kredensial;
+:Validasi dengan BCrypt;
+
+if (Kredensial valid?) then (ya)
+  :Membuka main menu/dashboard;
+  
+  |Pekerja Lepas|
+  :Masuk ke aplikasi;
+  stop
+else (tidak)
+  :Menampilkan pesan error;
+  
+  |Pekerja Lepas|
+  :Melihat pesan error;
+  stop
+endif
+
+@enduml

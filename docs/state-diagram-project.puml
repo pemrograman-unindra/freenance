@@ -1,0 +1,50 @@
+@startuml State Machine Diagram - Proyek
+title State Machine Diagram - Lifecycle Proyek
+
+[*] --> Draft : Buat proyek baru
+
+Draft : Proyek baru dibuat
+Draft : Belum ada transaksi
+
+Draft --> InProgress : Mulai pengerjaan
+Draft --> Cancelled : Batalkan proyek
+
+InProgress : Proyek sedang dikerjakan
+InProgress : Ada tagihan/pembayaran
+
+InProgress --> OnHold : Tunda sementara
+InProgress --> Completed : Selesai pengerjaan
+InProgress --> Cancelled : Batalkan proyek
+
+OnHold : Proyek ditunda
+OnHold : Menunggu konfirmasi/pembayaran
+
+OnHold --> InProgress : Lanjutkan pengerjaan
+OnHold --> Cancelled : Batalkan proyek
+
+Completed : Proyek selesai
+Completed : Semua pembayaran lunas
+Completed : endDate terisi
+
+Completed --> [*]
+
+Cancelled : Proyek dibatalkan
+Cancelled : Tidak dilanjutkan
+
+Cancelled --> [*]
+
+note right of Draft
+  State awal:
+  - startDate = null
+  - endDate = null
+  - Belum ada transaksi
+end note
+
+note right of Completed
+  State akhir:
+  - endDate != null
+  - Semua tagihan lunas
+  - Total pembayaran = amount
+end note
+
+@enduml
