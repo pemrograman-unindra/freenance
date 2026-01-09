@@ -1,0 +1,307 @@
+@startuml Sequence Diagram - Sales Cycle
+autonumber
+title Segmen Penjualan (Sales Cycle)
+
+actor "Salesman" as User
+boundary "SalesUI" as UI <<boundary>>
+control "SalesService" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+== 1. Sales Quotation (Penawaran) ==
+User -> UI: Input Penawaran Harga (Quote)
+activate UI
+UI -> Service: createQuote(cust_id, items)
+activate Service
+Service -> DB: INSERT INTO sales (type='Quote', ...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: INSERT INTO sales_items (...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service --> UI: Quote Created
+deactivate Service
+UI --> User: Show Success Message
+deactivate UI
+
+== 2. Sales Order (Pesanan Penjualan) ==
+User -> UI: Convert Quote to SO
+activate UI
+UI -> Service: createSO(quote_id)
+activate Service
+Service -> DB: SELECT * FROM sales WHERE id=quote_id
+activate DB
+DB --> Service: Quote Data
+deactivate DB
+Service -> DB: INSERT INTO sales (type='SO', status='Open', ...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service --> UI: SO Created & Quote Closed
+deactivate Service
+UI --> User: Show Success Message
+deactivate UI
+
+== 3. Delivery Order (Surat Jalan) ==
+User -> UI: Input Pengiriman (DO)
+activate UI
+UI -> Service: createDelivery(so_id)
+activate Service
+Service -> DB: INSERT INTO sales (type='Delivery', ...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: UPDATE product_stock (Reserve Stock)
+activate DB
+DB --> Service: Stock Updated
+deactivate DB
+Service --> UI: DO Created
+deactivate Service
+UI --> User: Show Success Message
+deactivate UI
+
+== 4. Sales Invoice (Faktur Penjualan) ==
+User -> UI: Create Invoice from DO
+activate UI
+UI -> Service: createInvoice(do_id)
+activate Service
+Service -> DB: INSERT INTO sales (type='Invoice', ...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: INSERT INTO journals (Piutang vs Penjualan)
+activate DB
+DB --> Service: Journal Posted
+deactivate DB
+Service --> UI: Invoice Created
+deactivate Service
+UI --> User: Show Success Message
+deactivate UI
+
+== 5. Incoming Payment (Pembayaran Piutang) ==
+User -> UI: Input Pembayaran Piutang
+activate UI
+UI -> Service: createPayment(invoice_ids, amount)
+activate Service
+Service -> DB: INSERT INTO cash_in (...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: INSERT INTO journals (Kas vs Piutang)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: UPDATE sales SET balance_due = 0 WHERE id=invoice_id
+activate DB
+DB --> Service: Invoice Updated
+deactivate DB
+Service --> UI: Payment Recorded
+deactivate Service
+UI --> User: Show Success Message
+deactivate UI
+
+@enduml
+
+@startuml Sequence Diagram - Purchase Cycle
+autonumber
+title Segmen Pembelian (Purchase Cycle)
+
+actor "Purchasing Staff" as User
+boundary "PurchaseUI" as UI <<boundary>>
+control "PurchaseService" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+== 1. Purchase Request (Permintaan Pembelian) ==
+User -> UI: Input Purchase Request (PR)
+activate UI
+UI -> Service: createPR(items)
+activate Service
+Service -> DB: INSERT INTO purchases (type='PR', ...)
+activate DB
+DB --> Service: PR Created
+deactivate DB
+Service --> UI: Success
+deactivate Service
+UI --> User: Show PR Number
+deactivate UI
+
+== 2. Purchase Order (Pesanan Pembelian) ==
+User -> UI: Create PO from PR
+activate UI
+UI -> Service: createPO(pr_id, vendor_id)
+activate Service
+Service -> DB: INSERT INTO purchases (type='PO', ...)
+activate DB
+DB --> Service: PO Created
+deactivate DB
+Service --> UI: Success
+deactivate Service
+UI --> User: Show PO Number
+deactivate UI
+
+== 3. Start Goods Receipt (Penerimaan Barang) ==
+actor "Warehouse" as WhUser
+WhUser -> UI: Input Good Receipt (GR)
+activate UI
+UI -> Service: createGR(po_id)
+activate Service
+Service -> DB: INSERT INTO purchases (type='GR', ...)
+activate DB
+DB --> Service: GR Created
+deactivate DB
+Service -> DB: UPDATE product_stock (Add Qty)
+activate DB
+DB --> Service: Stock Updated
+deactivate DB
+Service --> UI: GR Success
+deactivate Service
+UI --> WhUser: Show Success Message
+deactivate UI
+
+== 4. Purchase Invoice (Faktur Pembelian) ==
+User -> UI: Input Purchase Invoice
+activate UI
+UI -> Service: createInvoice(gr_id)
+activate Service
+Service -> DB: INSERT INTO purchases (type='Invoice', ...)
+activate DB
+DB --> Service: Invoice Created
+deactivate DB
+Service -> DB: INSERT INTO journals (Persediaan vs Utang)
+activate DB
+DB --> Service: Journal Posted
+deactivate DB
+Service --> UI: Success
+deactivate Service
+UI --> User: Show Success Message
+deactivate UI
+
+== 5. Outgoing Payment (Pembayaran Utang) ==
+actor "Finance Staff" as FinUser
+FinUser -> UI: Input Pembayaran Utang
+activate UI
+UI -> Service: createPayment(invoice_id, amount)
+activate Service
+Service -> DB: INSERT INTO cash_out (...)
+activate DB
+DB --> Service: Payment Recorded
+deactivate DB
+Service -> DB: INSERT INTO journals (Utang vs Kas)
+activate DB
+DB --> Service: Journal Posted
+deactivate DB
+Service -> DB: UPDATE purchases SET balance_due = 0 ...
+activate DB
+DB --> Service: Invoice Updated
+deactivate DB
+Service --> UI: Payment Success
+deactivate Service
+UI --> FinUser: Show Success Message
+deactivate UI
+
+@enduml
+
+@startuml Sequence Diagram - Inventory
+autonumber
+title Segmen Persediaan (Inventory)
+
+actor "Gudang" as User
+boundary "InventoryUI" as UI <<boundary>>
+control "InventoryService" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+== 1. Stock Adjustment (Penyesuaian Stok) ==
+User -> UI: Input Stock Adjustment (Qty +/-)
+activate UI
+UI -> Service: createAdjustment(warehouse_id, item, qty)
+activate Service
+Service -> DB: INSERT INTO invjur (type='Adjustment', ...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: UPDATE product_stock
+activate DB
+DB --> Service: Stock Updated
+deactivate DB
+Service -> DB: INSERT INTO journals (Persediaan vs HPP/Lainnya)
+activate DB
+DB --> Service: Journal Posted
+deactivate DB
+Service --> UI: Adjustment Success
+deactivate Service
+UI --> User: Show Message
+deactivate UI
+
+== 2. Stock Transfer (Pemindahan Barang) ==
+User -> UI: Input Stock Transfer (Gudang A -> B)
+activate UI
+UI -> Service: createTransfer(from_wh, to_wh, item, qty)
+activate Service
+Service -> DB: INSERT INTO invjur (type='Transfer', ...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: UPDATE product_stock (Decrease Wh A, Increase Wh B)
+activate DB
+DB --> Service: Stock Updated
+deactivate DB
+Service --> UI: Transfer Success
+deactivate Service
+UI --> User: Show Message
+deactivate UI
+
+@enduml
+
+@startuml Sequence Diagram - Finance
+autonumber
+title Segmen Keuangan (Finance)
+
+actor "Finance Staff" as User
+boundary "FinanceUI" as UI <<boundary>>
+control "FinanceService" as Service <<control>>
+entity "Database" as DB <<entity>>
+
+== 1. Cash Transfer (Transfer Kas) ==
+User -> UI: Input Transfer Kas (Bank A -> B)
+activate UI
+UI -> Service: createCashTransfer(from_acc, to_acc, amount)
+activate Service
+Service -> DB: INSERT INTO cash_transfers (...)
+activate DB
+DB --> Service: Success
+deactivate DB
+Service -> DB: INSERT INTO journals (Bank B vs Bank A)
+activate DB
+DB --> Service: Journal Posted
+deactivate DB
+Service --> UI: Transfer Success
+deactivate Service
+UI --> User: Show Message
+deactivate UI
+
+== 2. General Journal (Jurnal Umum) ==
+User -> UI: Input Jurnal Manual
+activate UI
+UI -> Service: createJournalEntry(date, lines[])
+activate Service
+Service -> Service: validateBalance(debit, credit)
+alt Balance OK
+    Service -> DB: INSERT INTO journals (...)
+    activate DB
+    DB --> Service: Success
+    deactivate DB
+    Service -> DB: UPDATE gl_summary
+    activate DB
+    DB --> Service: GL Updated
+    deactivate DB
+    Service --> UI: Journal Posted
+    UI --> User: Show Success
+else Unbalanced
+    Service --> UI: Error: Journal not balanced
+    UI --> User: Show Error Message
+end
+deactivate Service
+deactivate UI
+
+@enduml

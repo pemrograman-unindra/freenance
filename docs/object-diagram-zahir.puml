@@ -1,0 +1,126 @@
+@startuml Object Diagram - Sales Invoice Scenario
+skinparam linetype ortho
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+
+title Transaksi Penjualan
+
+package "Master Data Instances" {
+    object "customer : Contact" as Cust {
+        id = "c101"
+        code = "CUST-001"
+        company_name = "PT. Maju Jaya"
+        type = "Customer"
+    }
+
+    object "warehouse : Warehouse" as Wh {
+        id = "w1"
+        code = "WH-JKT"
+        name = "Gudang Jakarta"
+    }
+
+    object "product : Product" as Prod {
+        id = "p55"
+        code = "PROD-005"
+        name = "Laptop ASUS ROG"
+        is_tracked = true
+    }
+
+    object "unit : Unit" as Unit {
+        id = "u1"
+        code = "PCS"
+        name = "Pieces"
+    }
+}
+
+package "Transaction Instances" {
+    object "invoice : SalesTransaction" as Inv {
+        id = "t1001"
+        transaction_id = "tx-2023001"
+        code = "INV-2023-001"
+        date = "2023-10-25"
+        status = "Invoice"
+        subtotal = 20000000
+        total_tax = 2200000
+        total_amount = 22200000
+        balance_due = 22200000
+    }
+
+    object "item1 : SalesItem" as Item {
+        id = "item-01"
+        product_id = "p55"
+        quantity = 2
+        unit_price = 10000000
+        discount = 0
+        total = 20000000
+    }
+}
+
+package "Accounting Instances" {
+    object "journal : GeneralJournal" as Jrnl {
+        id = "j001"
+        code = "CJ-001"
+        date = "2023-10-25"
+        description = "Posting Sales INV-2023-001"
+    }
+
+    object "acc_ar : ChartOfAccount" as AccAR {
+        id = "a1101"
+        code = "1-1100"
+        name = "Piutang Usaha"
+    }
+
+    object "acc_sales : ChartOfAccount" as AccSales {
+        id = "a4101"
+        code = "4-1000"
+        name = "Penjualan Barang"
+    }
+
+    object "acc_ppn : ChartOfAccount" as AccTax {
+        id = "a2105"
+        code = "2-1500"
+        name = "Utang PPN"
+    }
+
+    object "debit_entry : JournalDetail" as Debit {
+        id = "jd1"
+        account_id = "a1101"
+        debit = 22200000
+        credit = 0
+    }
+
+    object "credit_sales : JournalDetail" as Credit1 {
+        id = "jd2"
+        account_id = "a4101"
+        debit = 0
+        credit = 20000000
+    }
+
+     object "credit_tax : JournalDetail" as Credit2 {
+        id = "jd3"
+        account_id = "a2105"
+        debit = 0
+        credit = 2200000
+    }
+}
+
+' Links
+Inv ..> Cust : customer
+Inv *-- Item : items
+
+Item ..> Prod : product
+Item ..> Wh : warehouse
+Item ..> Unit : unit
+
+' Journal Linking (Conceptual)
+Inv ..> Jrnl : generated_journal
+
+Jrnl *-- Debit
+Jrnl *-- Credit1
+Jrnl *-- Credit2
+
+Debit ..> AccAR : account
+Credit1 ..> AccSales : account
+Credit2 ..> AccTax : account
+
+@enduml

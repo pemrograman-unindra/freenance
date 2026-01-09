@@ -1,0 +1,79 @@
+@startuml State Machine - Sales Transaction
+title Siklus Transaksi Penjualan (Sales)
+skinparam nodesep 20
+skinparam ranksep 20
+
+state "Quotation (Penawaran)" as Quote {
+  [*] --> DraftQuote: Created
+  DraftQuote -right-> ApprovedQuote: Internal Approval
+  ApprovedQuote -down-> SentQuote: Sent to Customer
+  DraftQuote --> SentQuote: Sent directly
+  
+  SentQuote --> Accepted: Customer Accepts
+  SentQuote -left-> Rejected: Customer Rejects
+  Rejected --> [*]
+}
+
+state "Sales Order (Pesanan)" as SO {
+  Accepted --> OpenSO: Convert to SO
+  OpenSO --> FullDelivery: Full Shipment
+  OpenSO -right-> PartialDelivery: Partial Shipment
+  PartialDelivery --> FullDelivery: Remaining
+}
+
+state "Delivery (Pengiriman)" as DO {
+  FullDelivery --> Delivered: Goods Received by Cust
+  Delivered --> Invoiced: Create Invoice
+}
+
+state "Invoice (Faktur)" as Invoice {
+  Invoiced --> Unpaid: Awaiting Payment
+  Unpaid --> Paid: Full Payment
+  Unpaid -right-> PartialPaid: Partial Payment
+  PartialPaid --> Paid: Settlement
+  
+  Paid --> [*]: Transaction Closed
+  Unpaid -left-> BadDebt: Write-off
+  BadDebt --> [*]
+}
+
+state "Return (Retur)" as Return {
+  Paid -right-> SalesReturn: Return Item
+  Invoiced -right-> SalesReturn
+  SalesReturn --> Refunded: Cash
+  SalesReturn --> CreditMemo: Credit
+}
+
+@enduml
+
+@startuml State Machine - Purchase Transaction
+title Siklus Transaksi Pembelian (Purchase)
+skinparam nodesep 20
+skinparam ranksep 20
+
+state "Purchase Request (Permintaan)" as PR {
+  [*] --> DraftPR: Staff Creates
+  DraftPR --> PendingApproval: Submit
+  PendingApproval --> ApprovedPR: Approves
+  PendingApproval -left-> RejectedPR: Rejects
+  RejectedPR --> [*]
+}
+
+state "Purchase Order (Pesanan)" as PO {
+  ApprovedPR --> OpenPO: Create PO
+  OpenPO --> SentPO: Send to Vendor
+}
+
+state "Goods Receipt (Penerimaan)" as GR {
+  SentPO --> FullReceived: Vendor Ships/Full
+  SentPO -right-> PartialReceived: Vendor Ships/Partial
+  PartialReceived --> FullReceived: Balance
+}
+
+state "Bill/Invoice (Tagihan)" as Bill {
+  FullReceived --> BillOpen: Vendor sends Invoice
+  BillOpen --> BillPaid: Outgoing Payment
+  BillPaid --> [*]: Transaction Closed
+}
+
+@enduml

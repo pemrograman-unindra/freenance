@@ -1,0 +1,51 @@
+@startuml Deployment Diagram - Zahir Accounting 7
+title Deployment Diagram - Zahir Accounting 7 Architecture
+left to right direction
+skinparam nodesep 50
+skinparam ranksep 50
+
+node "Client Workstation" as ClientNode {
+    artifact "Zahir Accounting 7\n(Desktop App)" as ZahirApp {
+        component "Electron Wrapper" as Electron
+        component "React Frontend" as React
+        
+        Electron *-- React
+    }
+}
+
+node "Application Server" as AppServer {
+    component "API Gateway (Nginx/Traefik)" as Gateway
+    
+    component "Backend Service (Golang)" as GoService {
+        note right: Modern API & Core Logic
+    }
+    
+    component "Legacy Service (PHP)" as PHPService {
+        note right: Legacy Reports & Features
+    }
+    
+    Gateway --> GoService
+    Gateway --> PHPService
+}
+
+node "Database Server" as DBServer {
+    database "PostgreSQL" as Postgres {
+        folder "db-zahir" as DB
+    }
+    
+    database "Redis" as Redis {
+        artifact "Cache & Session" as Cache
+    }
+}
+
+' Relations
+ClientNode -- AppServer : HTTPS / WSS
+Electron --> Gateway : JSON / API Requests
+
+GoService --> Postgres : TCP/5432 (SQL)
+GoService --> Redis : TCP/6379 (Cache)
+
+PHPService --> Postgres : TCP/5432 (SQL)
+PHPService --> Redis : TCP/6379 (Session)
+
+@enduml

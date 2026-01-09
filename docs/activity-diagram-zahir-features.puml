@@ -1,0 +1,267 @@
+@startuml Activity Diagram - Sales & AR Cycle
+skinparam activityFontSize 11
+skinparam activityDiamondFontSize 10
+title Alur Penjualan & Piutang
+
+|Bagian Penjualan|
+start
+:Login ke Sistem;
+:Membuka Modul Penjualan;
+
+if (Buat Penawaran?) then (ya)
+  :Input Data Penawaran Harga (Quote);
+  :Simpan Penawaran;
+  |Sistem|
+  :Validasi & Simpan Quote;
+  :Generate No. Transaksi;
+  |Bagian Penjualan|
+  :Cetak/Kirim Penawaran;
+endif
+
+:Terima PO dari Customer;
+:Input Sales Order (SO);
+note right
+  Bisa ambil data dari Quote
+  jika ada
+end note
+:Simpan Sales Order;
+
+|Sistem|
+:Cek Limit Piutang Customer;
+if (Limit Cukup?) then (ya)
+  :Simpan SO;
+  :Update Status Quote (Closed);
+else (tidak)
+  :Tampilkan Peringatan Limit;
+  |Bagian Penjualan|
+  :Minta Persetujuan/Tolak;
+  stop
+endif
+
+|Bagian Gudang|
+:Terima Info Pengiriman (DO);
+:Siapkan Barang;
+:Input Surat Jalan (Delivery Order);
+:Simpan Delivery Order;
+
+|Sistem|
+:Kurangi Stok Fisik (Booked);
+:Update Status SO (Delivered);
+
+|Bagian Keuangan|
+:Terima Info Penagihan;
+:Buat Invoice Penjualan;
+note right
+  Tarik data dari DO
+end note
+:Simpan Invoice;
+
+|Sistem|
+:Update Stok Akuntansi;
+:Jurnal Otomatis (Piutang vs Penjualan);
+:Update Saldo Piutang Customer;
+
+|Bagian Keuangan|
+:Terima Pembayaran Pelanggan;
+:Input Pembayaran Piutang (AR Payment);
+:Pilih Invoice yang dibayar;
+
+|Sistem|
+:Jurnal Otomatis (Kas/Bank vs Piutang);
+:Update Saldo Invoice & Piutang;
+stop
+@enduml
+
+@startuml Activity Diagram - Purchase & AP Cycle
+skinparam activityFontSize 11
+skinparam activityDiamondFontSize 10
+title Alur Pembelian & Utang
+
+|Bagian Pembelian|
+start
+:Buat Permintaan Pembelian (Purchase Request);
+:Simpan PR;
+
+|Manajer Pembelian|
+:Review PR;
+if (Disetujui?) then (tidak)
+  :Tolak PR;
+  stop
+else (ya)
+  :Approve PR;
+endif
+
+|Bagian Pembelian|
+:Buat Pesanan Pembelian (PO);
+note right: Ambil data dari PR jika ada
+:Kirim PO ke Vendor;
+
+|Bagian Gudang|
+:Terima Barang dari Vendor;
+:Cek Fisik & Kuantitas;
+:Input Penerimaan Barang (GR);
+:Simpan GR;
+
+|Sistem|
+:Tambah Stok Fisik;
+:Update Status PO;
+
+|Bagian Keuangan|
+:Terima Invoice Vendor;
+:Input Faktur Pembelian (Purchase Invoice);
+note right: Tarik data dari GR
+:Simpan Invoice;
+
+|Sistem|
+:Update Stok Nilai (HPP);
+:Jurnal Otomatis (Persediaan vs Utang);
+:Update Saldo Utang Vendor;
+
+|Bagian Keuangan|
+:Jadwal Pembayaran;
+:Input Pembayaran Utang (AP Payment);
+:Pilih Invoice yang dibayar;
+
+|Sistem|
+:Jurnal Otomatis (Utang vs Kas/Bank);
+:Update Saldo Utang;
+stop
+@enduml
+
+@startuml Activity Diagram - Inventory Operations
+skinparam activityFontSize 11
+skinparam activityDiamondFontSize 10
+title Operasional Persediaan
+
+|Staf Gudang|
+start
+:Pilih Menu Persediaan;
+
+split
+  :Transfer Barang;
+  :Pilih Gudang Asal & Tujuan;
+  :Input Item & Qty Transfer;
+  :Simpan Transfer;
+  
+  |Sistem|
+  :Kurangi Stok Gudang Asal;
+  :Tambah Stok Gudang Tujuan;
+  stop
+split again
+  |Staf Gudang|
+  :Penyesuaian Stok (Adjustment);
+  :Pilih Akun Penyesuaian;
+  :Input Item (+/-);
+  :Simpan Penyesuaian;
+  
+  |Sistem|
+  :Update Stok Fisik;
+  :Jurnal Selisih Stok;
+  stop
+split again
+  |Staf Gudang|
+  :Stok Opname (Physical Count);
+  :Input Hasil Perhitungan Fisik;
+  :Bandingkan dengan Stok Sistem;
+  if (Ada Selisih?) then (ya)
+    :Review Selisih;
+    :Proses Adjustment Otomatis;
+    |Sistem|
+    :Update Stok sesuai Fisik;
+    :Jurnal Penyesuaian Opname;
+    stop
+  else (tidak)
+    :Simpan Hasil Opname;
+    stop
+  endif
+end split
+@enduml
+
+@startuml Activity Diagram - Finance & GL
+skinparam activityFontSize 11
+skinparam activityDiamondFontSize 10
+title Keuangan & Jurnal Umum
+
+|Staf Keuangan|
+start
+
+split
+  :Pilih Modul Kas & Bank;
+  
+  if (Tipe Transaksi?) then (Kas Masuk)
+    :Input Kas Masuk Lainnya;
+    :Pilih Akun Pendapatan;
+    :Simpan;
+    |Sistem|
+    :Jurnal (Kas vs Pendapatan);
+    stop
+  elseif (Kas Keluar)
+    |Staf Keuangan|
+    :Input Kas Keluar/Biaya;
+    :Pilih Akun Biaya;
+    :Simpan;
+    |Sistem|
+    :Jurnal (Biaya vs Kas);
+    stop
+  elseif (Transfer Kas)
+    |Staf Keuangan|
+    :Transfer Antar Kas/Bank;
+    :Input Sumber & Tujuan;
+    :Simpan;
+    |Sistem|
+    :Jurnal (Kas Tujuan vs Kas Asal);
+    stop
+  else (Rekonsiliasi)
+    |Staf Keuangan|
+    :Rekonsiliasi Bank;
+    :Cocokkan Saldo Koran;
+    if (Balance?) then (ya)
+      :Simpan;
+    else (tidak)
+      :Buat Penyesuaian;
+      :Simpan;
+    endif
+    |Sistem|
+    :Update Status Rekonsiliasi;
+    stop
+  endif
+  
+split again
+  |Staf Akunting|
+  :Jurnal Umum (General Journal);
+  :Input Debit/Kredit;
+  if (Balance?) then (ya)
+    :Simpan Jurnal;
+    |Sistem|
+    :Posting ke GL;
+    stop
+  else (tidak)
+    |Staf Akunting|
+    :Tolak Simpan (Unbalanced);
+    stop
+  endif
+
+split again
+  |Staf Akunting|
+  :Tutup Buku Akhir Bulan;
+  
+  if (Penyusutan Aset?) then (ya)
+    :Hitung Penyusutan;
+    |Sistem|
+    :Jurnal Penyusutan;
+  endif
+  
+  |Staf Akunting|
+  if (Revaluasi Kurs?) then (ya)
+    :Hitung Selisih Kurs;
+    |Sistem|
+    :Jurnal Selisih Kurs;
+  endif
+  
+  |Staf Akunting|
+  :Kunci Periode;
+  |Sistem|
+  :Update Saldo Awal;
+  stop
+end split
+@enduml
