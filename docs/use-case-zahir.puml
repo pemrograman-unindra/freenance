@@ -1,0 +1,206 @@
+@startuml Use Case Data Master & Config
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Admin Sistem" as Admin
+actor "Bagian Penjualan" as Sales
+actor "Bagian Pembelian" as Purchasing
+actor "Bagian Gudang" as Warehouse
+actor "Bagian Keuangan" as Finance
+actor "Pengguna" as User
+
+package "Sistem Zahir - Master & Config" {
+    usecase "Login / Logout" as UC01
+    
+    ' Master Data split by responsibility
+    usecase "Kelola Data Kontak\n(Pelanggan)" as UC03_Cust
+    usecase "Kelola Data Kontak\n(Vendor)" as UC03_Vend
+    usecase "Kelola Data Kontak\n(Karyawan/Lainnya)" as UC03_Other
+    
+    usecase "Kelola Data Produk" as UC05
+    usecase "Kelola Data Gudang" as UC06
+    usecase "Kelola Data Departemen & Proyek" as UC07
+    
+    usecase "Kelola Chart of Account (COA)" as UC04
+    usecase "Kelola Mata Uang & Pajak" as UC08
+    usecase "Kelola Harta Tetap" as UC09
+    
+    usecase "Pilih Entitas Perusahaan" as UC02
+    usecase "Konfigurasi Sistem & User (RBAC)" as UC10
+    usecase "Tutup Buku Akhir Periode" as UC11
+    usecase "Import Data & Backup/Restore" as UC12
+}
+
+User <|-- Admin
+User <|-- Sales
+User <|-- Purchasing
+User <|-- Warehouse
+User <|-- Finance
+
+' Login for all
+User --> UC01
+User --> UC02
+
+' Sales
+Sales --> UC03_Cust
+Sales --> UC07
+
+' Purchasing
+Purchasing --> UC03_Vend
+
+' Warehouse
+Warehouse --> UC05
+Warehouse --> UC06
+
+' Finance
+Finance --> UC03_Other
+Finance --> UC04
+Finance --> UC08
+Finance --> UC09
+Finance --> UC11
+
+' Admin
+Admin --> UC10
+Admin --> UC12
+@enduml
+
+@startuml Use Case Sales Cycle
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Bagian Penjualan" as Sales
+actor "Bagian Gudang" as Warehouse
+actor "Bagian Keuangan" as Finance
+
+package "Siklus Penjualan" {
+    usecase "Buat Penawaran Harga\n(Quotation)" as UC_S01
+    usecase "Buat Pesanan Penjualan\n(Sales Order)" as UC_S02
+    usecase "Proses Pengiriman Barang\n(Delivery Order)" as UC_S03
+    usecase "Buat Faktur Penjualan\n(Sales Invoice)" as UC_S04
+    usecase "Proses Retur Penjualan" as UC_S05
+    usecase "Terima Pembayaran Piutang" as UC_S06
+    usecase "Proses Pengembalian\nLebih Bayar" as UC_S07
+    usecase "Lihat Daftar &\nUmur Piutang" as UC_S08
+}
+
+Sales --> UC_S01
+Sales --> UC_S02
+
+Warehouse --> UC_S03
+Warehouse --> UC_S05
+
+Finance --> UC_S04
+Finance --> UC_S06
+Finance --> UC_S07
+Finance --> UC_S08
+
+UC_S02 ..> UC_S01 : <<include>> (optional)
+UC_S03 ..> UC_S02 : <<include>>
+UC_S04 ..> UC_S03 : <<include>>
+@enduml
+
+@startuml Use Case Purchase Cycle
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Unit Peminta" as Requester
+actor "Bagian Pembelian" as Purchasing
+actor "Bagian Gudang" as Warehouse
+actor "Bagian Keuangan" as Finance
+actor "Manajer" as Manager
+
+package "Siklus Pembelian" {
+    usecase "Ajukan Pembelian\n(Purchase Requisition)" as UC_P01
+    usecase "Permintaan Penawaran\n(RFQ)" as UC_P02
+    usecase "Buat Pesanan Pembelian\n(PO)" as UC_P03
+    usecase "Penerimaan Barang\n(Goods Receipt)" as UC_P04
+    usecase "Buat Faktur Pembelian\n(Purchase Invoice)" as UC_P05
+    usecase "Lakukan Pembayaran Utang" as UC_P06
+    usecase "Terima Pengembalian\nLebih Bayar" as UC_P07
+    usecase "Lihat Daftar Utang" as UC_P08
+    usecase "Approve Requisition" as UC_P09
+}
+
+Requester --> UC_P01
+Manager --> UC_P09
+UC_P09 ..> UC_P01 : <<extend>>
+
+Purchasing --> UC_P02
+Purchasing --> UC_P03
+
+Warehouse --> UC_P04
+
+Finance --> UC_P05
+Finance --> UC_P06
+Finance --> UC_P07
+Finance --> UC_P08
+
+UC_P03 ..> UC_P02 : <<include>> (optional)
+UC_P04 ..> UC_P03 : <<include>>
+UC_P05 ..> UC_P04 : <<include>>
+@enduml
+
+@startuml Use Case Inventory & Production
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Bagian Gudang" as Warehouse
+actor "Bagian Produksi" as Production
+
+package "Persediaan & Produksi" {
+    usecase "Penyesuaian Barang\n(Adjustment)" as UC_I01
+    usecase "Stok Opname" as UC_I02
+    usecase "Pindah Gudang (Transfer)" as UC_I03
+    usecase "Kelola Formula\nProduksi (BOM)" as UC_I04
+    usecase "Proses Produksi" as UC_I05
+    usecase "Konsinyasi Barang Keluar" as UC_I06
+    usecase "Serial & Lot Tracking" as UC_I07
+}
+
+Warehouse --> UC_I01
+Warehouse --> UC_I02
+Warehouse --> UC_I03
+Warehouse --> UC_I06
+Warehouse --> UC_I07
+
+Production --> UC_I04
+Production --> UC_I05
+@enduml
+
+@startuml Use Case Finance & Report
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Bagian Keuangan" as Finance
+actor "Manajemen" as Manager
+
+package "Keuangan & Laporan" {
+    usecase "Input Jurnal Umum" as UC_GL01
+    usecase "Catat Pengeluaran\nOperasional" as UC_F01
+    usecase "Catat Penerimaan Lainnya" as UC_F02
+    usecase "Kelola Uang Muka" as UC_F03
+    usecase "Transfer Kas/Bank" as UC_F04
+    usecase "Rekonsiliasi Bank" as UC_F05
+    usecase "Manajemen Giro\n(Masuk/Keluar)" as UC_F06
+    
+    usecase "Lihat Buku Besar" as UC_R04
+    usecase "Lihat Laporan Keuangan" as UC_R01
+    usecase "Lihat Dashboard Analitik" as UC_R02
+    usecase "Ekspor Laporan" as UC_R03
+}
+
+Finance --> UC_GL01
+Finance --> UC_F01
+Finance --> UC_F02
+Finance --> UC_F03
+Finance --> UC_F04
+Finance --> UC_F05
+Finance --> UC_F06
+
+Finance --> UC_R04
+Finance --> UC_R01
+Finance --> UC_R03
+
+Manager --> UC_R01
+Manager --> UC_R02
+@enduml

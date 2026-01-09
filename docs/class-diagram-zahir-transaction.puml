@@ -1,0 +1,507 @@
+@startuml Class Diagram - Transactions
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Transaksi Penjualan & Pembelian
+
+package "Sales Cycle" {
+    class "SalesTransaction" as SalesTrx {
+        + id : uuid
+        + getTransactionType() : enum
+        + transaction_id : uuid
+        + code : varchar
+        + date : date
+        + customer_id : uuid
+        + salesman_id : uuid
+        + currency_id : uuid
+        + subtotal : double
+        + total_tax : double
+        + total_amount : double
+        + down_payment : double
+        + balance_due : double
+        + status : enum
+    }
+    note bottom of SalesTrx
+        transaction_type includes:
+        - Quotation
+        - Sales Order
+        - Delivery Order
+        - Invoice
+    end note
+
+    class "SalesItem" as SalesItem {
+        + id : uuid
+        + transaction_id : uuid
+        + product_id : uuid
+        + unit_id : uuid
+        + quantity : double
+        + unit_price : double
+        + discount : double
+        + tax_id : uuid
+        + warehouse_id : uuid
+    }
+    
+    class "SalesTaxDetail" as SalesTax {
+        + id : uuid
+        + item_id : uuid
+        + tax_id : uuid
+        + amount : double
+    }
+
+    class "SalesReturn" as SalesRet {
+        + id : uuid
+        + transaction_id : uuid
+        + reference_sales_id : uuid
+        + date : date
+        + total_amount : double
+    }
+}
+
+package "Purchase Cycle" {
+    class "PurchaseTransaction" as PurchTrx {
+        + id : uuid
+        + getTransactionType() : enum
+        + transaction_id : uuid
+        + code : varchar
+        + date : date
+        + vendor_id : uuid
+        + currency_id : uuid
+        + subtotal : double
+        + total_tax : double
+        + total_amount : double
+        + down_payment : double
+        + balance_due : double
+        + status : enum
+    }
+    note bottom of PurchTrx
+        transaction_type includes:
+        - Purchase Request
+        - Purchase Order
+        - Goods Receipt
+        - Purchase Invoice
+    end note
+
+    class "PurchaseItem" as PurchItem {
+        + id : uuid
+        + transaction_id : uuid
+        + product_id : uuid
+        + unit_id : uuid
+        + quantity : double
+        + unit_price : double
+        + discount : double
+        + tax_id : uuid
+        + warehouse_id : uuid
+    }
+    
+    class "PurchaseReturn" as PurchRet {
+        + id : uuid
+        + transaction_id : uuid
+        + reference_purchase_id : uuid
+        + date : date
+        + total_amount : double
+    }
+}
+
+' External References
+class "Contact" as Cust
+class "Currency" as Currency
+class "Department" as Department
+class "Project" as Project
+class "Warehouse" as Wh
+class "Product" as Prod
+class "Unit" as Unit
+
+' Relationships
+SalesTrx "*" --> "1" Cust : customer
+SalesTrx "1" *-- "1..*" SalesItem : items
+SalesItem "*" --> "1" Prod : product
+SalesItem "*" --> "1" Wh : warehouse
+SalesItem "*" --> "1" Unit : unit
+SalesItem "1" *-- "0..*" SalesTax : taxes
+SalesTrx "*" --> "1" Currency : currency
+SalesTrx "*" --> "1" Department : department
+SalesTrx "*" --> "0..1" Project : project
+
+SalesRet "*" --> "1" SalesTrx : reference
+SalesRet "1" *-- "1..*" SalesItem : items
+
+PurchTrx "*" --> "1" Cust : vendor
+PurchTrx "1" *-- "1..*" PurchItem : items
+PurchItem "*" --> "1" Prod : product
+PurchItem "*" --> "1" Wh : warehouse
+PurchItem "*" --> "1" Unit : unit
+PurchTrx "*" --> "1" Currency : currency
+PurchTrx "*" --> "1" Department : department
+PurchTrx "*" --> "0..1" Project : project
+
+PurchRet "*" --> "1" PurchTrx : reference
+PurchRet "1" *-- "1..*" PurchItem : items
+
+@enduml
+
+@startuml Class Diagram - Transactions
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Transaksi Keuangan
+
+package "Cash & Bank" {
+    class "CashInTransaction" as CashIn {
+        + id : uuid
+        + transaction_id : uuid
+        + code : varchar
+        + date : date
+        + from_contact_id : uuid
+        + account_id : uuid
+        + amount : double
+    }
+
+    class "CashInDetail" as CashInDet {
+        + id : uuid
+        + transaction_id : uuid
+        + account_id : uuid
+        + amount : double
+        + memo : varchar
+    }
+
+    class "CashOutTransaction" as CashOut {
+        + id : uuid
+        + transaction_id : uuid
+        + code : varchar
+        + date : date
+        + to_contact_id : uuid
+        + account_id : uuid
+        + amount : double
+    }
+    
+    class "CashOutDetail" as CashOutDet {
+        + id : uuid
+        + transaction_id : uuid
+        + account_id : uuid
+        + amount : double
+        + memo : varchar
+    }
+
+    class "ARPayment" as ARPay {
+        + id : uuid
+        + cash_in_id : uuid
+        + invoice_id : uuid
+        + amount_paid : double
+    }
+
+    class "APPayment" as APPay {
+        + id : uuid
+        + cash_out_id : uuid
+        + invoice_id : uuid
+        + amount_paid : double
+    }
+
+    class "ARSummary" as ARSum {
+        + id : uuid
+        + contact_id : uuid
+        + total_receivable : double
+        + total_payment : double
+        + balance : double
+    }
+
+    class "APSummary" as APSum {
+        + id : uuid
+        + contact_id : uuid
+        + total_payable : double
+        + total_payment : double
+        + balance : double
+    }
+
+    class "SubsidiaryLedger" as SubLedger {
+        + subsidiary_id : uuid
+        + type : varchar
+        + parent_id : uuid
+        + child_id : uuid
+        + contact_id : uuid
+    }
+}
+
+package "General Ledger" {
+    class "GeneralJournal" as GLHeader {
+        + id : uuid
+        + code : varchar
+        + date : date
+        + description : varchar
+        + status : varchar
+    }
+    
+    class "JournalDetail" as GLDetail {
+        + id : uuid
+        + transaction_id : uuid
+        + account_id : uuid
+        + debit : double
+        + credit : double
+        + memo : varchar
+    }
+}
+
+' External
+class "ChartOfAccount" as COA
+class "Contact" as Contact
+class "Currency" as Currency
+class "Department" as Department
+class "Project" as Project
+
+' Relationships
+CashIn "*" --> "1" Contact : from
+CashIn "*" --> "1" COA : deposit_account
+CashIn "1" *-- "1..*" CashInDet : details
+CashInDet "*" --> "1" COA : allocation_account
+CashIn "*" --> "1" Currency : currency
+CashIn "*" --> "1" Department : department
+CashIn "*" --> "0..1" Project : project
+
+ARPay "*" --> "1" CashIn : payment_trx
+ARPay "*" --> "1" SalesTrx : invoice
+
+CashOut "*" --> "1" Contact : to
+CashOut "*" --> "1" COA : withdraw_account
+CashOut "1" *-- "1..*" CashOutDet : details
+CashOutDet "*" --> "1" COA : expense_account
+CashOut "*" --> "1" Currency : currency
+CashOut "*" --> "1" Department : department
+CashOut "*" --> "0..1" Project : project
+
+APPay "*" --> "1" CashOut : payment_trx
+APPay "*" --> "1" PurchTrx : invoice
+
+ARSum "*" --> "1" Contact : contact
+APSum "*" --> "1" Contact : contact
+
+SubLedger "*" --> "1" Contact : contact
+SubLedger "*" --> "0..1" SalesTrx : related_trx
+SubLedger "*" --> "0..1" PurchTrx : related_trx
+
+GLHeader "1" *-- "2..*" GLDetail : entries
+GLDetail "*" --> "1" COA : account
+GLHeader "*" --> "1" Department : department
+GLHeader "*" --> "0..1" Project : project
+
+Prepay "*" --> "1" Contact : vendor/customer
+Prepay "*" --> "1" COA : account
+Prepay "*" --> "1" Currency : currency
+
+@enduml
+
+@startuml Class Diagram - Transactions
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Transaksi Persediaan
+
+package "Inventory Operations" {
+    class "InventoryTransaction" as InvTrx {
+         + id : uuid
+         + transaction_id : uuid
+         + type : enum
+         + date : date
+         + warehouse_id : uuid
+         + department_id : uuid
+         + description : varchar
+         + status : enum
+    }
+    note bottom of InvTrx
+        type includes:
+        - Stock Adjustment
+        - Stock Transfer
+        - Stock Usage
+        - Stock Assembly
+        - Stock Disassembly
+        - Stock Opname
+    end note
+    
+    class "StockAdjustment" as InvAdj {
+        + diff_account_id : uuid
+    }
+    
+    class "StockTransfer" as InvTransfer {
+        + from_warehouse_id : uuid
+        + to_warehouse_id : uuid
+    }
+    
+    class "StockUsage" as InvUsage {
+        + expense_account_id : uuid
+    }
+    
+    class "StockAssembly" as InvAssembly {
+        + formula_id : uuid
+        + quantity_built : double
+    }
+
+    class "StockOpname" as InvOpname {
+         + verified_by : uuid
+         + verification_date : date
+    }
+    
+    class "InventoryItem" as InvItem {
+        + id : uuid
+        + transaction_id : uuid
+        + product_id : uuid
+        + unit_id : uuid
+        + quantity : double
+        + unit_price : double
+        + warehouse_id : uuid
+    }
+}
+
+package "Inventory Ledger" {
+     class "InventoryLedger" as InvLedger {
+         + id : uuid
+         + date : date
+         + product_id : uuid
+         + warehouse_id : uuid
+         + quantity_in : double
+         + quantity_out : double
+         + ref_transaction_id : uuid
+     }
+     
+     class "SerialLedger" as SerialLedger {
+         + id : uuid
+         + date : date
+         + product_id : uuid
+         + serial_number : varchar
+         + entry_type : enum
+     }
+     
+     class "LotLedger" as LotLedger {
+         + id : uuid
+         + date : date
+         + product_id : uuid
+         + lot_number : varchar
+         + quantity : double
+     }
+}
+
+' External
+class "Product" as Product
+class "Warehouse" as Wh
+class "Unit" as Unit
+class "Department" as Dept
+class "Project" as Proj
+
+' Relationships
+InvTrx "*" --> "1" Wh : warehouse
+InvTrx "*" --> "1" Dept : department
+InvTrx "*" --> "0..1" Proj : project
+
+InvTrx <|-- InvAdj
+InvTrx <|-- InvTransfer
+InvTrx <|-- InvUsage
+InvTrx <|-- InvAssembly
+InvTrx <|-- InvOpname
+
+InvTrx "1" *-- "1..*" InvItem : details
+InvItem "*" --> "1" Product : product
+InvItem "*" --> "1" Wh : warehouse
+InvItem "*" --> "1" Unit : unit
+
+InvLedger "*" --> "1" Product : product
+InvLedger "*" --> "1" Wh : warehouse
+InvLedger "*" --> "1" Unit : unit
+
+SerialLedger "*" --> "1" Product : product
+LotLedger "*" --> "1" Product : product
+
+@enduml
+
+@startuml Class Diagram - System & Approvals
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title System - Budget & Approvals
+
+package "Approval Workflow" {
+    class "ApprovalRequest" as AppReq {
+        + id : uuid
+        + transaction_id : uuid
+        + requester_id : uuid
+        + role_id : uuid
+        + current_layer : int
+        + status : enum
+        + note : varchar
+    }
+
+    class "ApprovalLog" as AppLog {
+        + id : uuid
+        + request_id : uuid
+        + approver_id : uuid
+        + action : enum
+        + date : timestamp
+        + comments : varchar
+    }
+}
+
+package "Budgeting" {
+    class "Budget" as Budget {
+        + id : uuid
+        + name : varchar
+        + period_type : varchar
+        + start_date : date
+        + end_date : date
+        + project_id : uuid
+        + department_id : uuid
+    }
+
+    class "BudgetItem" as BudgetItem {
+        + id : uuid
+        + budget_id : uuid
+        + account_id : uuid
+        + period_name : varchar
+        + amount : double
+    }
+}
+
+package "Others" {
+    class "RecurringTransaction" as Recurring {
+        + id : uuid
+        + name : varchar
+        + frequency : varchar
+        + next_date : date
+    }
+    
+    class "PointHistory" as Point {
+        + id : uuid
+        + contact_id : uuid
+        + point : double
+        + description : varchar
+    }
+}
+
+' External
+class "User" as User
+class "SalesTransaction" as SalesTrx
+class "ChartOfAccount" as COA
+
+' Relationships
+AppReq "*" --> "1" User : requester
+AppReq "*" --> "1" SalesTrx : transaction
+AppReq "1" *-- "0..*" AppLog : logs
+AppLog "*" --> "1" User : approver
+
+Budget "1" *-- "1..*" BudgetItem : items
+BudgetItem "*" --> "1" COA : account
+
+Point "*" --> "1" User : user/contact
+
+@enduml

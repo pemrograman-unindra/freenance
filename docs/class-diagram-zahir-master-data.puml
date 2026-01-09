@@ -1,0 +1,479 @@
+@startuml Class Diagram - Master Config & User (Zahir Accounting)
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 10
+skinparam ranksep 10
+skinparam linetype ortho
+
+title Konfigurasi & Manajemen Pengguna
+
+package "Configuration" {
+    class "CompanyConfig" as Config {
+        + key : varchar
+        + type : varchar
+        + value : text
+    }
+
+    class "Webhook" as Webhook {
+        + id : uuid
+        + url : varchar
+        + event : varchar
+        + is_active : boolean
+    }
+}
+
+package "User Management" {
+    class "User" as User {
+        + id : uuid
+        + username : varchar
+        + role_id : uuid
+        + status : string
+    }
+
+    class "UserRole" as Role {
+        + id : uuid
+        + name : varchar
+        + status : string
+        + acl : json
+    }
+
+    class "UserSetting" as UserSetting {
+        + id : uuid
+        + user_id : uuid
+        + key : varchar
+        + value : varchar
+    }
+}
+
+package "Access Limits" {
+    class "UserLimitDept" as LimitDept {
+        + id : uuid
+        + user_id : uuid
+        + department_id : uuid
+    }
+
+    class "UserLimitProject" as LimitProject {
+        + id : uuid
+        + user_id : uuid
+        + project_id : uuid
+    }
+
+    class "UserLimitWarehouse" as LimitWh {
+        + id : uuid
+        + user_id : uuid
+        + warehouse_id : uuid
+    }
+    
+    class "UserLimitContact" as LimitContact {
+        + id : uuid
+        + user_id : uuid
+        + contact_id : uuid
+    }
+
+    class "UserLimitReport" as LimitReport {
+        + id : uuid
+        + user_id : uuid
+        + report_id : uuid
+    }
+
+    class "AccountLimitDept" as LimitAccount {
+        + id : uuid
+        + account_id : uuid
+        + department_id : uuid
+    }
+}
+
+User --> Role : role
+User "1" *-- "0..*" UserSetting : settings
+User "1" *-- "0..*" LimitDept : limits
+User "1" *-- "0..*" LimitProject : limits
+User "1" *-- "0..*" LimitWh : limits
+User "1" *-- "0..*" LimitContact : limits
+User "1" *-- "0..*" LimitReport : limits
+
+@enduml
+
+@startuml Class Diagram - Master Financial (Zahir Accounting)
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Data Master Keuangan
+
+package "Chart of Accounts" {
+    class "ChartOfAccount" as COA {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + currency_id : uuid
+        + subclassification_id : uuid
+        + is_cash : boolean
+        + is_active : boolean
+    }
+
+    class "AccountClass" as Class {
+        + id : uuid
+        + name : varchar
+        + type : varchar
+    }
+
+    class "AccountSubClass" as SubClass {
+        + id : uuid
+        + name : varchar
+        + classification_id : uuid
+        + cash_flow_type : varchar
+    }
+    
+    class "ImportantAccount" as KeyAccount {
+        + id : uuid
+        + key : varchar
+        + account_id : uuid
+    }
+}
+
+package "Financial Reference" {
+    class "Currency" as Curr {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + symbol : varchar
+        + is_base : boolean
+    }
+
+    class "ExchangeRate" as Rate {
+        + id : uuid
+        + currency_id : uuid
+        + date : date
+        + rate : double
+    }
+
+    class "Tax" as Tax {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + rate : double
+        + sales_account_id : uuid
+        + purchase_account_id : uuid
+    }
+    
+    class "CostCode" as CostCode {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + parent_id : uuid
+    }
+}
+
+package "Banking & Payment" {
+    class "Bank" as Bank {
+        + id : uuid
+        + name : varchar
+        + code : varchar
+    }
+
+    class "BankAccount" as BankAcc {
+        + id : uuid
+        + bank_id : uuid
+        + account_id : uuid
+        + account_number : varchar
+    }
+
+    class "PaymentMethod" as PayMethod {
+        + id : uuid
+        + name : varchar
+        + type : varchar
+        + account_id : uuid
+    }
+}
+
+package "Accruals" {
+    class "AccrualCategory" as AccrualCat {
+         + id : uuid
+         + name : varchar
+         + account_in_id : uuid
+         + account_out_id : uuid
+    }
+}
+
+COA "*" --> "1" SubClass : subclassification
+SubClass "*" --> "1" Class : classification
+COA "*" --> "1" Curr : currency
+Rate "*" --> "1" Curr : currency
+
+Tax "*" --> "0..*" COA : accounts
+BankAcc "*" --> "1" Bank : bank
+BankAcc "*" --> "1" COA : gl_account
+PayMethod "*" --> "1" COA : gl_account
+AccrualCat "*" --> "0..*" COA : gl_accounts
+KeyAccount "*" --> "1" COA : account
+
+@enduml
+
+@startuml Class Diagram - Master Inventory (Zahir Accounting)
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Data Master Persediaan
+
+package "Product Definition" {
+    class "Product" as Product {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + group_id : uuid
+        + unit_id : uuid
+        + is_tracked : boolean
+    }
+
+    class "ProductGroup" as Group {
+        + id : uuid
+        + name : varchar
+        + sales_account_id : uuid
+        + cogs_account_id : uuid
+        + inventory_account_id : uuid
+    }
+    
+    class "ItemGroup" as ItemGroup {
+        + id : uuid
+        + name : varchar
+    }
+}
+
+package "Product Attributes" {
+    class "Unit" as Unit {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+    }
+
+    class "UnitConversion" as UnitConv {
+        + id : uuid
+        + base_id : uuid
+        + target_id : uuid
+        + conversion : double
+    }
+    
+    class "Variant" as Variant {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + category_id : uuid
+    }
+    
+    class "Serial" as Serial {
+        + id : uuid
+        + product_id : uuid
+        + serial_number : varchar
+        + status : varchar
+    }
+    
+    class "Lot" as Lot {
+        + id : uuid
+        + product_id : uuid
+        + lot_number : varchar
+        + exp_date : date
+        + quantity : double
+    }
+    
+    class "Catalog" as Catalog {
+         + id : uuid
+         + code : varchar
+         + name : varchar
+    }
+}
+
+package "Pricing" {
+    class "ProductPrice" as Price {
+        + id : uuid
+        + product_id : uuid
+        + unit_id : uuid
+        + currency_id : uuid
+        + price : double
+    }
+}
+
+package "Location" {
+    class "Warehouse" as Wh {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+    }
+}
+
+Product "*" --> "1" Group : group
+Product "*" --> "1" Unit : base_unit
+Product "*" --> "0..1" ItemGroup : item_group
+
+UnitConv "*" --> "1" Unit : base
+UnitConv "*" --> "1" Unit : target
+
+Price "*" --> "1" Product : product
+Price "*" --> "1" Unit : unit
+
+Serial "*" --> "1" Product : product
+Lot "*" --> "1" Product : product
+Variant "*" --> "1" Product : product (conceptual)
+
+@enduml
+
+@startuml Class Diagram - Master Contact & Employee (Zahir Accounting)
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Data Master Kontak
+
+package "Contact Management" {
+    class "Contact" as Contact {
+        + id : uuid
+        + code : varchar
+        + company_name : varchar
+        + type : enum
+        + classification_id : uuid
+        + currency_id : uuid
+        + credit_limit : double
+    }
+
+    class "ContactClass" as Class {
+         + id : uuid
+         + name : varchar
+         + due_days : int
+    }
+    
+    class "CustomerCategory" as CustCat {
+         + id : uuid
+         + name : varchar
+    }
+}
+
+package "Contact Details" {
+    class "Address" as Addr {
+        + id : uuid
+        + contact_id : uuid
+        + address : varchar
+        + city : varchar
+    }
+
+    class "Phone" as Phone {
+        + id : uuid
+        + contact_id : uuid
+        + number : varchar
+        + type : varchar
+    }
+
+    class "Email" as Email {
+        + id : uuid
+        + contact_id : uuid
+        + email : varchar
+    }
+    
+    class "ContactPerson" as CP {
+        + id : uuid
+        + contact_id : uuid
+        + name : varchar
+        + designation : varchar
+    }
+    
+    class "ContactBankAccount" as CBA {
+        + id : uuid
+        + contact_id : uuid
+        + bank_account_id : uuid
+    }
+}
+
+package "Employee Management" {
+    class "Employee" as Emp {
+        + id : uuid
+        + contact_id : uuid
+        + type_id : uuid
+    }
+
+    class "EmployeeDetail" as EmpDet {
+        + id : uuid
+        + name : varchar
+        + job_level_id : uuid
+    }
+    
+    class "EmployeeType" as EmpType {
+        + id : uuid
+        + name : varchar
+    }
+}
+
+Contact "*" --> "1" Class : classification
+Contact "*" --> "0..1" CustCat : category
+Contact "1" *-- "0..*" Addr : addresses
+Contact "1" *-- "0..*" Phone : phones
+Contact "1" *-- "0..*" Email : emails
+Contact "1" *-- "0..*" CP : persons
+Contact "1" *-- "0..*" CBA : bank_accounts
+
+Emp "0..1" --> "1" Contact : contact_info
+Emp "*" --> "1" EmpType : type
+Emp "1" *-- "1" EmpDet : details
+
+@enduml
+
+@startuml Class Diagram - Master Fixed Asset (Zahir Accounting)
+skinparam circledCharacterRadius 0
+skinparam circledCharacterFontSize 0
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 50
+skinparam linetype ortho
+
+title Data Master Harta Tetap
+
+package "Fixed Assets" {
+    class "FixedAsset" as Asset {
+        + id : uuid
+        + code : varchar
+        + name : varchar
+        + category_id : uuid
+        + purchase_date : date
+        + purchase_value : double
+        + book_value : double
+        + accum_depr : double
+    }
+
+    class "AssetCategory" as AssetCat {
+        + id : uuid
+        + name : varchar
+        + method : varchar
+        + useful_life : int
+    }
+
+    class "AssetCalculation" as AssetCalc {
+        + id : uuid
+        + asset_id : uuid
+        + start_date : date
+        + end_date : date
+        + expense_amount : double
+        + book_value_end : double
+    }
+
+    class "AssetHistory" as AssetHist {
+        + id : uuid
+        + asset_id : uuid
+        + date : date
+        + transaction_id : uuid
+        + amount : double
+    }
+}
+
+Asset "*" --> "1" AssetCat : category
+Asset "1" *-- "0..*" AssetCalc : calculations
+Asset "1" *-- "0..*" AssetHist : history
+
+@enduml
