@@ -113,7 +113,7 @@ order by
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</element>
 				<element kind="textField" uuid="9f8b3d8b-67bb-447f-a48f-b58d2b94d434" positionType="Float" mode="Opaque" x="300" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-					<paragraph rightIndent="5" style="Detail"/>
+					<paragraph rightIndent="5"/>
 					<expression><![CDATA["Anggaran"]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -123,7 +123,7 @@ order by
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</element>
 				<element kind="textField" uuid="dfc0c017-d773-430f-87e4-526de5cd502f" positionType="Float" mode="Opaque" x="385" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-					<paragraph rightIndent="5" style="Detail"/>
+					<paragraph rightIndent="5"/>
 					<expression><![CDATA["Realisasi"]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -133,7 +133,7 @@ order by
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</element>
 				<element kind="textField" uuid="607417cd-0f5b-41b3-b2b2-e5ee76ad6fd7" positionType="Float" mode="Opaque" x="470" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-					<paragraph rightIndent="5" style="Detail"/>
+					<paragraph rightIndent="5"/>
 					<expression><![CDATA["Selisih"]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -169,7 +169,7 @@ order by
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</element>
 				<element kind="textField" uuid="da5a1924-edc6-4e50-a19e-2af1d2d3cb7d" positionType="Float" mode="Opaque" x="385" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-					<paragraph rightIndent="5" style="Detail"/>
+					<paragraph rightIndent="5"/>
 					<expression><![CDATA[$F{category_id} == 4 ? $V{total_amount} : $V{total_amount}.negate()]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -179,7 +179,7 @@ order by
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</element>
 				<element kind="textField" uuid="29e93d54-c742-462a-ba12-f031944679a1" positionType="Float" mode="Opaque" x="300" y="0" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-					<paragraph rightIndent="5" style="Detail"/>
+					<paragraph rightIndent="5"/>
 					<expression><![CDATA[$V{total_budget_amount}]]></expression>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -246,7 +246,7 @@ order by
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="a1c1e88a-1def-4b2d-a2c1-db10b8cb5c30" positionType="Float" stretchType="ContainerHeight" x="385" y="0" width="85" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" hTextAlign="Right" vTextAlign="Middle" style="Row">
-				<paragraph rightIndent="5" style="Row"/>
+				<paragraph rightIndent="5"/>
 				<expression><![CDATA[$F{category_id} == 4 ? $F{amount} : $F{amount}.negate()]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 				<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -255,7 +255,7 @@ order by
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="62db9ae7-abd5-4140-8129-bbfbe52a7883" positionType="Float" stretchType="ContainerHeight" x="300" y="0" width="85" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" hTextAlign="Right" vTextAlign="Middle" style="Row">
-				<paragraph rightIndent="5" style="Row"/>
+				<paragraph rightIndent="5"/>
 				<expression><![CDATA[$F{budget_amount}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 				<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -296,7 +296,7 @@ order by
 			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 		</element>
 		<element kind="textField" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc" x="385" y="40" width="169" height="20" forecolor="#000000" fontName="SansSerif" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-			<expression><![CDATA["Jakarta, "+ new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id"))
+			<expression><![CDATA[new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id"))
       .format(new java.util.Date())]]></expression>
 			<property name="com.jaspersoft.studio.unit.x" value="px"/>
 		</element>
@@ -309,7 +309,7 @@ order by
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 		<element kind="textField" uuid="ecfadec9-47c0-4540-ab83-408f1f360631" positionType="Float" mode="Opaque" x="300" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-			<paragraph rightIndent="5" style="Detail"/>
+			<paragraph rightIndent="5"/>
 			<expression><![CDATA[$V{grand_total_budget_amount}]]></expression>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -319,7 +319,7 @@ order by
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 		<element kind="textField" uuid="75c4a741-92c4-49d3-94fd-d1124b6290e8" positionType="Float" mode="Opaque" x="385" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-			<paragraph rightIndent="5" style="Detail"/>
+			<paragraph rightIndent="5"/>
 			<expression><![CDATA[$V{grand_total_amount}]]></expression>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>

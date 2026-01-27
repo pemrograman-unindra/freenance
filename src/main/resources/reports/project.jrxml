@@ -247,7 +247,7 @@ where
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="dc72a8b4-ee72-4696-8875-4b9a3b75da66" positionType="Float" stretchType="ContainerHeight" x="715" y="0" width="85" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" hTextAlign="Right" vTextAlign="Middle" style="Row">
-				<paragraph rightIndent="5" style="Row"/>
+				<paragraph rightIndent="5"/>
 				<expression><![CDATA[$F{expense}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 				<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
@@ -256,7 +256,7 @@ where
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="4c949950-e502-4451-a54d-6fc71e98eabf" positionType="Float" stretchType="ContainerHeight" x="550" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
-				<paragraph leftIndent="5" style="Row"/>
+				<paragraph leftIndent="5"/>
 				<expression><![CDATA[new java.text.SimpleDateFormat("dd-MMM-yyyy", new java.util.Locale("id"))
       .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{end_date}))]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
@@ -266,7 +266,7 @@ where
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="40d0c4af-bf9e-490d-8b42-8e7cec67bd28" positionType="Float" stretchType="ContainerHeight" x="470" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
-				<paragraph leftIndent="5" style="Row"/>
+				<paragraph leftIndent="5"/>
 				<expression><![CDATA[new java.text.SimpleDateFormat("dd-MMM-yyyy", new java.util.Locale("id"))
       .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{due_date}))]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
@@ -276,7 +276,7 @@ where
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="e4ccb8a5-458f-4b29-b6ea-4104e2c6696e" positionType="Float" stretchType="ContainerHeight" x="390" y="0" width="80" height="20" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle" style="Row">
-				<paragraph leftIndent="5" style="Row"/>
+				<paragraph leftIndent="5"/>
 				<expression><![CDATA[new java.text.SimpleDateFormat("dd-MMM-yyyy", new java.util.Locale("id"))
       .format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($F{start_date}))]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="26388092-faa9-4955-abaf-5f13e13f2922"/>
@@ -316,7 +316,7 @@ where
 			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 		</element>
 		<element kind="textField" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc" x="630" y="40" width="169" height="20" forecolor="#000000" fontName="SansSerif" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-			<expression><![CDATA["Jakarta, "+ new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id"))
+			<expression><![CDATA[new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id"))
       .format(new java.util.Date())]]></expression>
 			<property name="com.jaspersoft.studio.unit.x" value="px"/>
 		</element>
@@ -329,7 +329,7 @@ where
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 		<element kind="textField" uuid="0bea99e9-a0a3-4c78-882e-7ef94cb753da" positionType="Float" mode="Opaque" x="715" y="5" width="85" height="20" forecolor="#FFFFFF" backcolor="#058FFF" fontName="SansSerif" fontSize="10.0" textAdjust="StretchHeight" pattern="#,##0" bold="true" hTextAlign="Right" vTextAlign="Middle" style="Detail">
-			<paragraph rightIndent="5" style="Detail"/>
+			<paragraph rightIndent="5"/>
 			<expression><![CDATA[$V{total_amount}]]></expression>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7f04fcd-29ad-4bea-a17c-def58186f0e6"/>
 			<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>

@@ -14,12 +14,8 @@
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 1]]></conditionExpression>
 		</conditionalStyle>
 	</style>
-	<parameter name="date_end" class="java.lang.String">
-		<defaultValueExpression><![CDATA[2025-05-31]]></defaultValueExpression>
-	</parameter>
-	<parameter name="date_start" class="java.lang.String">
-		<defaultValueExpression><![CDATA[2025-01-01]]></defaultValueExpression>
-	</parameter>
+	<parameter name="date_start" class="java.lang.String"/>
+	<parameter name="date_end" class="java.lang.String"/>
 	<query language="SQL"><![CDATA[SELECT
   (select name from users limit 1) user_name,
 	t.trx_date,
@@ -258,7 +254,7 @@ ORDER BY
 			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 		</element>
 		<element kind="textField" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc" x="385" y="40" width="169" height="20" forecolor="#000000" fontName="SansSerif" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-			<expression><![CDATA["Jakarta, "+ new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id"))
+			<expression><![CDATA[new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id"))
       .format(new java.util.Date())]]></expression>
 			<property name="com.jaspersoft.studio.unit.x" value="px"/>
 		</element>

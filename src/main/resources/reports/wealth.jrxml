@@ -196,7 +196,7 @@ order by
 			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 		</element>
 		<element kind="textField" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc" x="385" y="40" width="169" height="20" forecolor="#000000" fontName="SansSerif" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-			<expression><![CDATA["Jakarta, "+ new java.text.SimpleDateFormat("dd MMMM yyyy", new java.util.Locale("id"))
+			<expression><![CDATA[new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id"))
       .format(new java.util.Date())]]></expression>
 			<property name="com.jaspersoft.studio.unit.x" value="px"/>
 		</element>
