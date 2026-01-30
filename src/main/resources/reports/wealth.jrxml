@@ -145,6 +145,12 @@ order by
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<property name="com.jaspersoft.studio.unit.y" value="px"/>
 		</element>
+		<element kind="image" uuid="76ec014d-4186-44b6-a2dc-e0f9c7eb5330" x="2" y="1" width="67" height="24">
+			<expression><![CDATA["https://zahiraccounting.com/id/wp-content/uploads/2020/04/LogoZahir-800x296.png"]]></expression>
+		</element>
+		<element kind="image" uuid="0836176d-5cda-4ce8-8b9a-8f7e7bc1d5c1" x="530" y="0" width="25" height="24">
+			<expression><![CDATA["https://jeffry-luqman.com/logo.svg"]]></expression>
+		</element>
 		<property name="com.jaspersoft.studio.unit.height" value="px"/>
 	</title>
 	<detail>
@@ -196,7 +202,7 @@ order by
 			<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 		</element>
 		<element kind="textField" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc" x="385" y="40" width="169" height="20" forecolor="#000000" fontName="SansSerif" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" hTextAlign="Center" vTextAlign="Middle" style="Column header">
-			<expression><![CDATA[new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id"))
+			<expression><![CDATA["Jakarta, "+new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id"))
       .format(new java.util.Date())]]></expression>
 			<property name="com.jaspersoft.studio.unit.x" value="px"/>
 		</element>
